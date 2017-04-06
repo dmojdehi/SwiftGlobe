@@ -11,6 +11,7 @@ import Foundation
 import SceneKit
 
 let kGlobeRadius = 5.0
+let kTiltOfEarthsAxisInDegrees = 23.5
 
 class SwiftGlobe {
     
@@ -36,6 +37,14 @@ class SwiftGlobe {
         //globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
         //globeShape.firstMaterial!.reflective.intensity = 0.5
         globeShape.firstMaterial!.fresnelExponent = 2
+        
+        // tilt it on it's axis (23.5 degrees)
+        #if os(iOS)
+            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
+        #elseif os(OSX)
+            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+        #endif
+        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
         
         
         // add the galaxy skybox
