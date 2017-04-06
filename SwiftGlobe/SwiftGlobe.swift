@@ -24,15 +24,23 @@ class SwiftGlobe {
         // make the globe
         let globeShape = SCNSphere(radius: kGlobeRadius)
         globeShape.segmentCount = 30
-        globeShape.firstMaterial!.diffuse.contents = "earth-diffuse.jpg"
+        globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
+        //globeShape.firstMaterial!.specular.contents = "earth_lights.jpg"
         globeShape.firstMaterial!.specular.contents = "earth-specular.jpg"
         globeShape.firstMaterial!.specular.intensity = 0.2
-        globeShape.firstMaterial!.shininess = 0.1
-        globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
-        globeShape.firstMaterial!.reflective.intensity = 0.5
+        //globeShape.firstMaterial!.shininess = 0.1
+        
+        globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
+        globeShape.firstMaterial!.roughness.contents = "roughness-1000x500.png"
+        
+        //globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
+        //globeShape.firstMaterial!.reflective.intensity = 0.5
         globeShape.firstMaterial!.fresnelExponent = 2
         
         
+        // add the galaxy skybox
+        scene.background.contents = "eso0932a-milkyway360-2000x1000.jpg"
+        scene.background.intensity = 0.01
         
         globe.geometry = globeShape
         scene.rootNode.addChildNode(globe)

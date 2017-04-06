@@ -24,6 +24,22 @@
 		87B247FC1E96D5D700A2EAA7 /* envmap.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C61E96C75D00A2EAA7 /* envmap.jpg */; };
 		87B247FE1E96D5F700A2EAA7 /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
 		87B247FF1E96D67900A2EAA7 /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
+		87B248071E96DC0300A2EAA7 /* Bump-2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248001E96DC0300A2EAA7 /* Bump-2700x1350.jpg */; };
+		87B248081E96DC0300A2EAA7 /* cloud_combined_2048.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248011E96DC0300A2EAA7 /* cloud_combined_2048.jpg */; };
+		87B248091E96DC0300A2EAA7 /* earth_lights.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248021E96DC0300A2EAA7 /* earth_lights.jpg */; };
+		87B2480A1E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */; };
+		87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
+		87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
+		87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
+		87B2480E1E96DC0800A2EAA7 /* Bump-2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248001E96DC0300A2EAA7 /* Bump-2700x1350.jpg */; };
+		87B2480F1E96DC0800A2EAA7 /* cloud_combined_2048.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248011E96DC0300A2EAA7 /* cloud_combined_2048.jpg */; };
+		87B248101E96DC0800A2EAA7 /* earth_lights.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248021E96DC0300A2EAA7 /* earth_lights.jpg */; };
+		87B248111E96DC0800A2EAA7 /* eso0932a--milkyway360.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */; };
+		87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
+		87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
+		87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
+		87B248161E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */; };
+		87B248171E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -80,6 +96,14 @@
 		87B247DF1E96D56F00A2EAA7 /* SwiftGlobe-MacOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftGlobe-MacOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B247EA1E96D56F00A2EAA7 /* SwiftGlobe-MacOSUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SwiftGlobe-MacOSUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftGlobe.swift; sourceTree = "<group>"; };
+		87B248001E96DC0300A2EAA7 /* Bump-2700x1350.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "Bump-2700x1350.jpg"; sourceTree = "<group>"; };
+		87B248011E96DC0300A2EAA7 /* cloud_combined_2048.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = cloud_combined_2048.jpg; sourceTree = "<group>"; };
+		87B248021E96DC0300A2EAA7 /* earth_lights.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = earth_lights.jpg; sourceTree = "<group>"; };
+		87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "eso0932a--milkyway360.jpg"; sourceTree = "<group>"; };
+		87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metalness-1000x500.png"; sourceTree = "<group>"; };
+		87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roughness-g-w-1000x500.png"; sourceTree = "<group>"; };
+		87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = world2700x1350.jpg; sourceTree = "<group>"; };
+		87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "eso0932a-milkyway360-2000x1000.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +200,7 @@
 		87B247C11E96C75D00A2EAA7 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */,
 				87B247C21E96C75D00A2EAA7 /* earth */,
 				87B247C61E96C75D00A2EAA7 /* envmap.jpg */,
 			);
@@ -185,6 +210,13 @@
 		87B247C21E96C75D00A2EAA7 /* earth */ = {
 			isa = PBXGroup;
 			children = (
+				87B248001E96DC0300A2EAA7 /* Bump-2700x1350.jpg */,
+				87B248011E96DC0300A2EAA7 /* cloud_combined_2048.jpg */,
+				87B248021E96DC0300A2EAA7 /* earth_lights.jpg */,
+				87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */,
+				87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */,
+				87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */,
+				87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */,
 				87B247C31E96C75D00A2EAA7 /* Credit.txt */,
 				87B247C41E96C75D00A2EAA7 /* earth-diffuse.jpg */,
 				87B247C51E96C75D00A2EAA7 /* earth-specular.jpg */,
@@ -387,11 +419,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87B2480A1E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg in Resources */,
+				87B248091E96DC0300A2EAA7 /* earth_lights.jpg in Resources */,
+				87B248161E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
+				87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */,
 				87B247CA1E96C75D00A2EAA7 /* envmap.jpg in Resources */,
+				87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */,
 				87B2479D1E96C20B00A2EAA7 /* LaunchScreen.storyboard in Resources */,
+				87B248081E96DC0300A2EAA7 /* cloud_combined_2048.jpg in Resources */,
+				87B248071E96DC0300A2EAA7 /* Bump-2700x1350.jpg in Resources */,
 				87B2479A1E96C20B00A2EAA7 /* Assets.xcassets in Resources */,
 				87B247C81E96C75D00A2EAA7 /* earth-diffuse.jpg in Resources */,
 				87B247981E96C20B00A2EAA7 /* Main.storyboard in Resources */,
+				87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
 				87B247C91E96C75D00A2EAA7 /* earth-specular.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -414,11 +454,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87B248111E96DC0800A2EAA7 /* eso0932a--milkyway360.jpg in Resources */,
+				87B2480E1E96DC0800A2EAA7 /* Bump-2700x1350.jpg in Resources */,
 				87B247FC1E96D5D700A2EAA7 /* envmap.jpg in Resources */,
+				87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */,
+				87B2480F1E96DC0800A2EAA7 /* cloud_combined_2048.jpg in Resources */,
 				87B247D61E96D56F00A2EAA7 /* Assets.xcassets in Resources */,
 				87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */,
+				87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
+				87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */,
+				87B248101E96DC0800A2EAA7 /* earth_lights.jpg in Resources */,
 				87B247D91E96D56F00A2EAA7 /* Main.storyboard in Resources */,
 				87B247FA1E96D5D700A2EAA7 /* earth-diffuse.jpg in Resources */,
+				87B248171E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
