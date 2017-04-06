@@ -7,11 +7,20 @@
 //
 
 import Cocoa
+import SceneKit
 
 class ViewController: NSViewController {
 
+    @IBOutlet weak var sceneView : SCNView!
+    
+    var swiftGlobe = SwiftGlobe()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        sceneView.autoenablesDefaultLighting = true
+        sceneView.scene = swiftGlobe.scene
+        sceneView.allowsCameraControl = true
 
         // Do any additional setup after loading the view.
     }
