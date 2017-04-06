@@ -40,6 +40,8 @@
 		87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
 		87B248161E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */; };
 		87B248171E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */; };
+		87B248191E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248181E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg */; };
+		87B2481A1E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248181E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,7 +105,8 @@
 		87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metalness-1000x500.png"; sourceTree = "<group>"; };
 		87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roughness-g-w-1000x500.png"; sourceTree = "<group>"; };
 		87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = world2700x1350.jpg; sourceTree = "<group>"; };
-		87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "eso0932a-milkyway360-2000x1000.jpg"; sourceTree = "<group>"; };
+		87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = "eso0932a-milkyway360-2000x1000.jpg"; path = "../eso0932a-milkyway360-2000x1000.jpg"; sourceTree = "<group>"; };
+		87B248181E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "eso0932a-milkyway360-dimmed.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -200,7 +203,6 @@
 		87B247C11E96C75D00A2EAA7 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */,
 				87B247C21E96C75D00A2EAA7 /* earth */,
 				87B247C61E96C75D00A2EAA7 /* envmap.jpg */,
 			);
@@ -215,6 +217,8 @@
 				87B248021E96DC0300A2EAA7 /* earth_lights.jpg */,
 				87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */,
 				87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */,
+				87B248181E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg */,
+				87B248151E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg */,
 				87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */,
 				87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */,
 				87B247C31E96C75D00A2EAA7 /* Credit.txt */,
@@ -422,6 +426,7 @@
 				87B2480A1E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg in Resources */,
 				87B248091E96DC0300A2EAA7 /* earth_lights.jpg in Resources */,
 				87B248161E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
+				87B248191E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */,
 				87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */,
 				87B247CA1E96C75D00A2EAA7 /* envmap.jpg in Resources */,
 				87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */,
@@ -460,6 +465,7 @@
 				87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */,
 				87B2480F1E96DC0800A2EAA7 /* cloud_combined_2048.jpg in Resources */,
 				87B247D61E96D56F00A2EAA7 /* Assets.xcassets in Resources */,
+				87B2481A1E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */,
 				87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */,
 				87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
 				87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */,

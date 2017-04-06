@@ -39,7 +39,7 @@ class SwiftGlobe {
         
         
         // add the galaxy skybox
-        scene.background.contents = "eso0932a-milkyway360-2000x1000.jpg"
+        scene.background.contents = "eso0932a-milkyway360-dimmed"
         scene.background.intensity = 0.01
         
         globe.geometry = globeShape
