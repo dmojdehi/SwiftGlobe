@@ -3,7 +3,7 @@
 //  SwiftGlobe
 //
 //  Created by David Mojdehi on 4/6/17.
-//  Copyright © 2017 Mindful Bear Apps. All rights reserved.
+//  Copyright © 2017 David Mojdehi. All rights reserved.
 //
 
 import Foundation
