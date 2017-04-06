@@ -10,7 +10,7 @@ import Foundation
 
 import SceneKit
 
-let kGlobeRadius = CGFloat(5.0)
+let kGlobeRadius = 5.0
 
 class SwiftGlobe {
     
@@ -22,7 +22,7 @@ class SwiftGlobe {
 
     init() {
         // make the globe
-        let globeShape = SCNSphere(radius: kGlobeRadius)
+        let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
         //globeShape.firstMaterial!.specular.contents = "earth_lights.jpg"
@@ -52,7 +52,12 @@ class SwiftGlobe {
         camera.zNear = 0
         camera.zFar = 100
         // its node (so it can live in the scene)
-        cameraNode.position = SCNVector3(x: 0, y: 0, z:  kGlobeRadius * CGFloat(2.0) )
+        #if os(iOS)
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 2.0)  )
+        #elseif os(OSX)
+            // uggh; MacOS uses CGFloat instad of float :-(
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 2.0)  )
+        #endif
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
     
