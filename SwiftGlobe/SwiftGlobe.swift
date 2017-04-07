@@ -135,6 +135,14 @@ class SwiftGlobe {
         globe.addChildNode(zz.node)
         
         let sf = GlobeGlowPoint(lat: 37.7749,lon: -122.4194)
+        let animation = CABasicAnimation(keyPath: "scale")
+        animation.fromValue = SCNVector3(x: 0.5, y: 0.5, z: 0.5)
+        animation.toValue = SCNVector3(x: 3.0, y: 3.0, z: 3.0)
+        animation.duration = 1.0
+        animation.autoreverses = true
+        animation.repeatCount = Float.infinity
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        sf.node.addAnimation(animation, forKey: "throb")
         globe.addChildNode(sf.node)
         
         let madagascar = GlobeGlowPoint(lat: -18.91368, lon: 47.53613)
