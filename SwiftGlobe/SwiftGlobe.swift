@@ -11,7 +11,69 @@ import Foundation
 import SceneKit
 
 let kGlobeRadius = 5.0
+let kGlowPointAltitude = kGlobeRadius * 1.01
+let kGlowPointWidth = CGFloat(0.5)
+
 let kTiltOfEarthsAxisInDegrees = 23.5
+
+
+
+
+
+
+class GlobeGlowPoint {
+    var latitude = 0.0
+    var longitude = 0.0
+    // varies from 0..1
+    var currentPhase = 0.0
+    // peak-to-peak duration
+    var duration = 4.0
+    
+    // the node of this point (once it has been added to the scene)
+    fileprivate var node : SCNNode!
+    
+    init(lat: Double, lon: Double) {
+        self.latitude = lat
+        self.longitude = lon
+        
+        self.node = SCNNode(geometry: SCNPlane(width: kGlowPointWidth, height: kGlowPointWidth) )
+        self.node.geometry!.firstMaterial!.diffuse.contents = "yellowGlow-32x32.png"
+        self.node.castsShadow = false
+        // convert lat & lon to fixed space
+        
+        // our textures *center* on 0,0, so adjust by 90 degrees
+        let adjustedLon = lon + 90
+        
+        
+
+        // convert lat & lon to xyz
+        // Note scenekit coordinate space:
+        //      Camera looks  down the Z axis (down from +z)
+        //      Right is +x, left is -x
+        //      Up is +y, down is -y
+        let cosLat = cos(lat * Double.pi / 180.0)
+        let sinLat = sin(lat * Double.pi / 180.0);
+        let cosLon = cos(adjustedLon * Double.pi / 180.0);
+        let sinLon = sin(adjustedLon * Double.pi / 180.0);
+        let x = kGlowPointAltitude * cosLat * cosLon;
+        let y = kGlowPointAltitude * cosLat * sinLon;
+        let z = kGlowPointAltitude * sinLat;
+        
+        print("convered lat: \(lat) lon: \(lon) to \(x),\(y),\(z)")
+        
+        let pos = SCNVector3(x: CGFloat(-x), y: CGFloat(z), z:CGFloat(y) )
+        self.node.position = pos
+        
+        
+        // gotta face up (away from the globe)  (pitch, yaw & roll)
+        // and compute the normal pitch, yaw & roll (facing away from the globe)
+        self.node.eulerAngles = SCNVector3(x: 0.0, y: 0.0, z: 0.0)
+        
+        
+        
+    }
+    
+}
 
 class SwiftGlobe {
     
@@ -20,17 +82,23 @@ class SwiftGlobe {
     var camera = SCNCamera()
     var cameraNode = SCNNode()
     var globe = SCNNode()
+    var glowingSpots = [SCNNode]()
 
     init() {
         // make the globe
         let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
+        globeShape.isGeodesic = false
+        // the texture revealed by diffuse light sources
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
+        
+        // the texture revealed by specular light sources
         //globeShape.firstMaterial!.specular.contents = "earth_lights.jpg"
         globeShape.firstMaterial!.specular.contents = "earth-specular.jpg"
         globeShape.firstMaterial!.specular.intensity = 0.2
         //globeShape.firstMaterial!.shininess = 0.1
         
+        // the oceans are reflecty & the land is matte
         globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
         globeShape.firstMaterial!.roughness.contents = "roughness-1000x500.png"
         
@@ -39,13 +107,40 @@ class SwiftGlobe {
         globeShape.firstMaterial!.fresnelExponent = 2
         
         // tilt it on it's axis (23.5 degrees)
-        #if os(iOS)
-            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
-        #elseif os(OSX)
-            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
-        #endif
-        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
+//        #if os(iOS)
+//            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
+//        #elseif os(OSX)
+//            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+//        #endif
+//        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
         
+        
+        
+        //------------------------------------------
+        // make some glowing nodes
+        // x: 0.0, y: 0.0, z: 5.05
+        let zz = GlobeGlowPoint(lat: 0,lon: 0)
+        // make this one white!
+        zz.node.geometry!.firstMaterial?.diffuse.contents = "whiteGlow-32x32.png"
+        globe.addChildNode(zz.node)
+        
+        let sf = GlobeGlowPoint(lat: 37.7749,lon: -122.4194)
+        globe.addChildNode(sf.node)
+        
+        let madagascar = GlobeGlowPoint(lat: -18.91368, lon: 47.53613)
+        globe.addChildNode(madagascar.node)
+        
+        let madrid = GlobeGlowPoint(lat: 40.4168, lon: -3.7038)
+        globe.addChildNode(madrid.node)
+        
+        for i in stride(from:-180.0, to: 180.0, by: 10.0) {
+            let spot = GlobeGlowPoint(lat: i, lon: 0.0)
+            if i != 0 {
+                globe.addChildNode(spot.node)
+            }
+        }
+        //------------------------------------------
+
         
         // add the galaxy skybox
         scene.background.contents = "eso0932a-milkyway360-dimmed"
@@ -53,6 +148,19 @@ class SwiftGlobe {
         
         globe.geometry = globeShape
         scene.rootNode.addChildNode(globe)
+
+        
+        // override SceneKit's arcball rotation
+        //
+        //  - drag Left<->Right: 
+        //                      rotates globe around axis
+        //                      does not affect camera position or angle
+        //
+        //  - drag Up<->Down:   
+        //                      tilts the axis up and down
+        //                      *does* affect the camera position & angle; the skybox tilts correpsondigly
+        //
+        
         
         // create and add a camera to the scene
         // configure the camera itself
@@ -64,7 +172,7 @@ class SwiftGlobe {
         #if os(iOS)
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 2.0)  )
         #elseif os(OSX)
-            // uggh; MacOS uses CGFloat instad of float :-(
+            // uggh; MacOS uses CGFloat instead of float :-(
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 2.0)  )
         #endif
         cameraNode.camera = camera
