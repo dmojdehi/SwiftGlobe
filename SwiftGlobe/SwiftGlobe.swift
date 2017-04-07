@@ -15,8 +15,12 @@ let kGlowPointAltitude = kGlobeRadius * 1.01
 let kGlowPointWidth = CGFloat(0.5)
 
 let kTiltOfEarthsAxisInDegrees = 23.5
+let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
 
 
+// winter solstice is appx Dec 21, 22, or 23
+let kDayOfWinterStolsticeInYear = 356.0
+let kDaysInAYear = 365.0
 
 
 
@@ -201,14 +205,19 @@ class SwiftGlobe {
 
         
         
-        // tilt it on it's axis (23.5 degrees)
+        // tilt it on it's axis (23.5 degrees), varied by the actual day of the year
         // (note that children nodes are correctly tilted with the parents coordinate space)
+        let calendar = Calendar(identifier: .gregorian)
+        let dayOfYear = Double( calendar.ordinality(of: .day, in: .year, for: Date())! )
+        let daysSinceWinterSolstice = remainder(dayOfYear + 10.0, kDaysInAYear)
+        let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
+        let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
+        //
         #if os(iOS)
-            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+            seasonalTilt.eulerAngles = SCNVector3(x: Float(tiltXRadians), y: 0.0, z: 0)
         #elseif os(OSX)
-            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+            seasonalTilt.eulerAngles = SCNVector3(x: CGFloat(tiltXRadians), y: 0.0, z: 0)
         #endif
-        seasonalTilt.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
         scene.rootNode.addChildNode(seasonalTilt)
 
         
