@@ -134,7 +134,6 @@ class SwiftGlobe {
         // give us some ambient light (to light the rest of the model)
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        ambientLight.color = NSColor.white
         ambientLight.intensity = 20.0 // default is 1000!
 
         
@@ -223,10 +222,13 @@ class SwiftGlobe {
         
         
         // setup the sun as a light source
-        sun.position = SCNVector3(x: 5, y:5, z: 100.0)
+        sun.position = SCNVector3(x: 0, y:0, z: 100.0)
         sun.light = SCNLight()
         sun.light!.type = .omni
-        sun.light!.color = NSColor.white
+        // sun color temp at noon: 5600.
+        // White is 6500
+        // anything above 5000 is 'daylight'
+        sun.light!.temperature = 5600
         sun.light!.castsShadow = false
         sun.light!.intensity = 1200 // default is 1000
         scene.rootNode.addChildNode(sun)

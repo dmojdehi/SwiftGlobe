@@ -23,7 +23,7 @@ class ViewController: UIViewController {
         
         
 
-        sceneView.autoenablesDefaultLighting = true
+        sceneView.autoenablesDefaultLighting = false
         sceneView.scene = swiftGlobe.scene
         sceneView.allowsCameraControl = true
 
