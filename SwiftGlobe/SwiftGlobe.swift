@@ -24,10 +24,6 @@ let kTiltOfEarthsAxisInDegrees = 23.5
 class GlobeGlowPoint {
     var latitude = 0.0
     var longitude = 0.0
-    // varies from 0..1
-    var currentPhase = 0.0
-    // peak-to-peak duration
-    var duration = 4.0
     
     // the node of this point (once it has been added to the scene)
     fileprivate var node : SCNNode!
@@ -43,15 +39,13 @@ class GlobeGlowPoint {
         self.node.geometry!.firstMaterial!.emission.contents = "yellowGlow-32x32.png"
         // but brigheter in dark areas
         self.node.geometry!.firstMaterial!.emission.intensity = 0.7
-//        self.node.geometry!.firstMaterial!.ambient.contents = "yellowGlow-32x32.png"
-//        self.node.geometry!.firstMaterial!.ambient.intensity = 10.0
         self.node.castsShadow = false
-        // convert lat & lon to fixed space
         
-        // our textures *center* on 0,0, so adjust by 90 degrees
+        
+        
+        
+        // NB: our textures *center* on 0,0, so adjust by 90 degrees
         let adjustedLon = lon + 90
-        
-        
 
         // convert lat & lon to xyz
         // Note scenekit coordinate space:
@@ -94,9 +88,6 @@ class GlobeGlowPoint {
         #elseif os(OSX)
             self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
         #endif
-        
-        
-        
     }
     
 }
@@ -108,6 +99,7 @@ class SwiftGlobe {
     var camera = SCNCamera()
     var cameraNode = SCNNode()
     var globe = SCNNode()
+    var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
 
@@ -119,14 +111,15 @@ class SwiftGlobe {
         // the texture revealed by diffuse light sources
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
         
-        // show cities in the dark
-        // using 'emission' is effective, but it bleeds through in daylight areas; oversaturating
-        // TODO: instead of using the 'emission' property, we'll probably need to write a custom shader
-        // fortunately we can use a Scenekit Shader *modifier* to tweak built-in behavior
-        // see "Use Shader Modifiers to Extend SceneKit Shading":
-        // https://developer.apple.com/reference/scenekit/scnshadable#//apple_ref/occ/intf/SCNShadable
-        // (looks like we'd want to run in the 'lightingModel' stage, when 
-
+        // TODO: show cities in the dark
+        //      - unfortunately using 'emission' isn't sufficient
+        //          - it bleeds through in daylight areas, too, leaving little white dots
+        //          - apple's 2013 wwdc demo uses emission, but dims the whole scene to show it off (not day/night in the same scene)
+        //      - alternative: write a custom shader?
+        //          - looks like we can use a Scenekit Shader *modifier* to tweak built-in behavior
+        //              see "Use Shader Modifiers to Extend SceneKit Shading":
+        //              https://developer.apple.com/reference/scenekit/scnshadable#//apple_ref/occ/intf/SCNShadable
+        //              (looks like we'd want to run in the 'lightingModel' stage?)
 //        globeShape.firstMaterial!.emission.contents = "earth-emissive.jpg"
 //        globeShape.firstMaterial!.reflective.intensity = 0.3
 //        globeShape.firstMaterial!.emission.intensity = 0.1
@@ -156,16 +149,7 @@ class SwiftGlobe {
         //globeShape.firstMaterial!.reflective.intensity = 0.5
         globeShape.firstMaterial!.fresnelExponent = 2
         
-        // tilt it on it's axis (23.5 degrees)
-        // (note that children nodes are correctly tilted with the parents coordinate space)
-        #if os(iOS)
-            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
-        #elseif os(OSX)
-            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
-        #endif
-        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
-        
-        
+       
         
         //------------------------------------------
         // make some glowing nodes
@@ -205,11 +189,30 @@ class SwiftGlobe {
         scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
         scene.background.intensity = 0.01
         
+        // give the globe an angular inertia
+        let globePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
+        globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
+        globePhysics.angularDamping = 0.0
+        globePhysics.isAffectedByGravity = false
+        globe.physicsBody = globePhysics
+        
         globe.geometry = globeShape
-        scene.rootNode.addChildNode(globe)
+        seasonalTilt.addChildNode(globe)
 
         
-        // override SceneKit's arcball rotation
+        
+        // tilt it on it's axis (23.5 degrees)
+        // (note that children nodes are correctly tilted with the parents coordinate space)
+        #if os(iOS)
+            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
+        #elseif os(OSX)
+            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+        #endif
+        seasonalTilt.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
+        scene.rootNode.addChildNode(seasonalTilt)
+
+        
+        // TODO: override SceneKit's arcball rotation
         //
         //  - drag Left<->Right: 
         //                      rotates globe around axis
