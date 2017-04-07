@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8714AC7D1E9803410069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
+		8714AC7E1E9803410069A8F1 /* earth-emissive-mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7A1E9803410069A8F1 /* earth-emissive-mini.jpg */; };
+		8714AC7F1E9803410069A8F1 /* earth-emissive-mini2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7B1E9803410069A8F1 /* earth-emissive-mini2.jpg */; };
+		8714AC801E9803410069A8F1 /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7C1E9803410069A8F1 /* earth-emissive.jpg */; };
+		8714AC811E98034B0069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
+		8714AC821E98034B0069A8F1 /* earth-emissive-mini.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7A1E9803410069A8F1 /* earth-emissive-mini.jpg */; };
+		8714AC831E98034B0069A8F1 /* earth-emissive-mini2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7B1E9803410069A8F1 /* earth-emissive-mini2.jpg */; };
+		8714AC841E98034B0069A8F1 /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC7C1E9803410069A8F1 /* earth-emissive.jpg */; };
 		873A2CDA1E974FF600395047 /* Credit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C31E96C75D00A2EAA7 /* Credit.txt */; };
 		873A2CDB1E974FF700395047 /* Credit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C31E96C75D00A2EAA7 /* Credit.txt */; };
 		87B247931E96C20B00A2EAA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247921E96C20B00A2EAA7 /* AppDelegate.swift */; };
@@ -51,6 +59,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8714AC791E9803410069A8F1 /* earth-bump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth-bump.png"; sourceTree = "<group>"; };
+		8714AC7A1E9803410069A8F1 /* earth-emissive-mini.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-emissive-mini.jpg"; sourceTree = "<group>"; };
+		8714AC7B1E9803410069A8F1 /* earth-emissive-mini2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-emissive-mini2.jpg"; sourceTree = "<group>"; };
+		8714AC7C1E9803410069A8F1 /* earth-emissive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-emissive.jpg"; sourceTree = "<group>"; };
 		87B2478F1E96C20B00A2EAA7 /* SwiftGlobe-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B247921E96C20B00A2EAA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		87B247941E96C20B00A2EAA7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -157,6 +169,10 @@
 			children = (
 				87B248001E96DC0300A2EAA7 /* Bump-2700x1350.jpg */,
 				87B248011E96DC0300A2EAA7 /* cloud_combined_2048.jpg */,
+				8714AC791E9803410069A8F1 /* earth-bump.png */,
+				8714AC7A1E9803410069A8F1 /* earth-emissive-mini.jpg */,
+				8714AC7B1E9803410069A8F1 /* earth-emissive-mini2.jpg */,
+				8714AC7C1E9803410069A8F1 /* earth-emissive.jpg */,
 				87B248021E96DC0300A2EAA7 /* earth_lights.jpg */,
 				87B248031E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg */,
 				87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */,
@@ -268,8 +284,11 @@
 			files = (
 				87B2480A1E96DC0300A2EAA7 /* eso0932a--milkyway360.jpg in Resources */,
 				87B248091E96DC0300A2EAA7 /* earth_lights.jpg in Resources */,
+				8714AC7E1E9803410069A8F1 /* earth-emissive-mini.jpg in Resources */,
 				87B248161E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
 				87B248191E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */,
+				8714AC7D1E9803410069A8F1 /* earth-bump.png in Resources */,
+				8714AC7F1E9803410069A8F1 /* earth-emissive-mini2.jpg in Resources */,
 				87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */,
 				87B247CA1E96C75D00A2EAA7 /* envmap.jpg in Resources */,
 				87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */,
@@ -282,6 +301,7 @@
 				87B247981E96C20B00A2EAA7 /* Main.storyboard in Resources */,
 				87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
 				873A2CDA1E974FF600395047 /* Credit.txt in Resources */,
+				8714AC801E9803410069A8F1 /* earth-emissive.jpg in Resources */,
 				87B247C91E96C75D00A2EAA7 /* earth-specular.jpg in Resources */,
 				87B2481C1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
 			);
@@ -300,13 +320,17 @@
 				87B2481A1E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg in Resources */,
 				87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */,
 				87B2481D1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
+				8714AC831E98034B0069A8F1 /* earth-emissive-mini2.jpg in Resources */,
 				87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
 				87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */,
 				87B248201E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */,
 				87B248101E96DC0800A2EAA7 /* earth_lights.jpg in Resources */,
 				87B247D91E96D56F00A2EAA7 /* Main.storyboard in Resources */,
+				8714AC811E98034B0069A8F1 /* earth-bump.png in Resources */,
 				87B247FA1E96D5D700A2EAA7 /* earth-diffuse.jpg in Resources */,
+				8714AC821E98034B0069A8F1 /* earth-emissive-mini.jpg in Resources */,
 				87B248171E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
+				8714AC841E98034B0069A8F1 /* earth-emissive.jpg in Resources */,
 				873A2CDB1E974FF700395047 /* Credit.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

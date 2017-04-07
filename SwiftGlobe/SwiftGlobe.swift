@@ -38,6 +38,13 @@ class GlobeGlowPoint {
         
         self.node = SCNNode(geometry: SCNPlane(width: kGlowPointWidth, height: kGlowPointWidth) )
         self.node.geometry!.firstMaterial!.diffuse.contents = "yellowGlow-32x32.png"
+        // appear a little washed out in daylight...
+        self.node.geometry!.firstMaterial!.diffuse.intensity = 0.2
+        self.node.geometry!.firstMaterial!.emission.contents = "yellowGlow-32x32.png"
+        // but brigheter in dark areas
+        self.node.geometry!.firstMaterial!.emission.intensity = 0.7
+//        self.node.geometry!.firstMaterial!.ambient.contents = "yellowGlow-32x32.png"
+//        self.node.geometry!.firstMaterial!.ambient.intensity = 10.0
         self.node.castsShadow = false
         // convert lat & lon to fixed space
         
@@ -112,6 +119,25 @@ class SwiftGlobe {
         // the texture revealed by diffuse light sources
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
         
+        // show cities in the dark
+        // using 'emission' is effective, but it bleeds through in daylight areas; oversaturating
+        // TODO: instead of using the 'emission' property, we'll probably need to write a custom shader
+        // fortunately we can use a Scenekit Shader *modifier* to tweak built-in behavior
+        // see "Use Shader Modifiers to Extend SceneKit Shading":
+        // https://developer.apple.com/reference/scenekit/scnshadable#//apple_ref/occ/intf/SCNShadable
+        // (looks like we'd want to run in the 'lightingModel' stage, when 
+
+//        globeShape.firstMaterial!.emission.contents = "earth-emissive.jpg"
+//        globeShape.firstMaterial!.reflective.intensity = 0.3
+//        globeShape.firstMaterial!.emission.intensity = 0.1
+        
+        // give us some ambient light (to light the rest of the model)
+        let ambientLight = SCNLight()
+        ambientLight.type = .ambient
+        ambientLight.color = NSColor.white
+        ambientLight.intensity = 20.0 // default is 1000!
+
+        
         // the texture revealed by specular light sources
         //globeShape.firstMaterial!.specular.contents = "earth_lights.jpg"
         globeShape.firstMaterial!.specular.contents = "earth-specular.jpg"
@@ -121,6 +147,11 @@ class SwiftGlobe {
         // the oceans are reflecty & the land is matte
         globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
         globeShape.firstMaterial!.roughness.contents = "roughness-1000x500.png"
+        
+        // make the mountains appear taller
+        // (gives them shadows from point lights, but doesn't make them stick up beyond the edges)
+        globeShape.firstMaterial!.normal.contents = "earth-bump.png"
+        globeShape.firstMaterial!.normal.intensity = 0.3
         
         //globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
         //globeShape.firstMaterial!.reflective.intensity = 0.5
@@ -197,6 +228,7 @@ class SwiftGlobe {
         sun.light!.type = .omni
         sun.light!.color = NSColor.white
         sun.light!.castsShadow = false
+        sun.light!.intensity = 1200 // default is 1000
         scene.rootNode.addChildNode(sun)
         
         // create and add a camera to the scene
@@ -212,8 +244,10 @@ class SwiftGlobe {
             // uggh; MacOS uses CGFloat instead of float :-(
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 2.0)  )
         #endif
+        cameraNode.light = ambientLight
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
+        
         
         
         
