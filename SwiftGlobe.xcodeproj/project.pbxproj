@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		873A2CDA1E974FF600395047 /* Credit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C31E96C75D00A2EAA7 /* Credit.txt */; };
+		873A2CDB1E974FF700395047 /* Credit.txt in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C31E96C75D00A2EAA7 /* Credit.txt */; };
 		87B247931E96C20B00A2EAA7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247921E96C20B00A2EAA7 /* AppDelegate.swift */; };
 		87B247951E96C20B00A2EAA7 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247941E96C20B00A2EAA7 /* ViewController.swift */; };
 		87B247981E96C20B00A2EAA7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87B247961E96C20B00A2EAA7 /* Main.storyboard */; };
@@ -279,6 +281,7 @@
 				87B2481F1E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */,
 				87B247981E96C20B00A2EAA7 /* Main.storyboard in Resources */,
 				87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
+				873A2CDA1E974FF600395047 /* Credit.txt in Resources */,
 				87B247C91E96C75D00A2EAA7 /* earth-specular.jpg in Resources */,
 				87B2481C1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
 			);
@@ -304,6 +307,7 @@
 				87B247D91E96D56F00A2EAA7 /* Main.storyboard in Resources */,
 				87B247FA1E96D5D700A2EAA7 /* earth-diffuse.jpg in Resources */,
 				87B248171E96DC5700A2EAA7 /* eso0932a-milkyway360-2000x1000.jpg in Resources */,
+				873A2CDB1E974FF700395047 /* Credit.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,7 +487,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";
@@ -500,7 +504,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";

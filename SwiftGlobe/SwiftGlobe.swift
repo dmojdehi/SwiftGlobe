@@ -65,7 +65,11 @@ class GlobeGlowPoint {
         
         //print("convered lat: \(lat) lon: \(lon) to \(sceneKitX),\(sceneKitY),\(sceneKitZ)")
         
-        let pos = SCNVector3(x: CGFloat(sceneKitX), y: CGFloat(sceneKitY), z:CGFloat(sceneKitZ) )
+        #if os(iOS)
+            let pos = SCNVector3(x: Float(sceneKitX), y: Float(sceneKitY), z: Float(sceneKitZ) )
+        #elseif os(OSX)
+            let pos = SCNVector3(x: CGFloat(sceneKitX), y: CGFloat(sceneKitY), z:CGFloat(sceneKitZ) )
+        #endif
         self.node.position = pos
         
         
@@ -76,7 +80,13 @@ class GlobeGlowPoint {
         let yaw = lon * Double.pi / 180.0
         //3. Roll  (the z component) is the rotation about the node's z-axis (in radians)
         let roll = 0.0
-        self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
+        
+        
+        #if os(iOS)
+            self.node.eulerAngles = SCNVector3(x: Float(pitch), y: Float(yaw), z: Float(roll) )
+        #elseif os(OSX)
+            self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
+        #endif
         
         
         
@@ -161,7 +171,7 @@ class SwiftGlobe {
 
         
         // add the galaxy skybox
-        scene.background.contents = "eso0932a-milkyway360-dimmed"
+        scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
         scene.background.intensity = 0.01
         
         globe.geometry = globeShape
