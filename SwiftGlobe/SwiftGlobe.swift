@@ -102,6 +102,7 @@ class SwiftGlobe {
     var cameraNode = SCNNode()
     var globe = SCNNode()
     var glowingSpots = [SCNNode]()
+    var sun = SCNNode()
 
     init() {
         // make the globe
@@ -190,6 +191,14 @@ class SwiftGlobe {
         //
         
         
+        // setup the sun as a light source
+        sun.position = SCNVector3(x: 5, y:5, z: 100.0)
+        sun.light = SCNLight()
+        sun.light!.type = .omni
+        sun.light!.color = NSColor.white
+        sun.light!.castsShadow = false
+        scene.rootNode.addChildNode(sun)
+        
         // create and add a camera to the scene
         // configure the camera itself
         camera.usesOrthographicProjection = true
@@ -205,6 +214,9 @@ class SwiftGlobe {
         #endif
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
+        
+        
+        
     
     }
     
