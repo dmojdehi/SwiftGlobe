@@ -204,7 +204,7 @@ class SwiftGlobe {
         // tilt it on it's axis (23.5 degrees)
         // (note that children nodes are correctly tilted with the parents coordinate space)
         #if os(iOS)
-            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
+            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
         #elseif os(OSX)
             let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
         #endif
