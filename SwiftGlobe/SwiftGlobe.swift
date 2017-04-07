@@ -58,16 +58,25 @@ class GlobeGlowPoint {
         let x = kGlowPointAltitude * cosLat * cosLon;
         let y = kGlowPointAltitude * cosLat * sinLon;
         let z = kGlowPointAltitude * sinLat;
+        //
+        let sceneKitX = -x
+        let sceneKitY = z
+        let sceneKitZ = y
         
-        print("convered lat: \(lat) lon: \(lon) to \(x),\(y),\(z)")
+        //print("convered lat: \(lat) lon: \(lon) to \(sceneKitX),\(sceneKitY),\(sceneKitZ)")
         
-        let pos = SCNVector3(x: CGFloat(-x), y: CGFloat(z), z:CGFloat(y) )
+        let pos = SCNVector3(x: CGFloat(sceneKitX), y: CGFloat(sceneKitY), z:CGFloat(sceneKitZ) )
         self.node.position = pos
         
         
-        // gotta face up (away from the globe)  (pitch, yaw & roll)
         // and compute the normal pitch, yaw & roll (facing away from the globe)
-        self.node.eulerAngles = SCNVector3(x: 0.0, y: 0.0, z: 0.0)
+        //1. Pitch (the x component) is the rotation about the node's x-axis (in radians)
+        let pitch = -lat * Double.pi / 180.0
+        //2. Yaw   (the y component) is the rotation about the node's y-axis (in radians)
+        let yaw = lon * Double.pi / 180.0
+        //3. Roll  (the z component) is the rotation about the node's z-axis (in radians)
+        let roll = 0.0
+        self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
         
         
         
@@ -107,12 +116,13 @@ class SwiftGlobe {
         globeShape.firstMaterial!.fresnelExponent = 2
         
         // tilt it on it's axis (23.5 degrees)
-//        #if os(iOS)
-//            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
-//        #elseif os(OSX)
-//            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
-//        #endif
-//        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
+        // (note that children nodes are correctly tilted with the parents coordinate space)
+        #if os(iOS)
+            let tiltInRadians = Float( kTiltOfEarthsAxisInDegrees  * M_PI / 180 )
+        #elseif os(OSX)
+            let tiltInRadians = CGFloat( kTiltOfEarthsAxisInDegrees  * Double.pi / 180 )
+        #endif
+        globe.eulerAngles = SCNVector3(x: tiltInRadians, y: 0, z: 0)
         
         
         
@@ -133,7 +143,7 @@ class SwiftGlobe {
         let madrid = GlobeGlowPoint(lat: 40.4168, lon: -3.7038)
         globe.addChildNode(madrid.node)
         
-        for i in stride(from:-180.0, to: 180.0, by: 10.0) {
+        for i in stride(from:-90.0, through: 90.0, by: 10.0) {
             let spot = GlobeGlowPoint(lat: i, lon: 0.0)
             if i != 0 {
                 globe.addChildNode(spot.node)
