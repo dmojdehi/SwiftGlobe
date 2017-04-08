@@ -22,6 +22,7 @@ let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
 let kDayOfWinterStolsticeInYear = 356.0
 let kDaysInAYear = 365.0
 
+let kAffectedBySpring = 1 << 1
 
 
 
@@ -92,6 +93,7 @@ class GlobeGlowPoint {
         #elseif os(OSX)
             self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
         #endif
+
     }
     
 }
@@ -102,16 +104,19 @@ class SwiftGlobe {
     var scene = SCNScene()
     var camera = SCNCamera()
     var cameraNode = SCNNode()
+    var cameraGoal = SCNNode()
     var globe = SCNNode()
     var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
 
+    var timer : Timer!
+    
+
     init() {
         // make the globe
         let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
-        globeShape.isGeodesic = false
         // the texture revealed by diffuse light sources
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
         
@@ -152,15 +157,15 @@ class SwiftGlobe {
         //globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
         //globeShape.firstMaterial!.reflective.intensity = 0.5
         globeShape.firstMaterial!.fresnelExponent = 2
+        globe.geometry = globeShape
         
-       
         
         //------------------------------------------
         // make some glowing nodes
         // x: 0.0, y: 0.0, z: 5.05
         let zz = GlobeGlowPoint(lat: 0,lon: 0)
         // make this one white!
-        zz.node.geometry!.firstMaterial?.diffuse.contents = "whiteGlow-32x32.png"
+        zz.node.geometry!.firstMaterial!.diffuse.contents = "whiteGlow-32x32.png"
         globe.addChildNode(zz.node)
         
         let sf = GlobeGlowPoint(lat: 37.7749,lon: -122.4194)
@@ -189,18 +194,14 @@ class SwiftGlobe {
         //------------------------------------------
 
         
-        // add the galaxy skybox
-        scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
-        scene.background.intensity = 0.01
-        
         // give the globe an angular inertia
         let globePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
         globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
         globePhysics.angularDamping = 0.0
         globePhysics.isAffectedByGravity = false
+        globePhysics.categoryBitMask = 0
         globe.physicsBody = globePhysics
         
-        globe.geometry = globeShape
         seasonalTilt.addChildNode(globe)
 
         
@@ -234,7 +235,7 @@ class SwiftGlobe {
         
         
         // setup the sun as a light source
-        sun.position = SCNVector3(x: 0, y:0, z: 100.0)
+        sun.position = SCNVector3(x: 0, y:0, z: 200.0)
         sun.light = SCNLight()
         sun.light!.type = .omni
         // sun color temp at noon: 5600.
@@ -245,28 +246,64 @@ class SwiftGlobe {
         sun.light!.intensity = 1200 // default is 1000
         scene.rootNode.addChildNode(sun)
         
+        // add the galaxy skybox
+        scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
+        scene.background.intensity = 0.01
+        
         // create and add a camera to the scene
         // configure the camera itself
-        camera.usesOrthographicProjection = true
-        camera.orthographicScale = 9
-        camera.zNear = 0
-        camera.zFar = 100
+//        camera.usesOrthographicProjection = true
+//        camera.orthographicScale = 9
+        // set up a 'telephoto' shot (to avoid any fisheye effects)
+        // (telephoto: narrow field of view at a long distance
+        camera.xFov = 20
         // its node (so it can live in the scene)
         #if os(iOS)
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 2.0)  )
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10.0)  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 2.0)  )
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 10.0)  )
         #endif
+        
         cameraNode.light = ambientLight
         cameraNode.camera = camera
+        
+        let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
+        cameraNodePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
+        cameraNodePhysics.angularDamping = 0.0
+        //cameraNodePhysics.isAffectedByGravity = false
+        //cameraNodePhysics.categoryBitMask = kAffectedBySpring
+        cameraNode.physicsBody = cameraNodePhysics
+        cameraNode.constraints = [ SCNLookAtConstraint(target: self.globe) ]
+
+//        cameraNode.physicsBody?.categoryBitMask = kAffectedBySpring
         scene.rootNode.addChildNode(cameraNode)
         
-        
-        
-        
+
+//        // setup our special camera constraints
+//        // The camera should always look at the globe
+//        // the cameraNode follows the cameraGoal closely
+//        //  We create a spring (as a physics field)
+//        let cameraNodeSpring = SCNPhysicsField.spring()
+//        //cameraNodeSpring.categoryBitMask = kAffectedBySpring
+//        cameraNodeSpring.strength = 10.0
+//        cameraGoal.physicsField = cameraNodeSpring
+//        #if os(iOS)
+//            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10 )  )
+//        #elseif os(OSX)
+//            // uggh; MacOS uses CGFloat instead of float :-(
+//            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 20)  )
+//        #endif
+//        scene.rootNode.addChildNode(cameraGoal)
+//        
+//        // twice a second we move the camera a bit
+//        self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
+//            self.cameraGoal.position = SCNVector3Make( self.cameraGoal.position.x, self.cameraGoal.position.y, self.cameraGoal.position.z + 0.4)
+//        })
+
     
     }
+    
     
     
 }
