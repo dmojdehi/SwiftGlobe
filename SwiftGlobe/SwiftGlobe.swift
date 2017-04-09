@@ -10,7 +10,7 @@ import Foundation
 
 import SceneKit
 
-let kGlobeRadius = 5.0
+let kGlobeRadius = 10.0
 let kGlowPointAltitude = kGlobeRadius * 1.01
 let kGlowPointWidth = CGFloat(0.5)
 
@@ -109,10 +109,7 @@ class SwiftGlobe {
     var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
-
-    var timer : Timer!
     
-
     init() {
         // make the globe
         let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
@@ -147,7 +144,7 @@ class SwiftGlobe {
         
         // the oceans are reflecty & the land is matte
         globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
-        globeShape.firstMaterial!.roughness.contents = "roughness-1000x500.png"
+        globeShape.firstMaterial!.roughness.contents = "roughness-g-w-1000x500.png"
         
         // make the mountains appear taller
         // (gives them shadows from point lights, but doesn't make them stick up beyond the edges)
@@ -229,7 +226,7 @@ class SwiftGlobe {
         //                      does not affect camera position or angle
         //
         //  - drag Up<->Down:   
-        //                      tilts the axis up and down
+        //                      tilts the axis up and down (actually does this by moving the camera up and down an arc over the globe)
         //                      *does* affect the camera position & angle; the skybox tilts correpsondigly
         //
         
@@ -250,13 +247,32 @@ class SwiftGlobe {
         scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
         scene.background.intensity = 0.01
         
+ 
+
+        // setup our special camera constraints
+        // the cameraNode follows the cameraGoal closely
+        //  We create a spring (as a physics field)
+        let cameraNodeSpring = SCNPhysicsField.spring()
+        cameraNodeSpring.categoryBitMask = kAffectedBySpring
+        #if os(iOS)
+            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10 )  )
+        #elseif os(OSX)
+            // uggh; MacOS uses CGFloat instead of float :-(
+            cameraGoal.position = SCNVector3(x: 0.2, y: 0.2, z:  CGFloat( kGlobeRadius * 10)  )
+        #endif
+        cameraGoal.physicsField = cameraNodeSpring
+        
+        //let debugBall = SCNSphere(radius: 0.5)
+        //cameraGoal.geometry = debugBall
+        scene.rootNode.addChildNode(cameraGoal)
+        
+        
+        //---------------------------------------
         // create and add a camera to the scene
-        // configure the camera itself
-//        camera.usesOrthographicProjection = true
-//        camera.orthographicScale = 9
         // set up a 'telephoto' shot (to avoid any fisheye effects)
         // (telephoto: narrow field of view at a long distance
         camera.xFov = 20
+        camera.zFar = 10000
         // its node (so it can live in the scene)
         #if os(iOS)
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10.0)  )
@@ -265,42 +281,23 @@ class SwiftGlobe {
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 10.0)  )
         #endif
         
-        cameraNode.light = ambientLight
-        cameraNode.camera = camera
         
-        let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
-        cameraNodePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
-        cameraNodePhysics.angularDamping = 0.0
-        //cameraNodePhysics.isAffectedByGravity = false
-        //cameraNodePhysics.categoryBitMask = kAffectedBySpring
+        //-----------------------------------
+        // Setup the camera node itself, which chases after the 'cameraGoal' but is always looking at the globe
+        // We use physics to follow the 'camera goal' smoothly 
+        // (the user manipulates the goal, not the camera!)
+        // NB: SCNPhysicsBody requires a shape to be affected by the spring.
+        let fakeCameraShape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.001), options: nil)
+        let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: fakeCameraShape)
+        cameraNodePhysics.isAffectedByGravity = false
+        cameraNodePhysics.categoryBitMask = kAffectedBySpring
+        cameraNodePhysics.damping = 5.0
         cameraNode.physicsBody = cameraNodePhysics
         cameraNode.constraints = [ SCNLookAtConstraint(target: self.globe) ]
-
-//        cameraNode.physicsBody?.categoryBitMask = kAffectedBySpring
+        cameraNode.light = ambientLight
+        cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
         
-
-//        // setup our special camera constraints
-//        // The camera should always look at the globe
-//        // the cameraNode follows the cameraGoal closely
-//        //  We create a spring (as a physics field)
-//        let cameraNodeSpring = SCNPhysicsField.spring()
-//        //cameraNodeSpring.categoryBitMask = kAffectedBySpring
-//        cameraNodeSpring.strength = 10.0
-//        cameraGoal.physicsField = cameraNodeSpring
-//        #if os(iOS)
-//            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10 )  )
-//        #elseif os(OSX)
-//            // uggh; MacOS uses CGFloat instead of float :-(
-//            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 20)  )
-//        #endif
-//        scene.rootNode.addChildNode(cameraGoal)
-//        
-//        // twice a second we move the camera a bit
-//        self.timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true, block: { (timer) in
-//            self.cameraGoal.position = SCNVector3Make( self.cameraGoal.position.x, self.cameraGoal.position.y, self.cameraGoal.position.z + 0.4)
-//        })
-
     
     }
     
