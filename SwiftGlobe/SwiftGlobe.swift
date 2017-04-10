@@ -11,7 +11,8 @@ import Foundation
 import SceneKit
 
 let kGlobeRadius = 10.0
-let kGlowPointAltitude = kGlobeRadius * 1.01
+let kCameraAltitude = 80.0
+let kGlowPointAltitude = kGlobeRadius * 1.001
 let kGlowPointWidth = CGFloat(0.5)
 
 let kTiltOfEarthsAxisInDegrees = 23.5
@@ -45,9 +46,6 @@ class GlobeGlowPoint {
         // but brigheter in dark areas
         self.node.geometry!.firstMaterial!.emission.intensity = 0.7
         self.node.castsShadow = false
-        
-        
-        
         
         // NB: our textures *center* on 0,0, so adjust by 90 degrees
         let adjustedLon = lon + 90
@@ -109,8 +107,10 @@ class SwiftGlobe {
     var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
+    var _cameraGoalLatitude = 0.0
+
     
-    init() {
+    internal init() {
         // make the globe
         let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
@@ -185,7 +185,7 @@ class SwiftGlobe {
         for i in stride(from:-90.0, through: 90.0, by: 10.0) {
             let spot = GlobeGlowPoint(lat: i, lon: 0.0)
             if i != 0 {
-                globe.addChildNode(spot.node)
+                seasonalTilt.addChildNode(spot.node)
             }
         }
         //------------------------------------------
@@ -255,10 +255,10 @@ class SwiftGlobe {
         let cameraNodeSpring = SCNPhysicsField.spring()
         cameraNodeSpring.categoryBitMask = kAffectedBySpring
         #if os(iOS)
-            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10 )  )
+            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude )  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
-            cameraGoal.position = SCNVector3(x: 0.2, y: 0.2, z:  CGFloat( kGlobeRadius * 10)  )
+            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius  + kCameraAltitude)  )
         #endif
         cameraGoal.physicsField = cameraNodeSpring
         
@@ -275,10 +275,10 @@ class SwiftGlobe {
         camera.zFar = 10000
         // its node (so it can live in the scene)
         #if os(iOS)
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius * 10.0)  )
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude)  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius * 10.0)  )
+            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius + kCameraAltitude)  )
         #endif
         
         
@@ -301,6 +301,36 @@ class SwiftGlobe {
     
     }
     
-    
+    // a value 0 - 1.0, representing the new location
+    var cameraGoalLatitude : Double {
+        get {
+            return _cameraGoalLatitude
+        }
+        set(newGoalVal) {
+            
+            // set the new value (but pin it between 0.0 & 1.0
+            _cameraGoalLatitude = newGoalVal
+            if _cameraGoalLatitude > 1.0 {
+                _cameraGoalLatitude = 1.0
+            } else if _cameraGoalLatitude < 0.0 {
+                _cameraGoalLatitude = 0.0
+            }
+            
+            print("new goal: \(_cameraGoalLatitude)")
+            // amount left & right
+            var newX = 0 // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
+            var newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+            var newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+            
+            
+            #if os(iOS)
+                cameraGoal.position = SCNVector3(x: newX, y: newY, z:  newZ  )
+            #elseif os(OSX)
+                // uggh; MacOS uses CGFloat instead of float :-(
+                cameraGoal.position = SCNVector3(x: CGFloat(newX), y: CGFloat(newY), z:  CGFloat(newZ)  )
+            #endif
+
+        }
+    }
     
 }
