@@ -21,7 +21,8 @@ An interactive 3D globe for iOS and MacOS X, built in Swift & SceneKit.
 - [x] use physics tricks for smooth camera movement
 - [x] place glowing dots for markers
 - [x] milkyway skybox background
-- [ ] add tvOS target, too
+- [x] add tvOS target
+- [ ] add tvOS gestures
 - [ ] support scrollwheel zoom on Mac
 - [ ] higher quality milkyway (cubemap)
 - [ ] higher quality earth texture (for high-end displays)

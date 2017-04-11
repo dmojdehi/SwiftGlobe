@@ -72,7 +72,7 @@ class GlobeGlowPoint {
         
         //print("convered lat: \(lat) lon: \(lon) to \(sceneKitX),\(sceneKitY),\(sceneKitZ)")
         
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             let pos = SCNVector3(x: Float(sceneKitX), y: Float(sceneKitY), z: Float(sceneKitZ) )
         #elseif os(OSX)
             let pos = SCNVector3(x: CGFloat(sceneKitX), y: CGFloat(sceneKitY), z:CGFloat(sceneKitZ) )
@@ -89,7 +89,7 @@ class GlobeGlowPoint {
         let roll = 0.0
         
         
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             self.node.eulerAngles = SCNVector3(x: Float(pitch), y: Float(yaw), z: Float(roll) )
         #elseif os(OSX)
             self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
@@ -220,7 +220,7 @@ class SwiftGlobe {
         let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
         let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
         //
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             seasonalTilt.eulerAngles = SCNVector3(x: Float(tiltXRadians), y: 0.0, z: 0)
         #elseif os(OSX)
             seasonalTilt.eulerAngles = SCNVector3(x: CGFloat(tiltXRadians), y: 0.0, z: 0)
@@ -263,7 +263,7 @@ class SwiftGlobe {
         //  We create a spring (as a physics field)
         let cameraNodeSpring = SCNPhysicsField.spring()
         cameraNodeSpring.categoryBitMask = kAffectedBySpring
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude )  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
@@ -283,7 +283,7 @@ class SwiftGlobe {
         camera.xFov = kDefaultCameraFov
         camera.zFar = 10000
         // its node (so it can live in the scene)
-        #if os(iOS)
+        #if os(iOS) || os(tvOS)
             cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude)  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
@@ -323,12 +323,18 @@ class SwiftGlobe {
     #if os(iOS)
         let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+        v.addGestureRecognizer(pan)
+        v.addGestureRecognizer(pinch)
+    #elseif os(tvOS)
+        
+//        v.addGestureRecognizer(pan)
+//        v.addGestureRecognizer(pinch)
     #elseif os(OSX)
         let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
         let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-    #endif
         v.addGestureRecognizer(pan)
         v.addGestureRecognizer(pinch)
+    #endif
 
     }
     
@@ -369,6 +375,11 @@ class SwiftGlobe {
         
 
     }
+#elseif os(tvOS)
+    
+    
+    
+    
 #elseif os(OSX)
 
     @objc fileprivate func onPanGesture(pan : NSPanGestureRecognizer) {
@@ -448,7 +459,7 @@ class SwiftGlobe {
     }
     
     private func updateCameraGoal() {
-        print("new goal: \(_cameraGoalLatitude),  \(_cameraGoalLongitude)")
+        //print("new goal: \(_cameraGoalLatitude),  \(_cameraGoalLongitude)")
         // amount left & right
         var newX = cos( _cameraGoalLongitude * Double.pi) * (kGlobeRadius + kCameraAltitude) // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
         var newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
