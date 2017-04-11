@@ -201,7 +201,7 @@ class SwiftGlobe {
         
         // give the globe an angular inertia
         let globePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
-        globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
+        globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.1 /*this is the speed*/)
         globePhysics.angularDamping = 0.0
         globePhysics.mass = 1000000
         globePhysics.isAffectedByGravity = false
