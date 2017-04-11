@@ -2,6 +2,12 @@
 
 An interactive 3D globe for iOS and MacOS X, built in Swift & SceneKit.
 
+
+
+
+![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)
+
+
 ## TODOs
 
 This project is just getting started.
@@ -25,10 +31,6 @@ This project is just getting started.
 - [ ] cubemap for earth texture (not smeared at poles)
 - [ ] show city lights on darkside (customized shader?)
 - [ ] moon
-
-
-![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)
-
 
 ### Prerequisites
 
