@@ -107,7 +107,8 @@ class SwiftGlobe {
     var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
-    var _cameraGoalLatitude = 0.0
+    var _cameraGoalLatitude = 0.5
+    var _cameraGoalLongitude = 0.4
 
     
     internal init() {
@@ -302,8 +303,10 @@ class SwiftGlobe {
         
         // make a hinge, to keep the camera at a fixed distance from the center
         // (This helps, but only partially ; there's still some 'lean in' when making big changes to the angle)
-        let x = SCNPhysicsHingeJoint(body: cameraNodePhysics, axis: SCNVector3(x:1.0,y:0,z:0), anchor: SCNVector3(x: 0, y: 0, z:  -CGFloat( kGlobeRadius + kCameraAltitude) ))
-        scene.physicsWorld.addBehavior(x)
+//        let x = SCNPhysicsHingeJoint(body: cameraNodePhysics, axis: SCNVector3(x:1.0,y:0,z:0), anchor: SCNVector3(x: 0, y: 0, z:  -CGFloat( kGlobeRadius + kCameraAltitude) ))
+//        scene.physicsWorld.addBehavior(x)
+        
+        self.updateCameraGoal()
     }
     
     // a value 0 - 1.0, representing the new location
@@ -321,21 +324,42 @@ class SwiftGlobe {
                 _cameraGoalLatitude = 0.0
             }
             
-            print("new goal: \(_cameraGoalLatitude)")
-            // amount left & right
-            var newX = 0 // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
-            var newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
-            var newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
-            
-            
-            #if os(iOS)
-                cameraGoal.position = SCNVector3(x: newX, y: newY, z:  newZ  )
-            #elseif os(OSX)
-                // uggh; MacOS uses CGFloat instead of float :-(
-                cameraGoal.position = SCNVector3(x: CGFloat(newX), y: CGFloat(newY), z:  CGFloat(newZ)  )
-            #endif
+            self.updateCameraGoal()
 
         }
+    }
+    var cameraGoalLongitude : Double {
+        get {
+            return _cameraGoalLongitude
+        }
+        set(newGoalVal) {
+            
+            _cameraGoalLongitude = newGoalVal
+            if _cameraGoalLongitude > 1.0 {
+                _cameraGoalLongitude = 1.0
+            } else if _cameraGoalLongitude < 0 {
+                _cameraGoalLongitude = 0.0
+            }
+            self.updateCameraGoal()
+            
+        }
+    }
+    
+    private func updateCameraGoal() {
+        print("new goal: \(_cameraGoalLatitude),  \(_cameraGoalLongitude)")
+        // amount left & right
+        var newX = cos( _cameraGoalLongitude * Double.pi) * (kGlobeRadius + kCameraAltitude) // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
+        var newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+        var newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+        
+        
+        #if os(iOS)
+            cameraGoal.position = SCNVector3(x: newX, y: newY, z:  newZ  )
+        #elseif os(OSX)
+            // uggh; MacOS uses CGFloat instead of float :-(
+            cameraGoal.position = SCNVector3(x: CGFloat(newX), y: CGFloat(newY), z:  CGFloat(newZ)  )
+        #endif
+
     }
     
 }

@@ -46,7 +46,8 @@ class ViewController: NSViewController {
         } else if let lastPanLoc = self.lastPanLoc {
             // measue the movement difference
             let delta = NSMakeSize(lastPanLoc.x - loc.x, lastPanLoc.y - loc.y)
-            self.swiftGlobe.cameraGoalLatitude -= Double(delta.height) / 100.0
+            self.swiftGlobe.cameraGoalLatitude -= Double(delta.height) / 1000.0
+            self.swiftGlobe.cameraGoalLongitude -= Double(delta.width) / 1000.0
             // vertical delta should move the camera goal along the 
         }
         
