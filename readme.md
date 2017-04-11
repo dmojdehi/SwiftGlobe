@@ -4,16 +4,14 @@ An interactive 3D globe for iOS and MacOS X, built in Swift & SceneKit.
 
 
 
-
 ![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)
 
 
 ## TODOs
 
-This project is just getting started.
 
-- [x] MacOS X & iOS
-- [x] Pan Left & Right
+- [x] targets for macOS & iOS
+- [x] pan left & Right
 - [x] pinch to zoom
 - [x] limit pan speed for smooth scrolling
 - [x] show shadows in mountainous areas (normal map)
@@ -32,9 +30,9 @@ This project is just getting started.
 - [ ] show city lights on darkside (customized shader?)
 - [ ] moon
 
-### Prerequisites
+### Requirements
 
-Requires iOS 10 & macOS 10.12 Sierra. (Older versions of both could be supported by )  
+Requires iOS 10 & macOS 10.12 Sierra. (SceneKit supports older targets, but some textures & physics would have to be removed).
 
 
 ## License
