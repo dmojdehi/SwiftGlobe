@@ -12,6 +12,9 @@ import SceneKit
 
 let kGlobeRadius = 10.0
 let kCameraAltitude = 80.0
+let kDefaultCameraFov = 20.0
+let kMinFov = 5.0
+let kMaxFov = 30.0
 let kGlowPointAltitude = kGlobeRadius * 1.001
 let kGlowPointWidth = CGFloat(0.5)
 
@@ -112,6 +115,7 @@ class SwiftGlobe {
     var _cameraGoalLongitude = 0.4
 
     var lastPanLoc : CGPoint?
+    var lastFovBeforeZoom : Double?
     
     
     internal init() {
@@ -276,7 +280,7 @@ class SwiftGlobe {
         // create and add a camera to the scene
         // set up a 'telephoto' shot (to avoid any fisheye effects)
         // (telephoto: narrow field of view at a long distance
-        camera.xFov = 20
+        camera.xFov = kDefaultCameraFov
         camera.zFar = 10000
         // its node (so it can live in the scene)
         #if os(iOS)
@@ -317,6 +321,8 @@ class SwiftGlobe {
         self.sceneView = v
     #if os(iOS)
         let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+        v.addGestureRecognizer(pinch)
     #elseif os(OSX)
         let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
     #endif
@@ -340,6 +346,25 @@ class SwiftGlobe {
                 // vertical delta should move the camera goal along the
             }
             self.lastPanLoc = loc
+        }
+    }
+    @objc fileprivate func onPinchGesture(pinch: UIPinchGestureRecognizer){
+        // update the fov of the camera
+        if pinch.state == .began {
+            self.lastFovBeforeZoom = self.camera.xFov
+        } else {
+            
+        }
+        
+        if let lastFov = self.lastFovBeforeZoom {
+            var newFov = lastFov / Double(pinch.scale)
+            if newFov < kMinFov {
+                newFov = kMinFov
+            } else if newFov > kMaxFov {
+                newFov = kMaxFov
+            }
+            
+            self.camera.xFov =  newFov
         }
     }
 #elseif os(OSX)
