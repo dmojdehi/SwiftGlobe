@@ -303,6 +303,7 @@ class SwiftGlobe {
         cameraNodePhysics.damping = 2.0
         //cameraNodePhysics.velocityFactor = SCNVector3(x:0.8, y:0.8, z: 0.8)
         cameraNode.physicsBody = cameraNodePhysics
+        cameraNode.physicsBody?.allowsResting = false
         cameraNode.constraints = [ SCNLookAtConstraint(target: self.globe) ]
         cameraNode.light = ambientLight
         cameraNode.camera = camera
