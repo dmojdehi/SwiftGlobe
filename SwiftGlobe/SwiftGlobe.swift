@@ -323,11 +323,12 @@ class SwiftGlobe {
     #if os(iOS)
         let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
         let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-        v.addGestureRecognizer(pinch)
     #elseif os(OSX)
         let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+        let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
     #endif
         v.addGestureRecognizer(pan)
+        v.addGestureRecognizer(pinch)
 
     }
     
@@ -354,19 +355,19 @@ class SwiftGlobe {
         if pinch.state == .began {
             self.lastFovBeforeZoom = self.camera.xFov
         } else {
-            
+            if let lastFov = self.lastFovBeforeZoom {
+                var newFov = lastFov / Double(pinch.scale)
+                if newFov < kMinFov {
+                    newFov = kMinFov
+                } else if newFov > kMaxFov {
+                    newFov = kMaxFov
+                }
+                
+                self.camera.xFov =  newFov
+            }
         }
         
-        if let lastFov = self.lastFovBeforeZoom {
-            var newFov = lastFov / Double(pinch.scale)
-            if newFov < kMinFov {
-                newFov = kMinFov
-            } else if newFov > kMaxFov {
-                newFov = kMaxFov
-            }
-            
-            self.camera.xFov =  newFov
-        }
+
     }
 #elseif os(OSX)
 
@@ -387,6 +388,26 @@ class SwiftGlobe {
             self.lastPanLoc = loc
         }
     }
+    @objc fileprivate func onPinchGesture(pinch: NSMagnificationGestureRecognizer){
+        // update the fov of the camera
+        if pinch.state == .began {
+            self.lastFovBeforeZoom = self.camera.xFov
+        } else {
+            if let lastFov = self.lastFovBeforeZoom {
+                var newFov = lastFov / Double(pinch.magnification)
+                if newFov < kMinFov {
+                    newFov = kMinFov
+                } else if newFov > kMaxFov {
+                    newFov = kMaxFov
+                }
+                
+                self.camera.xFov =  newFov
+            }
+            
+        }
+        
+    }
+
 #endif
 
     
