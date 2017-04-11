@@ -189,14 +189,14 @@ class SwiftGlobe {
         
         let madrid = GlobeGlowPoint(lat: 40.4168, lon: -3.7038)
         globe.addChildNode(madrid.node)
-        
-        for i in stride(from:-90.0, through: 90.0, by: 10.0) {
-            let spot = GlobeGlowPoint(lat: i, lon: 0.0)
-            if i != 0 {
-                seasonalTilt.addChildNode(spot.node)
-            }
-        }
-        //------------------------------------------
+
+        // a row of dots down the prime meridian
+//        for i in stride(from:-90.0, through: 90.0, by: 10.0) {
+//            let spot = GlobeGlowPoint(lat: i, lon: 0.0)
+//            if i != 0 {
+//                seasonalTilt.addChildNode(spot.node)
+//            }
+//        }
 
         
         // give the globe an angular inertia
