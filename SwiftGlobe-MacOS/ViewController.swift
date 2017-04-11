@@ -22,7 +22,7 @@ class ViewController: NSViewController {
         
         sceneView.autoenablesDefaultLighting = false
         sceneView.scene = swiftGlobe.scene
-        sceneView.allowsCameraControl = true
+        sceneView.allowsCameraControl = false
         //sceneView.pointOfView = swiftGlobe.cameraNode
 
         // Do any additional setup after loading the view.

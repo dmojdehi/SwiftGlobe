@@ -195,6 +195,7 @@ class SwiftGlobe {
         let globePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
         globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.5 /*this is the speed*/)
         globePhysics.angularDamping = 0.0
+        globePhysics.mass = 1000000
         globePhysics.isAffectedByGravity = false
         globePhysics.categoryBitMask = 0
         globe.physicsBody = globePhysics
@@ -291,14 +292,18 @@ class SwiftGlobe {
         let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: fakeCameraShape)
         cameraNodePhysics.isAffectedByGravity = false
         cameraNodePhysics.categoryBitMask = kAffectedBySpring
-        cameraNodePhysics.damping = 5.0
+        cameraNodePhysics.damping = 2.0
+        //cameraNodePhysics.velocityFactor = SCNVector3(x:0.8, y:0.8, z: 0.8)
         cameraNode.physicsBody = cameraNodePhysics
         cameraNode.constraints = [ SCNLookAtConstraint(target: self.globe) ]
         cameraNode.light = ambientLight
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
         
-    
+        // make a hinge, to keep the camera at a fixed distance from the center
+        // (This helps, but only partially ; there's still some 'lean in' when making big changes to the angle)
+        let x = SCNPhysicsHingeJoint(body: cameraNodePhysics, axis: SCNVector3(x:1.0,y:0,z:0), anchor: SCNVector3(x: 0, y: 0, z:  -CGFloat( kGlobeRadius + kCameraAltitude) ))
+        scene.physicsWorld.addBehavior(x)
     }
     
     // a value 0 - 1.0, representing the new location
