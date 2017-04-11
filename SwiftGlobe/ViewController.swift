@@ -25,7 +25,11 @@ class ViewController: UIViewController {
 
         sceneView.autoenablesDefaultLighting = false
         sceneView.scene = swiftGlobe.scene
-        sceneView.allowsCameraControl = true
+        sceneView.allowsCameraControl = false
+        
+        swiftGlobe.setupInSceneView(sceneView, allowPan: true)
+        
+        
 
     }
 

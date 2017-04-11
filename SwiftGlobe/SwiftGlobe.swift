@@ -99,6 +99,7 @@ class GlobeGlowPoint {
 class SwiftGlobe {
     
     
+    var sceneView : SCNView?
     var scene = SCNScene()
     var camera = SCNCamera()
     var cameraNode = SCNNode()
@@ -110,6 +111,8 @@ class SwiftGlobe {
     var _cameraGoalLatitude = 0.5
     var _cameraGoalLongitude = 0.4
 
+    var lastPanLoc : CGPoint?
+    
     
     internal init() {
         // make the globe
@@ -309,6 +312,58 @@ class SwiftGlobe {
         self.updateCameraGoal()
     }
     
+    internal func setupInSceneView(_ v: SCNView, allowPan : Bool) {
+        // Do any additional setup after loading the view.
+        self.sceneView = v
+    #if os(iOS)
+        let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+    #elseif os(OSX)
+        let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+    #endif
+        v.addGestureRecognizer(pan)
+
+    }
+    
+#if os(iOS)
+    @objc fileprivate func onPanGesture(pan : UIPanGestureRecognizer) {
+        // we get here on a tap!
+        if let sceneView = self.sceneView{
+            let loc = pan.location(in: sceneView)
+            //
+            if pan.state == .began {
+                self.lastPanLoc = loc
+            } else if let lastPanLoc = self.lastPanLoc {
+                // measue the movement difference
+                let delta = CGSize(width: lastPanLoc.x - loc.x, height: lastPanLoc.y - loc.y)
+                self.cameraGoalLatitude += Double(delta.height) / 500.0
+                self.cameraGoalLongitude -= Double(delta.width) / 300.0
+                // vertical delta should move the camera goal along the
+            }
+            self.lastPanLoc = loc
+        }
+    }
+#elseif os(OSX)
+
+    @objc fileprivate func onPanGesture(pan : NSPanGestureRecognizer) {
+        // we get here on a tap!
+        if let sceneView = self.sceneView{
+            let loc = pan.location(in: sceneView)
+            //
+            if pan.state == .began {
+                self.lastPanLoc = loc
+            } else if let lastPanLoc = self.lastPanLoc {
+                // measue the movement difference
+                let delta = NSMakeSize(lastPanLoc.x - loc.x, lastPanLoc.y - loc.y)
+                self.cameraGoalLatitude -= Double(delta.height) / 500.0
+                self.cameraGoalLongitude -= Double(delta.width) / 300.0
+                // vertical delta should move the camera goal along the
+            }
+            self.lastPanLoc = loc
+        }
+    }
+#endif
+
+    
     // a value 0 - 1.0, representing the new location
     var cameraGoalLatitude : Double {
         get {
@@ -354,7 +409,7 @@ class SwiftGlobe {
         
         
         #if os(iOS)
-            cameraGoal.position = SCNVector3(x: newX, y: newY, z:  newZ  )
+            cameraGoal.position = SCNVector3(x: Float(newX), y: Float(newY), z:  Float(newZ)  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(
             cameraGoal.position = SCNVector3(x: CGFloat(newX), y: CGFloat(newY), z:  CGFloat(newZ)  )
