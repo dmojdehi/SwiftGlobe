@@ -319,6 +319,12 @@ class SwiftGlobe {
     
     internal func setupInSceneView(_ v: SCNView, allowPan : Bool) {
         // Do any additional setup after loading the view.
+        //
+        v.autoenablesDefaultLighting = false
+        v.scene = self.scene
+        v.allowsCameraControl = false
+
+        
         self.sceneView = v
     #if os(iOS)
         let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )

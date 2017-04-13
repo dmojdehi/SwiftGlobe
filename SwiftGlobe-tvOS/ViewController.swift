@@ -18,11 +18,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        sceneView.autoenablesDefaultLighting = false
-        sceneView.scene = swiftGlobe.scene
-        sceneView.allowsCameraControl = false
-        //sceneView.pointOfView = swiftGlobe.cameraNode
-        
         self.swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
     }
 

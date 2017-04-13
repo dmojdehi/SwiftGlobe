@@ -18,11 +18,6 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        sceneView.autoenablesDefaultLighting = false
-        sceneView.scene = swiftGlobe.scene
-        sceneView.allowsCameraControl = false
-        //sceneView.pointOfView = swiftGlobe.cameraNode
-
         self.swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
     }
 
