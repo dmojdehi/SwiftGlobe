@@ -17,6 +17,8 @@ let kMinFov = 5.0
 let kMaxFov = 30.0
 let kGlowPointAltitude = kGlobeRadius * 1.001
 let kGlowPointWidth = CGFloat(0.5)
+let kMinLatLonPerUnity = -0.1
+let kMaxLatLonPerUnity = 1.1
 
 let kTiltOfEarthsAxisInDegrees = 23.5
 let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
@@ -437,10 +439,10 @@ class SwiftGlobe {
             
             // set the new value (but pin it between 0.0 & 1.0
             _cameraGoalLatitude = newGoalVal
-            if _cameraGoalLatitude > 1.0 {
-                _cameraGoalLatitude = 1.0
-            } else if _cameraGoalLatitude < 0.0 {
-                _cameraGoalLatitude = 0.0
+            if _cameraGoalLatitude > kMaxLatLonPerUnity {
+                _cameraGoalLatitude = kMaxLatLonPerUnity
+            } else if _cameraGoalLatitude < kMinLatLonPerUnity {
+                _cameraGoalLatitude = kMinLatLonPerUnity
             }
             
             self.updateCameraGoal()
@@ -454,10 +456,10 @@ class SwiftGlobe {
         set(newGoalVal) {
             
             _cameraGoalLongitude = newGoalVal
-            if _cameraGoalLongitude > 1.0 {
-                _cameraGoalLongitude = 1.0
-            } else if _cameraGoalLongitude < 0 {
-                _cameraGoalLongitude = 0.0
+            if _cameraGoalLongitude > kMaxLatLonPerUnity {
+                _cameraGoalLongitude = kMaxLatLonPerUnity
+            } else if _cameraGoalLongitude < kMinLatLonPerUnity {
+                _cameraGoalLongitude = kMinLatLonPerUnity
             }
             self.updateCameraGoal()
             
@@ -473,6 +475,8 @@ class SwiftGlobe {
         
         
         #if os(iOS)
+            cameraGoal.position = SCNVector3(x: Float(newX), y: Float(newY), z:  Float(newZ)  )
+        #elseif os(tvOS)
             cameraGoal.position = SCNVector3(x: Float(newX), y: Float(newY), z:  Float(newZ)  )
         #elseif os(OSX)
             // uggh; MacOS uses CGFloat instead of float :-(

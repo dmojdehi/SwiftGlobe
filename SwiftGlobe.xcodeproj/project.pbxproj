@@ -621,6 +621,7 @@
 				877FBCA71E9D784200407209 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		87B2478A1E96C20B00A2EAA7 /* Build configuration list for PBXProject "SwiftGlobe" */ = {
 			isa = XCConfigurationList;
