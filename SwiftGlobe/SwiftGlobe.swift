@@ -7,8 +7,9 @@
 //
 
 import Foundation
-
 import SceneKit
+// for tvOS siri remote access
+import GameController
 
 let kGlobeRadius = 10.0
 let kCameraAltitude = 80.0
@@ -118,7 +119,10 @@ class SwiftGlobe {
 
     var lastPanLoc : CGPoint?
     var lastFovBeforeZoom : Double?
-    
+#if os(tvOS)
+    var gameController : GCController?
+#endif
+
     
     internal init() {
         // make the globe
@@ -319,6 +323,14 @@ class SwiftGlobe {
         self.updateCameraGoal()
     }
     
+    deinit {
+    #if os(tvOS)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+    #endif
+    }
+
+    
     internal func setupInSceneView(_ v: SCNView, allowPan : Bool) {
         // Do any additional setup after loading the view.
         //
@@ -335,8 +347,8 @@ class SwiftGlobe {
         v.addGestureRecognizer(pinch)
     #elseif os(tvOS)
         
-//        v.addGestureRecognizer(pan)
-//        v.addGestureRecognizer(pinch)
+        NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        
     #elseif os(OSX)
         let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
         let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
@@ -385,7 +397,55 @@ class SwiftGlobe {
     }
 #elseif os(tvOS)
     
+    // adapted from "Example of Siri Remote Access in Swift" posted to an Apple developer discussion forum
+    // at https://forums.developer.apple.com/thread/25440
+
     
+    @objc func handleControllerDidConnectNotification(notification: NSNotification) {
+        print("\(#function)")
+        // assign the gameController which is found - will break if more than 1
+        gameController = notification.object as? GCController
+        
+        // if it is a siri remote
+        if let microGamepad = self.gameController?.microGamepad {
+            print("microGamepad found")
+            print("\(#function)")
+            //setup the handlers
+            if let gameController = self.gameController {
+                
+                gameController.controllerPausedHandler = {  _ in
+                    // handle play/pause
+                }
+                
+                microGamepad.buttonA.pressedChangedHandler = {  button, _, pressed in
+                    print("button A tapped")
+                }
+                microGamepad.buttonX.pressedChangedHandler = {  button, _, pressed in
+                    print("button B tapped")
+                }
+                
+                microGamepad.dpad.valueChangedHandler = { [unowned self] _, xValue, yValue in
+                    //let displacement = float2(x: xValue, y: yValue)
+                    // we get here for passive swipes on surface
+                    self.cameraGoalLongitude += Double(xValue) / 70.0
+                    self.cameraGoalLatitude += Double(yValue) / 70.0
+                    
+                    //print("displacement:\(displacement)")
+                }
+                
+                // ignored error checking, but for example
+//                microGamepad.allowsRotation = true
+//                gameController.motion?.valueChangedHandler = {(motion: GCMotion)->() in
+//                    // we get here for wii-like tilt of the controller itself
+//                    //print("acc:\(motion.userAcceleration)")
+//                    //print("grav:\(motion.gravity)")
+//                    
+//                    //print("att:\(motion.attitude)") //  not currently support on tvOS
+//                    //print("rot:\(motion.rotationRate)") //  not currently support on tvOS
+//                }
+            }
+        }
+    }
     
     
 #elseif os(OSX)
