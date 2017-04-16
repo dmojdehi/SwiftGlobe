@@ -1,10 +1,9 @@
 # SwiftGlobe
 
-An interactive 3D globe for iOS and MacOS X, built in Swift & SceneKit.
+An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using SceneKit.
 
 
-
-![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)
+![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)![Screenshot on tvOS](tv_screen.png)
 
 
 ## TODOs
@@ -22,7 +21,7 @@ An interactive 3D globe for iOS and MacOS X, built in Swift & SceneKit.
 - [x] place glowing dots for markers
 - [x] milkyway skybox background
 - [x] add tvOS target
-- [ ] add tvOS gestures
+- [x] add tvOS gestures
 - [ ] support scrollwheel zoom on Mac
 - [ ] higher quality milkyway (cubemap)
 - [ ] higher quality earth texture (for high-end displays)
