@@ -129,7 +129,12 @@ class SwiftGlobe {
         let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
         // the texture revealed by diffuse light sources
+        
+    #if os(OSX)
+        globeShape.firstMaterial!.diffuse.contents = "world10800x5400.jpg" //earth-diffuse.jpg"
+    #else
         globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
+    #endif
         
         // TODO: show cities in the dark
         //      - unfortunately using 'emission' isn't sufficient
@@ -338,6 +343,7 @@ class SwiftGlobe {
         v.scene = self.scene
         v.allowsCameraControl = false
 
+        v.showsStatistics = true
         
         self.sceneView = v
     #if os(iOS)

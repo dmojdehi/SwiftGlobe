@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		8714AC7D1E9803410069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
 		8714AC811E98034B0069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
+		875E3CB81EA6B45300AE98EB /* world10800x5400.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */; };
 		877FBC9D1E9D784200407209 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877FBC9C1E9D784200407209 /* AppDelegate.swift */; };
 		877FBC9F1E9D784200407209 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877FBC9E1E9D784200407209 /* ViewController.swift */; };
 		877FBCA21E9D784200407209 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 877FBCA01E9D784200407209 /* Main.storyboard */; };
@@ -51,6 +52,7 @@
 
 /* Begin PBXFileReference section */
 		8714AC791E9803410069A8F1 /* earth-bump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth-bump.png"; sourceTree = "<group>"; };
+		875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = world10800x5400.jpg; sourceTree = "<group>"; };
 		877FBC9A1E9D784200407209 /* SwiftGlobe-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		877FBC9C1E9D784200407209 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		877FBC9E1E9D784200407209 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -175,6 +177,7 @@
 			isa = PBXGroup;
 			children = (
 				8714AC791E9803410069A8F1 /* earth-bump.png */,
+				875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */,
 				87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */,
 				87B248181E96F61900A2EAA7 /* eso0932a-milkyway360-dimmed.jpg */,
 				87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */,
@@ -344,6 +347,7 @@
 				87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */,
 				87B2481D1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
 				87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
+				875E3CB81EA6B45300AE98EB /* world10800x5400.jpg in Resources */,
 				87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */,
 				87B248201E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */,
 				87B247D91E96D56F00A2EAA7 /* Main.storyboard in Resources */,
