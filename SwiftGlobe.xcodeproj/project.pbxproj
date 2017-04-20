@@ -561,6 +561,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = SwiftGlobe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -574,6 +575,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = SwiftGlobe/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -590,7 +592,7 @@
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -607,7 +609,7 @@
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.12;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;

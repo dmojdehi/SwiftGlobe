@@ -152,7 +152,9 @@ class SwiftGlobe {
         // give us some ambient light (to light the rest of the model)
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        ambientLight.intensity = 20.0 // default is 1000!
+        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
+            ambientLight.intensity = 20.0 // default is 1000!
+        }
 
         
         // the texture revealed by specular light sources
@@ -162,8 +164,10 @@ class SwiftGlobe {
         //globeShape.firstMaterial!.shininess = 0.1
         
         // the oceans are reflecty & the land is matte
-        globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
-        globeShape.firstMaterial!.roughness.contents = "roughness-g-w-1000x500.png"
+        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
+            globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
+            globeShape.firstMaterial!.roughness.contents = "roughness-g-w-1000x500.png"
+        }
         
         // make the mountains appear taller
         // (gives them shadows from point lights, but doesn't make them stick up beyond the edges)
@@ -215,8 +219,11 @@ class SwiftGlobe {
         globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.1 /*this is the speed*/)
         globePhysics.angularDamping = 0.0
         globePhysics.mass = 1000000
-        globePhysics.isAffectedByGravity = false
         globePhysics.categoryBitMask = 0
+        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
+            globePhysics.isAffectedByGravity = false
+        }
+
         globe.physicsBody = globePhysics
         
         seasonalTilt.addChildNode(globe)
@@ -258,10 +265,14 @@ class SwiftGlobe {
         // sun color temp at noon: 5600.
         // White is 6500
         // anything above 5000 is 'daylight'
-        sun.light!.temperature = 5600
         sun.light!.castsShadow = false
-        sun.light!.intensity = 1200 // default is 1000
         scene.rootNode.addChildNode(sun)
+        
+        
+        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
+            sun.light!.temperature = 5600
+            sun.light!.intensity = 1200 // default is 1000
+        }
         
         // add the galaxy skybox
         scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
@@ -309,7 +320,9 @@ class SwiftGlobe {
         // NB: SCNPhysicsBody requires a shape to be affected by the spring.
         let fakeCameraShape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.001), options: nil)
         let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: fakeCameraShape)
-        cameraNodePhysics.isAffectedByGravity = false
+        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
+            cameraNodePhysics.isAffectedByGravity = false
+        }
         cameraNodePhysics.categoryBitMask = kAffectedBySpring
         cameraNodePhysics.damping = 2.0
         //cameraNodePhysics.velocityFactor = SCNVector3(x:0.8, y:0.8, z: 0.8)
