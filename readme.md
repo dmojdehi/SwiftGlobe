@@ -9,26 +9,27 @@ An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using Sc
 ## TODOs
 
 
-- [x] targets for macOS & iOS
-- [x] pan left & Right
-- [x] pinch to zoom
-- [x] limit pan speed for smooth scrolling
-- [x] show shadows in mountainous areas (normal map)
-- [x] water is reflecty, land is matte (metalness & roughness maps)
-- [x] tilt axis 23.5 degrees relative to the sun
-- [x] bonus: vary tilt by the current season
-- [x] use physics tricks for smooth camera movement
-- [x] place glowing dots for markers
-- [x] milkyway skybox background
-- [x] add tvOS target
-- [x] add tvOS gestures
-- [ ] support scrollwheel zoom on Mac
-- [ ] higher quality milkyway (cubemap)
-- [ ] higher quality earth texture (for high-end displays)
-- [ ] tilt milkyway correctly (relative to solar system's orbital plane)
-- [ ] cubemap for earth texture (not smeared at poles)
-- [ ] show city lights on darkside (customized shader?)
-- [ ] moon
+- [x] targets for macOS, iOS, & tvOS
+- accurate modeling
+	- [x] bonus: vary tilt by the current day of the year
+	- [x] earth axis is tilted correctly (23.5 degrees relative to the sun)
+	- [ ] tilt milkyway correctly (relative to solar system's orbital plane)
+	- [ ] moon
+- visual quality
+	- [x] show shadows in mountainous areas (normal map)
+	- [x] water is reflecty, land is matte (metalness & roughness maps)
+	- [x] milkyway background
+	- [x] higher quality earth texture on macOS (for high-end displays)
+	- [ ] cubemap for earth texture (not smeared at poles)
+	- [ ] show city lights on darkside (customized shader?)
+	- [ ] higher quality milkyway (cubemap)
+
+- interactivity
+	- [x] support pan & zoom gestures
+	- [x] support tvOS remote, too (pan & zoom)
+	- [x] smooth camera movement (uses physics tricks)
+	- [x] glowing dots for markers
+	- [ ] support scrollwheel zoom on Mac
 
 ### Requirements
 
