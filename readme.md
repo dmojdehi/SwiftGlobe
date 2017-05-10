@@ -13,7 +13,7 @@ An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using Sc
 - accurate modeling
 	- [x] bonus: vary tilt by the current day of the year
 	- [x] earth axis is tilted correctly (23.5 degrees relative to the sun)
-	- [ ] tilt milkyway correctly (relative to solar system's orbital plane)
+	- [x] tilt milkyway correctly (relative to solar system's orbital plane)
 	- [ ] moon
 - visual quality
 	- [x] show shadows in mountainous areas (normal map)
@@ -22,7 +22,6 @@ An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using Sc
 	- [x] higher quality earth texture on macOS (for high-end displays)
 	- [ ] cubemap for earth texture (not smeared at poles)
 	- [ ] show city lights on darkside (customized shader?)
-	- [ ] higher quality milkyway (cubemap)
 
 - interactivity
 	- [x] support pan & zoom gestures
@@ -45,4 +44,6 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * WWDC 2013 session 'What's new in SceneKit' (session, video, & demo source all very helpful)
 * WWDC 2016 session 'Advances in SceneKit Rendering' (especially physically based materials)
 * InfiniteRed's [interactive seven-foot globe](http://infinitered.com/2015/02/10/a-seven-foot-globe-running-on-os-x-and-an-ipad-app-created-using-rubymotion-and-scenekit/) (built with SceneKit & physics) 
-
+* Milkyway Skymap
+    * source image from European Southern Observatory (https://www.eso.org/public/usa/images/eso0932a/)
+    * converted to cubemap (from equirectangular panorama) with a python script provided by Benjamin Dobell (http://stackoverflow.com/a/36976448/235229)

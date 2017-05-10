@@ -24,6 +24,10 @@ let kMaxLatLonPerUnity = 1.1
 let kTiltOfEarthsAxisInDegrees = 23.5
 let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
 
+let kSkyboxSize = CGFloat(1000.0)
+let kTiltOfEclipticFromGalacticPlaneDegrees = 60.2
+let kTiltOfEclipticFromGalacticPlaneRadians = (60.2 * Double.pi) / 180.0
+
 
 // winter solstice is appx Dec 21, 22, or 23
 let kDayOfWinterStolsticeInYear = 356.0
@@ -110,6 +114,7 @@ class SwiftGlobe {
     var camera = SCNCamera()
     var cameraNode = SCNNode()
     var cameraGoal = SCNNode()
+    var skybox = SCNNode()
     var globe = SCNNode()
     var seasonalTilt = SCNNode()
     var glowingSpots = [SCNNode]()
@@ -274,9 +279,28 @@ class SwiftGlobe {
             sun.light!.intensity = 1200 // default is 1000
         }
         
+        //----------------------------------------
         // add the galaxy skybox
-        scene.background.contents = "eso0932a-milkyway360-dimmed.jpg"
-        scene.background.intensity = 0.01
+        // we make a custom skybox instead of using scene.background) so we can control the galaxy tilt
+        let cubemapTextures = ["eso0932a_front.png","eso0932a_right.png",
+                                "eso0932a_back.png", "eso0932a_left.png",
+                               "eso0932a_top.png", "eso0932a_bottom.png" ]
+        let cubemapMaterials = cubemapTextures.map { (name) -> SCNMaterial in
+            let material = SCNMaterial()
+            material.diffuse.contents = name
+            material.isDoubleSided = true
+            material.lightingModel = .constant
+            return material
+        }
+        skybox.geometry = SCNBox(width: kSkyboxSize, height: kSkyboxSize, length: kSkyboxSize, chamferRadius: 0.0)
+        skybox.geometry!.materials = cubemapMaterials
+        #if os(iOS) || os(tvOS)
+            skybox.eulerAngles = SCNVector3(x: Float(kTiltOfEclipticFromGalacticPlaneRadians), y: Float(0), z: Float(0) )
+        #elseif os(OSX)
+            skybox.eulerAngles = SCNVector3(x: CGFloat(kTiltOfEclipticFromGalacticPlaneRadians), y: CGFloat(0), z: CGFloat(0) )
+        #endif
+
+        scene.rootNode.addChildNode(skybox)
         
  
 
@@ -354,26 +378,33 @@ class SwiftGlobe {
         //
         v.autoenablesDefaultLighting = false
         v.scene = self.scene
-        v.allowsCameraControl = false
 
         v.showsStatistics = true
         
         self.sceneView = v
-    #if os(iOS)
-        let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
-        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-        v.addGestureRecognizer(pan)
-        v.addGestureRecognizer(pinch)
-    #elseif os(tvOS)
         
-        NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        if allowPan {
+            v.allowsCameraControl = false
+            #if os(iOS)
+                let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+                let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+                v.addGestureRecognizer(pan)
+                v.addGestureRecognizer(pinch)
+            #elseif os(tvOS)
+                
+                NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+                
+            #elseif os(OSX)
+                let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+                let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+                v.addGestureRecognizer(pan)
+                v.addGestureRecognizer(pinch)
+            #endif
+        } else {
+            v.allowsCameraControl = true
+            
+        }
         
-    #elseif os(OSX)
-        let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
-        let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-        v.addGestureRecognizer(pan)
-        v.addGestureRecognizer(pinch)
-    #endif
 
     }
     
