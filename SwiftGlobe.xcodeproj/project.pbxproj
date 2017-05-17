@@ -634,7 +634,7 @@
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
@@ -651,7 +651,7 @@
 				DEVELOPMENT_TEAM = M7VHVW86G9;
 				INFOPLIST_FILE = "SwiftGlobe-MacOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
