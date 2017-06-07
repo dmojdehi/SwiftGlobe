@@ -35,7 +35,15 @@ let kDaysInAYear = 365.0
 
 let kAffectedBySpring = 1 << 1
 
-
+extension SCNVector3 {
+    init(x: Double, y: Double, z:Double ){
+        #if os(iOS) || os(tvOS)
+            self.init(x: Float(x), y: Float(y), z: Float(z))
+        #elseif os(OSX)
+            self.init(x: CGFloat(x), y: CGFloat(y), z: CGFloat(z))
+        #endif
+    }
+}
 
 class GlobeGlowPoint {
     var latitude = 0.0
@@ -79,11 +87,7 @@ class GlobeGlowPoint {
         
         //print("convered lat: \(lat) lon: \(lon) to \(sceneKitX),\(sceneKitY),\(sceneKitZ)")
         
-        #if os(iOS) || os(tvOS)
-            let pos = SCNVector3(x: Float(sceneKitX), y: Float(sceneKitY), z: Float(sceneKitZ) )
-        #elseif os(OSX)
-            let pos = SCNVector3(x: CGFloat(sceneKitX), y: CGFloat(sceneKitY), z:CGFloat(sceneKitZ) )
-        #endif
+        let pos = SCNVector3(x: sceneKitX, y: sceneKitY, z: sceneKitZ )
         self.node.position = pos
         
         
@@ -96,12 +100,8 @@ class GlobeGlowPoint {
         let roll = 0.0
         
         
-        #if os(iOS) || os(tvOS)
-            self.node.eulerAngles = SCNVector3(x: Float(pitch), y: Float(yaw), z: Float(roll) )
-        #elseif os(OSX)
-            self.node.eulerAngles = SCNVector3(x: CGFloat(pitch), y: CGFloat(yaw), z: CGFloat(roll) )
-        #endif
-
+        self.node.eulerAngles = SCNVector3(x: pitch, y: yaw, z: roll )
+        
     }
     
 }
@@ -243,11 +243,7 @@ class SwiftGlobe {
         let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
         let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
         //
-        #if os(iOS) || os(tvOS)
-            seasonalTilt.eulerAngles = SCNVector3(x: Float(tiltXRadians), y: 0.0, z: 0)
-        #elseif os(OSX)
-            seasonalTilt.eulerAngles = SCNVector3(x: CGFloat(tiltXRadians), y: 0.0, z: 0)
-        #endif
+        seasonalTilt.eulerAngles = SCNVector3(x: tiltXRadians, y: 0.0, z: 0)
         scene.rootNode.addChildNode(seasonalTilt)
 
         
@@ -294,12 +290,8 @@ class SwiftGlobe {
         }
         skybox.geometry = SCNBox(width: kSkyboxSize, height: kSkyboxSize, length: kSkyboxSize, chamferRadius: 0.0)
         skybox.geometry!.materials = cubemapMaterials
-        #if os(iOS) || os(tvOS)
-            skybox.eulerAngles = SCNVector3(x: Float(kTiltOfEclipticFromGalacticPlaneRadians), y: Float(0), z: Float(0) )
-        #elseif os(OSX)
-            skybox.eulerAngles = SCNVector3(x: CGFloat(kTiltOfEclipticFromGalacticPlaneRadians), y: CGFloat(0), z: CGFloat(0) )
-        #endif
-
+        skybox.eulerAngles = SCNVector3(x: kTiltOfEclipticFromGalacticPlaneRadians, y: 0.0, z: 0.0 )
+        
         scene.rootNode.addChildNode(skybox)
         
  
@@ -309,12 +301,7 @@ class SwiftGlobe {
         //  We create a spring (as a physics field)
         let cameraNodeSpring = SCNPhysicsField.spring()
         cameraNodeSpring.categoryBitMask = kAffectedBySpring
-        #if os(iOS) || os(tvOS)
-            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude )  )
-        #elseif os(OSX)
-            // uggh; MacOS uses CGFloat instead of float :-(
-            cameraGoal.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius  + kCameraAltitude)  )
-        #endif
+        cameraGoal.position = SCNVector3(x: 0.0, y: 0.0, z:  kGlobeRadius + kCameraAltitude )
         cameraGoal.physicsField = cameraNodeSpring
         
         //let debugBall = SCNSphere(radius: 0.5)
@@ -329,12 +316,7 @@ class SwiftGlobe {
         camera.xFov = kDefaultCameraFov
         camera.zFar = 10000
         // its node (so it can live in the scene)
-        #if os(iOS) || os(tvOS)
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  Float( kGlobeRadius + kCameraAltitude)  )
-        #elseif os(OSX)
-            // uggh; MacOS uses CGFloat instead of float :-(
-            cameraNode.position = SCNVector3(x: 0, y: 0, z:  CGFloat( kGlobeRadius + kCameraAltitude)  )
-        #endif
+        cameraNode.position = SCNVector3(x: 0, y: 0, z:  kGlobeRadius + kCameraAltitude )
         
         
         //-----------------------------------
@@ -579,20 +561,14 @@ class SwiftGlobe {
     private func updateCameraGoal() {
         //print("new goal: \(_cameraGoalLatitude),  \(_cameraGoalLongitude)")
         // amount left & right
-        var newX = cos( _cameraGoalLongitude * Double.pi) * (kGlobeRadius + kCameraAltitude) // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
-        var newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
-        var newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+        let newX = cos( _cameraGoalLongitude * Double.pi) * (kGlobeRadius + kCameraAltitude) // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
+        let newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+        let newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
         
         
-        #if os(iOS)
-            cameraGoal.position = SCNVector3(x: Float(newX), y: Float(newY), z:  Float(newZ)  )
-        #elseif os(tvOS)
-            cameraGoal.position = SCNVector3(x: Float(newX), y: Float(newY), z:  Float(newZ)  )
-        #elseif os(OSX)
-            // uggh; MacOS uses CGFloat instead of float :-(
-            cameraGoal.position = SCNVector3(x: CGFloat(newX), y: CGFloat(newY), z:  CGFloat(newZ)  )
-        #endif
-
+        cameraGoal.position = SCNVector3(x: newX, y: newY, z: newZ )
+        
+        
     }
     
 }
