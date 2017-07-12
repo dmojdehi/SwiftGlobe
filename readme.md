@@ -5,30 +5,32 @@ An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using Sc
 
 ![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)![Screenshot on tvOS](tv_screen.png)
 
+## Features
+
+- Targets for macOS, iOS, & tvOS
+- Visual quality
+	- mountains cast shadows (implemented with a normal map)
+	- water is reflecty, land is matte (implemented with metalness & roughness maps)
+	- detailed milkyway in the background
+	- use high-quality earth texture on macOS (looks great on retina displays, even when zoomed in)
+- Accurate modeling
+	- earth's axis varies by the current day of the year (north pole gets more sun in the summer, less in the winter)
+	- tilt the milkyway relative to the solar system's orbital plane
+- Interactive
+	- support pan & zoom gestures
+	- support tvOS remote, too (pan & zoom)
+	- smooth camera movement (uses SceneKit physics with a camera gimbal)
+	- glowing dots for markers 
 
 ## TODOs
 
-
-- [x] targets for macOS, iOS, & tvOS
-- accurate modeling
-	- [x] bonus: vary tilt by the current day of the year
-	- [x] earth axis is tilted correctly (23.5 degrees relative to the sun)
-	- [x] tilt milkyway correctly (relative to solar system's orbital plane)
-	- [ ] moon
-- visual quality
-	- [x] show shadows in mountainous areas (normal map)
-	- [x] water is reflecty, land is matte (metalness & roughness maps)
-	- [x] milkyway background
-	- [x] higher quality earth texture on macOS (for high-end displays)
-	- [ ] cubemap for earth texture (not smeared at poles)
-	- [ ] show city lights on darkside (customized shader?)
-
-- interactivity
-	- [x] support pan & zoom gestures
-	- [x] support tvOS remote, too (pan & zoom)
-	- [x] smooth camera movement (uses physics tricks)
-	- [x] glowing dots for markers
-	- [ ] support scrollwheel zoom on Mac
+In no particular order:
+- [ ] add point-to-point connection visualization
+- [ ] cubemap for earth texture (fix slight smearing at poles)
+- [ ] fix normal map 'dimple' at the north pole
+- [ ] show city lights on darkside (customized shader?)
+- [ ] add an orbiting moon
+- [ ] support scrollwheel zoom on Mac
 
 ### Requirements
 
