@@ -304,6 +304,7 @@
 					87B247CE1E96D56F00A2EAA7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M7VHVW86G9;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -638,7 +639,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -655,7 +657,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-MacOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
