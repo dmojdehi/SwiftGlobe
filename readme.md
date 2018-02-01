@@ -49,7 +49,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 * Milkyway Skymap
     * source image from European Southern Observatory (https://www.eso.org/public/usa/images/eso0932a/)
     * converted to cubemap (from equirectangular panorama) with a python script provided by Benjamin Dobell (http://stackoverflow.com/a/36976448/235229)
-* Earth texture by Jim Hastings-Trew at http://planetpixelemporium.com/earth.html
+* Earth texture by Jim Hastings-Trew at [planetpixelemporium.com](http://planetpixelemporium.com/earth.html)
 
 
 
