@@ -294,11 +294,13 @@
 					877FBC991E9D784200407209 = {
 						CreatedOnToolsVersion = 8.3.1;
 						DevelopmentTeam = M7VHVW86G9;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					87B2478E1E96C20B00A2EAA7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M7VHVW86G9;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					87B247CE1E96D56F00A2EAA7 = {
@@ -481,8 +483,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.2;
 			};
@@ -500,8 +502,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-tvOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 10.2;
 			};
@@ -622,8 +624,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
@@ -637,8 +639,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
