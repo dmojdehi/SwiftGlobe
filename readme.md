@@ -1,6 +1,8 @@
 # SwiftGlobe
 
-An interactive 3D globe for iOS, tvOS, and MacOS X.  Built in Swift 3.1 using SceneKit.
+An interactive 3D globe in SceneKit for iOS, tvOS, and MacOS X.  Built in Swift 5 with XCode 11.4.
+
+Requires iOS 11, tvOS 11, macOS 10.13 (High Sierra)
 
 
 ![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)![Screenshot on tvOS](tv_screen.png)
@@ -31,10 +33,8 @@ In no particular order:
 - [ ] show city lights on darkside (customized shader?)
 - [ ] add an orbiting moon
 - [ ] support scrollwheel zoom on Mac
-
-### Requirements
-
-Requires iOS 10 & macOS 10.12 Sierra. (SceneKit supports older targets, but some textures & physics would have to be removed).
+- [ ] Support new Apple TV 'Siri Remote'  with touchpad & motion
+- [ ] Support new Apple TV game controllers (e.g. Sony DualShock)
 
 
 ## License

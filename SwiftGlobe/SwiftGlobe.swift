@@ -10,16 +10,25 @@ import Foundation
 import SceneKit
 // for tvOS siri remote access
 import GameController
+import QuartzCore
 
 let kGlobeRadius = 10.0
 let kCameraAltitude = 80.0
-let kDefaultCameraFov = 20.0
-let kMinFov = 5.0
-let kMaxFov = 30.0
+let kDefaultCameraFov = CGFloat(30.0)
 let kGlowPointAltitude = kGlobeRadius * 1.001
 let kGlowPointWidth = CGFloat(0.5)
 let kMinLatLonPerUnity = -0.1
 let kMaxLatLonPerUnity = 1.1
+
+// Speed of the default spin:  1 revolution in 60 seconds
+let kGlobeDefaultRotationSpeedSeconds = 60.0
+
+// Min & Maximum zoom (in degrees)
+let kMinFov = CGFloat(4.0)
+let kMaxFov = CGFloat(40.0)
+
+// kDragWidthInDegrees  -- The amount to rotate the globe on one edge-to-edge swipe (in degrees)
+let kDragWidthInDegrees = 180.0
 
 let kTiltOfEarthsAxisInDegrees = 23.5
 let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
@@ -46,13 +55,13 @@ class SwiftGlobe {
     var skybox = SCNNode()
     var globe = SCNNode()
     var seasonalTilt = SCNNode()
+    var userRotation = SCNNode()
+    var userTilt = SCNNode()
     var glowingSpots = [SCNNode]()
     var sun = SCNNode()
-    var _cameraGoalLatitude = 0.5
-    var _cameraGoalLongitude = 0.4
-
+    
     var lastPanLoc : CGPoint?
-    var lastFovBeforeZoom : Double?
+    var lastFovBeforeZoom : CGFloat?
 #if os(tvOS)
     var gameController : GCController?
 #endif
@@ -129,7 +138,7 @@ class SwiftGlobe {
         animation.duration = 1.0
         animation.autoreverses = true
         animation.repeatCount = Float.infinity
-        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
         sf.node.addAnimation(animation, forKey: "throb")
         globe.addChildNode(sf.node)
         
@@ -148,21 +157,12 @@ class SwiftGlobe {
 //        }
 
         
-        // give the globe an angular inertia
-        let globePhysics = SCNPhysicsBody(type: .dynamic, shape: nil)
-        globePhysics.angularVelocity = SCNVector4Make(0.0, 1.0, 0.0, 0.1 /*this is the speed*/)
-        globePhysics.angularDamping = 0.0
-        globePhysics.mass = 1000000
-        globePhysics.categoryBitMask = 0
-        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            globePhysics.isAffectedByGravity = false
-        }
-
-        globe.physicsBody = globePhysics
+        // the globe spins once per minute
+        let spinRotation = SCNAction.rotate(by: 2 * .pi, around: SCNVector3(0, 1, 0), duration: kGlobeDefaultRotationSpeedSeconds)
+        let spinAction = SCNAction.repeatForever(spinRotation)
+        globe.runAction(spinAction)
         
-        seasonalTilt.addChildNode(globe)
 
-        
         
         // tilt it on it's axis (23.5 degrees), varied by the actual day of the year
         // (note that children nodes are correctly tilted with the parents coordinate space)
@@ -171,24 +171,35 @@ class SwiftGlobe {
         let daysSinceWinterSolstice = remainder(dayOfYear + 10.0, kDaysInAYear)
         let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
         let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
-        //
-        seasonalTilt.eulerAngles = SCNVector3(x: tiltXRadians, y: 0.0, z: 0)
-        scene.rootNode.addChildNode(seasonalTilt)
+        let tiltTransform : SCNMatrix4
+        #if os(iOS) || os(tvOS)
+            tiltTransform = SCNMatrix4MakeRotation(Float(tiltXRadians), 0.0, 1.0, 0.0)
+        #elseif os(OSX)
+            tiltTransform = SCNMatrix4MakeRotation(CGFloat(tiltXRadians), 0.0, 1.0, 0.0)
+        #endif
 
+        seasonalTilt.setWorldTransform(tiltTransform)
         
-        // TODO: override SceneKit's arcball rotation
-        //
-        //  - drag Left<->Right: 
-        //                      rotates globe around axis
-        //                      does not affect camera position or angle
-        //
-        //  - drag Up<->Down:   
-        //                      tilts the axis up and down (actually does this by moving the camera up and down an arc over the globe)
-        //                      *does* affect the camera position & angle; the skybox tilts correpsondigly
-        //
-        
-        
-        // setup the sun as a light source
+        //----------------------------------------
+        // setup the heirarchy:
+        //  rootNode
+        //     |
+        //     +---userTilt
+        //           |
+        //           +---userRotation
+        //                  |
+        //                  +---seasonalTilt
+        //                        |
+        //                        +globe
+        //                  +---Sun
+        scene.rootNode.addChildNode(userTilt)
+          userTilt.addChildNode(userRotation)
+            userRotation.addChildNode(seasonalTilt)
+              seasonalTilt.addChildNode(globe)
+
+                
+        //----------------------------------------
+        // setup the sun (the light source)
         sun.position = SCNVector3(x: 0, y:0, z: 200.0)
         sun.light = SCNLight()
         sun.light!.type = .omni
@@ -196,9 +207,10 @@ class SwiftGlobe {
         // White is 6500
         // anything above 5000 is 'daylight'
         sun.light!.castsShadow = false
-        scene.rootNode.addChildNode(sun)
-        
-        
+        // NB: Dragging & zooming doesn't affect the light falling on the earth
+        //     (ie., the sun is contained *within* the userRotation coordinate system)
+        userRotation.addChildNode(sun)
+        //scene.rootNode.addChildNode(sun)
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
             sun.light!.temperature = 5600
             sun.light!.intensity = 1200 // default is 1000
@@ -220,60 +232,20 @@ class SwiftGlobe {
         skybox.geometry = SCNBox(width: kSkyboxSize, height: kSkyboxSize, length: kSkyboxSize, chamferRadius: 0.0)
         skybox.geometry!.materials = cubemapMaterials
         skybox.eulerAngles = SCNVector3(x: kTiltOfEclipticFromGalacticPlaneRadians, y: 0.0, z: 0.0 )
-        
         scene.rootNode.addChildNode(skybox)
         
- 
 
-        // setup our special camera constraints
-        // the cameraNode follows the cameraGoal closely
-        //  We create a spring (as a physics field)
-        let cameraNodeSpring = SCNPhysicsField.spring()
-        cameraNodeSpring.categoryBitMask = kAffectedBySpring
-        cameraGoal.position = SCNVector3(x: 0.0, y: 0.0, z:  kGlobeRadius + kCameraAltitude )
-        cameraGoal.physicsField = cameraNodeSpring
-        
-        //let debugBall = SCNSphere(radius: 0.5)
-        //cameraGoal.geometry = debugBall
-        scene.rootNode.addChildNode(cameraGoal)
-        
-        
         //---------------------------------------
         // create and add a camera to the scene
         // set up a 'telephoto' shot (to avoid any fisheye effects)
         // (telephoto: narrow field of view at a long distance
-        camera.xFov = kDefaultCameraFov
+        camera.fieldOfView = kDefaultCameraFov
         camera.zFar = 10000
-        // its node (so it can live in the scene)
         cameraNode.position = SCNVector3(x: 0, y: 0, z:  kGlobeRadius + kCameraAltitude )
-        
-        
-        //-----------------------------------
-        // Setup the camera node itself, which chases after the 'cameraGoal' but is always looking at the globe
-        // We use physics to follow the 'camera goal' smoothly 
-        // (the user manipulates the goal, not the camera!)
-        // NB: SCNPhysicsBody requires a shape to be affected by the spring.
-        let fakeCameraShape = SCNPhysicsShape(geometry: SCNSphere(radius: 0.001), options: nil)
-        let cameraNodePhysics = SCNPhysicsBody(type: .dynamic, shape: fakeCameraShape)
-        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            cameraNodePhysics.isAffectedByGravity = false
-        }
-        cameraNodePhysics.categoryBitMask = kAffectedBySpring
-        cameraNodePhysics.damping = 2.0
-        //cameraNodePhysics.velocityFactor = SCNVector3(x:0.8, y:0.8, z: 0.8)
-        cameraNode.physicsBody = cameraNodePhysics
-        cameraNode.physicsBody?.allowsResting = false
         cameraNode.constraints = [ SCNLookAtConstraint(target: self.globe) ]
         cameraNode.light = ambientLight
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
-        
-        // make a hinge, to keep the camera at a fixed distance from the center
-        // (This helps, but only partially ; there's still some 'lean in' when making big changes to the angle)
-//        let x = SCNPhysicsHingeJoint(body: cameraNodePhysics, axis: SCNVector3(x:1.0,y:0,z:0), anchor: SCNVector3(x: 0, y: 0, z:  -CGFloat( kGlobeRadius + kCameraAltitude) ))
-//        scene.physicsWorld.addBehavior(x)
-        
-        self.updateCameraGoal()
     }
     
     deinit {
@@ -322,35 +294,33 @@ class SwiftGlobe {
 #if os(iOS)
     @objc fileprivate func onPanGesture(pan : UIPanGestureRecognizer) {
         // we get here on a tap!
-        if let sceneView = self.sceneView{
+        if let sceneView = self.sceneView {
             let loc = pan.location(in: sceneView)
-            //
+            
             if pan.state == .began {
-                self.lastPanLoc = loc
-            } else if let lastPanLoc = self.lastPanLoc {
-                // measue the movement difference
-                let delta = CGSize(width: lastPanLoc.x - loc.x, height: lastPanLoc.y - loc.y)
-                self.cameraGoalLatitude += Double(delta.height) / 500.0
-                self.cameraGoalLongitude -= Double(delta.width) / 300.0
-                // vertical delta should move the camera goal along the
+                lastPanLoc = loc
             }
+            guard pan.numberOfTouches == 1 else { return }
+
+            self.handlePanCommon(loc)
+
             self.lastPanLoc = loc
         }
     }
     @objc fileprivate func onPinchGesture(pinch: UIPinchGestureRecognizer){
         // update the fov of the camera
         if pinch.state == .began {
-            self.lastFovBeforeZoom = self.camera.xFov
+            self.lastFovBeforeZoom = self.camera.fieldOfView
         } else {
             if let lastFov = self.lastFovBeforeZoom {
-                var newFov = lastFov / Double(pinch.scale)
+                var newFov = lastFov / CGFloat(pinch.scale)
                 if newFov < kMinFov {
                     newFov = kMinFov
                 } else if newFov > kMaxFov {
                     newFov = kMaxFov
                 }
                 
-                self.camera.xFov =  newFov
+                self.camera.fieldOfView =  newFov
             }
         }
         
@@ -365,36 +335,51 @@ class SwiftGlobe {
     @objc func handleControllerDidConnectNotification(notification: NSNotification) {
         print("\(#function)")
         // assign the gameController which is found - will break if more than 1
-        gameController = notification.object as? GCController
+        guard let gameController = notification.object as? GCController else { return }
+        
         
         // if it is a siri remote
-        if let microGamepad = self.gameController?.microGamepad {
-            print("microGamepad found")
-            print("\(#function)")
-            //setup the handlers
-            if let gameController = self.gameController {
-                
-                gameController.controllerPausedHandler = {  _ in
-                    // handle play/pause
-                }
-                
-                microGamepad.buttonA.pressedChangedHandler = {  button, _, pressed in
-                    print("button A tapped")
-                }
-                microGamepad.buttonX.pressedChangedHandler = {  button, _, pressed in
-                    print("button B tapped")
-                }
-                
-                microGamepad.dpad.valueChangedHandler = { [unowned self] _, xValue, yValue in
-                    //let displacement = float2(x: xValue, y: yValue)
-                    // we get here for passive swipes on surface
-                    self.cameraGoalLongitude += Double(xValue) / 70.0
-                    self.cameraGoalLatitude += Double(yValue) / 70.0
-                    
-                    //print("displacement:\(displacement)")
-                }
-                
-                // ignored error checking, but for example
+        guard let microGamepad = self.gameController?.microGamepad else { return }
+        print("microGamepad found")
+        print("\(#function)")
+        //setup the handlers
+        
+        gameController.controllerPausedHandler = {  _ in
+            // handle play/pause
+        }
+        
+        microGamepad.buttonA.pressedChangedHandler = {  button, _, pressed in
+            print("button A tapped")
+        }
+        microGamepad.buttonX.pressedChangedHandler = {  button, _, pressed in
+            print("button B tapped")
+        }
+        
+        // get the OLD remote inputs (direction buttons)
+        microGamepad.dpad.valueChangedHandler = { [unowned self] _, xValue, yValue in
+            //let displacement = float2(x: xValue, y: yValue)
+            // we get here for passive swipes on surface
+            let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
+
+            self.handlePanCommon( loc )
+            
+            //print("displacement:\(displacement)")
+        }
+        
+        // TODO get the NEW Siri Remote inputs
+        // (This doesn't work for some reason; maybe just the simulator isn't working right?)
+        microGamepad.dpad.xAxis.valueChangedHandler = {  [unowned self] _, xValue in
+            let yValue = microGamepad.dpad.yAxis.value
+            let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
+            self.handlePanCommon( loc )
+        }
+        microGamepad.dpad.yAxis.valueChangedHandler = {  [unowned self] _, yValue in
+            let xValue = microGamepad.dpad.yAxis.value
+            let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
+            self.handlePanCommon( loc )
+        }
+
+        // ignored error checking, but for example
 //                microGamepad.allowsRotation = true
 //                gameController.motion?.valueChangedHandler = {(motion: GCMotion)->() in
 //                    // we get here for wii-like tilt of the controller itself
@@ -404,8 +389,6 @@ class SwiftGlobe {
 //                    //print("att:\(motion.attitude)") //  not currently support on tvOS
 //                    //print("rot:\(motion.rotationRate)") //  not currently support on tvOS
 //                }
-            }
-        }
     }
     
     
@@ -413,91 +396,70 @@ class SwiftGlobe {
 
     @objc fileprivate func onPanGesture(pan : NSPanGestureRecognizer) {
         // we get here on a tap!
-        if let sceneView = self.sceneView{
-            let loc = pan.location(in: sceneView)
-            //
-            if pan.state == .began {
-                self.lastPanLoc = loc
-            } else if let lastPanLoc = self.lastPanLoc {
-                // measue the movement difference
-                let delta = NSMakeSize(lastPanLoc.x - loc.x, lastPanLoc.y - loc.y)
-                self.cameraGoalLatitude -= Double(delta.height) / 500.0
-                self.cameraGoalLongitude -= Double(delta.width) / 300.0
-                // vertical delta should move the camera goal along the
-            }
-            self.lastPanLoc = loc
+        guard let sceneView = self.sceneView else { return }
+        
+        var loc = pan.location(in: sceneView)
+        // OSX has inverted Y coords; flip it before passing to handlePanCommon
+        loc.y = sceneView.frame.height - loc.y
+
+        if pan.state == .began {
+            lastPanLoc = loc
         }
+        
+        self.handlePanCommon(loc)
+
+        self.lastPanLoc = loc
     }
+    
     @objc fileprivate func onPinchGesture(pinch: NSMagnificationGestureRecognizer){
         // update the fov of the camera
         if pinch.state == .began {
-            self.lastFovBeforeZoom = self.camera.xFov
+            self.lastFovBeforeZoom = self.camera.fieldOfView
         } else {
             if let lastFov = self.lastFovBeforeZoom {
-                var newFov = lastFov / Double(pinch.magnification)
+                var newFov = lastFov / CGFloat(pinch.magnification)
                 if newFov < kMinFov {
                     newFov = kMinFov
                 } else if newFov > kMaxFov {
                     newFov = kMaxFov
                 }
                 
-                self.camera.xFov =  newFov
+                self.camera.fieldOfView =  newFov
             }
             
         }
         
     }
-
 #endif
-
     
-    // a value 0 - 1.0, representing the new location
-    var cameraGoalLatitude : Double {
-        get {
-            return _cameraGoalLatitude
-        }
-        set(newGoalVal) {
-            
-            // set the new value (but pin it between 0.0 & 1.0
-            _cameraGoalLatitude = newGoalVal
-            if _cameraGoalLatitude > kMaxLatLonPerUnity {
-                _cameraGoalLatitude = kMaxLatLonPerUnity
-            } else if _cameraGoalLatitude < kMinLatLonPerUnity {
-                _cameraGoalLatitude = kMinLatLonPerUnity
-            }
-            
-            self.updateCameraGoal()
-
-        }
-    }
-    var cameraGoalLongitude : Double {
-        get {
-            return _cameraGoalLongitude
-        }
-        set(newGoalVal) {
-            
-            _cameraGoalLongitude = newGoalVal
-            if _cameraGoalLongitude > kMaxLatLonPerUnity {
-                _cameraGoalLongitude = kMaxLatLonPerUnity
-            } else if _cameraGoalLongitude < kMinLatLonPerUnity {
-                _cameraGoalLongitude = kMinLatLonPerUnity
-            }
-            self.updateCameraGoal()
-            
-        }
-    }
     
-    private func updateCameraGoal() {
-        //print("new goal: \(_cameraGoalLatitude),  \(_cameraGoalLongitude)")
-        // amount left & right
-        let newX = cos( _cameraGoalLongitude * Double.pi) * (kGlobeRadius + kCameraAltitude) // sin( newGoalVal * Double.pi * 2.0 ) * kGlobeRadius * 10
-        let newY = cos( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
-        let newZ = sin( _cameraGoalLatitude * Double.pi ) * (kGlobeRadius + kCameraAltitude)
+    private func handlePanCommon(_ loc: CGPoint) {
+        guard let lastPanLoc = lastPanLoc else { return }
+        guard let sceneView = sceneView else { return }
         
+        // measue the movement difference
+        let delta = CGSize(width: (lastPanLoc.x - loc.x) / sceneView.frame.width, height: (lastPanLoc.y - loc.y) / sceneView.frame.height )
         
-        cameraGoal.position = SCNVector3(x: newX, y: newY, z: newZ )
-        
-        
+        //  DeltaX = amount of rotation to apply (about the world axis)
+        //  DelyaY = amount of tilt to apply (to the axis itself)
+        if delta.width != 0.0 || delta.height != 0.0 {
+            
+            // as the user zooms in (smaller fieldOfView value), the finger travel is reduced
+            let fovProportion = (self.camera.fieldOfView - kMinFov) / (kMaxFov - kMinFov)
+            let fovProportionRadians = Float(fovProportion * CGFloat(kDragWidthInDegrees) ) * ( .pi / 180)
+            let rotationAboutAxis = Float(delta.width) * fovProportionRadians
+            let tiltOfAxisItself = Float(delta.height) * fovProportionRadians
+            
+            // first, apply the rotation
+            let rotate = SCNMatrix4RotateF(userRotation.worldTransform, -rotationAboutAxis, 0.0, 1.0, 0.0)
+            userRotation.setWorldTransform(rotate)
+            
+            // now apply the tilt
+            let tilt = SCNMatrix4RotateF(userTilt.worldTransform, -tiltOfAxisItself, 1.0, 0.0, 0.0)
+            userTilt.setWorldTransform(tilt)
+        }
+            
+
     }
     
 }
@@ -514,6 +476,16 @@ extension SCNVector3 {
         #endif
     }
 }
+
+func SCNMatrix4RotateF(_ src: SCNMatrix4, _ angle : Float, _ x : Float, _ y : Float, _ z : Float) -> SCNMatrix4 {
+    #if os(iOS) || os(tvOS)
+        return SCNMatrix4Rotate(src, angle, x, y, z)
+    #elseif os(OSX)
+        return SCNMatrix4Rotate(src, CGFloat(angle), CGFloat(x), CGFloat(y), CGFloat(z))
+    #endif
+
+}
+
 
 // code to encapsulate individual glow points
 // (extend this to get different glow effects)

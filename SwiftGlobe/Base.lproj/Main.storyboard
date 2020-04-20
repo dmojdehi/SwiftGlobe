@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,10 +11,6 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="SwiftGlobe_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -28,11 +22,13 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="PnY-Hd-2nh" secondAttribute="bottom" id="DlS-On-S8l"/>
                             <constraint firstItem="PnY-Hd-2nh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="EDi-4Z-ko3"/>
-                            <constraint firstAttribute="trailing" secondItem="PnY-Hd-2nh" secondAttribute="trailing" id="hpr-sI-JO1"/>
-                            <constraint firstItem="PnY-Hd-2nh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="wVx-PL-VoY"/>
+                            <constraint firstAttribute="trailing" secondItem="PnY-Hd-2nh" secondAttribute="trailing" id="Te2-bj-oDO"/>
+                            <constraint firstItem="PnY-Hd-2nh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="VCs-8O-4SH"/>
+                            <constraint firstAttribute="bottom" secondItem="PnY-Hd-2nh" secondAttribute="bottom" id="dzO-uZ-rhJ"/>
+                            <constraint firstItem="PnY-Hd-2nh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hxg-dV-bmd"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="s4f-I7-yXp"/>
                     </view>
                     <navigationItem key="navigationItem" id="G9Y-Le-Ccr"/>
                     <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
