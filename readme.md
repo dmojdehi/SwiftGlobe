@@ -21,7 +21,6 @@ Requires iOS 11, tvOS 11, macOS 10.13 (High Sierra)
 - Interactive
 	- support pan & zoom gestures
 	- support tvOS remote, too (pan & zoom)
-	- smooth camera movement (uses SceneKit physics with a camera gimbal)
 	- glowing dots for markers 
 
 ## TODOs
@@ -30,11 +29,14 @@ In no particular order:
 - [ ] add point-to-point connection visualization
 - [ ] cubemap for earth texture (fix slight smearing at poles)
 - [ ] fix normal map 'dimple' at the north pole
-- [ ] show city lights on darkside (customized shader?)
+- [x] show city lights on darkside (shader modifier)
 - [ ] add an orbiting moon
 - [ ] support scrollwheel zoom on Mac
-- [ ] Support new Apple TV 'Siri Remote'  with touchpad & motion
-- [ ] Support new Apple TV game controllers (e.g. Sony DualShock)
+- [ ] Support new Apple TV 'Siri Remote' (introduced Oct 2015)
+        - with touchpad & motion (see https://developer.apple.com/videos/play/techtalks-apple-tv/4/ )
+        - or plain swipe gestures (UIPanGestureRecognizer)
+- [ ] Support new Apple TV game controllers (introduced in tvOS 13.0, Sept 2019) 
+        - Sony DualShock)
 
 
 ## License

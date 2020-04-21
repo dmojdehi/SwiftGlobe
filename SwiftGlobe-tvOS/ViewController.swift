@@ -18,8 +18,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        self.swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
-        
+        swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
+        swiftGlobe.addDemoMarkers()
+
     }
     
     override func didReceiveMemoryWarning() {

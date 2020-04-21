@@ -18,7 +18,9 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
+        swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
+        swiftGlobe.addDemoMarkers()
+        
     }
 
     override var representedObject: Any? {

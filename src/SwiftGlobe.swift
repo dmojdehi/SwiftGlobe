@@ -57,7 +57,6 @@ class SwiftGlobe {
     var seasonalTilt = SCNNode()
     var userRotation = SCNNode()
     var userTilt = SCNNode()
-    var glowingSpots = [SCNNode]()
     var sun = SCNNode()
     
     var lastPanLoc : CGPoint?
@@ -73,89 +72,68 @@ class SwiftGlobe {
         globeShape.segmentCount = 30
         // the texture revealed by diffuse light sources
         
+        // Use a higher resolution image on macOS
+        guard let earthMaterial = globeShape.firstMaterial else { assert(false); return }
     #if os(OSX)
-        globeShape.firstMaterial!.diffuse.contents = "world10800x5400.jpg" //earth-diffuse.jpg"
+        earthMaterial.diffuse.contents = "world10800x5400.jpg" //earth-diffuse.jpg"
     #else
-        globeShape.firstMaterial!.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
+        earthMaterial.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
     #endif
         
         // TODO: show cities in the dark
-        //      - unfortunately using 'emission' isn't sufficient
-        //          - it bleeds through in daylight areas, too, leaving little white dots
-        //          - apple's 2013 wwdc demo uses emission, but dims the whole scene to show it off (not day/night in the same scene)
-        //      - alternative: write a custom shader?
-        //          - looks like we can use a Scenekit Shader *modifier* to tweak built-in behavior
-        //              see "Use Shader Modifiers to Extend SceneKit Shading":
-        //              https://developer.apple.com/reference/scenekit/scnshadable#//apple_ref/occ/intf/SCNShadable
-        //              (looks like we'd want to run in the 'lightingModel' stage?)
-//        globeShape.firstMaterial!.emission.contents = "earth-emissive.jpg"
-//        globeShape.firstMaterial!.reflective.intensity = 0.3
-//        globeShape.firstMaterial!.emission.intensity = 0.1
+        // - use a Scenekit Shader *modifier* to tweak built-in behavior
+        //     - good example here https://stackoverflow.com/a/48119057
+        //     - see "Use Shader Modifiers to Extend SceneKit Shading":
+        //         https://developer.apple.com/reference/scenekit/scnshadable#//apple_ref/occ/intf/SCNShadable
+        // - selfIllumination works, but is weak, & hard to balance with ambient
+        //     - alpha seems to be ignored
+        //     - earth-selfIllumuniation.jpg has lighting 00-7f
+        //         - pixels 00-7f will be lit at night
+        //         - pixels 80-ff will be lit during the daytime too
+        // - unfortunately using 'emission' isn't sufficient
+        //         - it bleeds through in daylight areas, too, leaving little white dots
+        //         - apple's 2013 wwdc demo uses emission, but dims the whole scene to show it off (not day/night in the same scene)
+
+        let emission = SCNMaterialProperty()
+        emission.contents = "earth-emissive.jpg"
+        earthMaterial.setValue(emission, forKey: "emissionTexture")
+        let shaderModifier =    """
+                                uniform sampler2D emissionTexture;
+
+                                vec3 light = _lightingContribution.diffuse;
+                                float lum = max(0.0, 1 - 16.0 * (0.2126*light.r + 0.7152*light.g + 0.0722*light.b));
+                                vec4 emission = texture2D(emissionTexture, _surface.diffuseTexcoord) * lum * 0.5;
+                                _output.color += emission;
+                                """
+        earthMaterial.shaderModifiers = [.fragment: shaderModifier]
         
         // give us some ambient light (to light the rest of the model)
         let ambientLight = SCNLight()
         ambientLight.type = .ambient
-        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            ambientLight.intensity = 20.0 // default is 1000!
-        }
+        ambientLight.intensity = 20.0 // default is 1000!
 
         
         // the texture revealed by specular light sources
-        //globeShape.firstMaterial!.specular.contents = "earth_lights.jpg"
-        globeShape.firstMaterial!.specular.contents = "earth-specular.jpg"
-        globeShape.firstMaterial!.specular.intensity = 0.2
-        //globeShape.firstMaterial!.shininess = 0.1
+        //earthMaterial.specular.contents = "earth_lights.jpg"
+        earthMaterial.specular.contents = "earth-specular.jpg"
+        earthMaterial.specular.intensity = 0.2
+        //earthMaterial.shininess = 0.1
         
         // the oceans are reflecty & the land is matte
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            globeShape.firstMaterial!.metalness.contents = "metalness-1000x500.png"
-            globeShape.firstMaterial!.roughness.contents = "roughness-g-w-1000x500.png"
+            earthMaterial.metalness.contents = "metalness-1000x500.png"
+            earthMaterial.roughness.contents = "roughness-g-w-1000x500.png"
         }
         
         // make the mountains appear taller
         // (gives them shadows from point lights, but doesn't make them stick up beyond the edges)
-        globeShape.firstMaterial!.normal.contents = "earth-bump.png"
-        globeShape.firstMaterial!.normal.intensity = 0.3
+        earthMaterial.normal.contents = "earth-bump.png"
+        earthMaterial.normal.intensity = 0.3
         
-        //globeShape.firstMaterial!.reflective.contents = "envmap.jpg"
-        //globeShape.firstMaterial!.reflective.intensity = 0.5
-        globeShape.firstMaterial!.fresnelExponent = 2
+        //earthMaterial.reflective.contents = "envmap.jpg"
+        //earthMaterial.reflective.intensity = 0.5
+        earthMaterial.fresnelExponent = 2
         globe.geometry = globeShape
-        
-        
-        //------------------------------------------
-        // make some glowing nodes
-        // x: 0.0, y: 0.0, z: 5.05
-        let zz = GlobeGlowPoint(lat: 0,lon: 0)
-        // make this one white!
-        zz.node.geometry!.firstMaterial!.diffuse.contents = "whiteGlow-32x32.png"
-        globe.addChildNode(zz.node)
-        
-        let sf = GlobeGlowPoint(lat: 37.7749,lon: -122.4194)
-        let animation = CABasicAnimation(keyPath: "scale")
-        animation.fromValue = SCNVector3(x: 0.5, y: 0.5, z: 0.5)
-        animation.toValue = SCNVector3(x: 3.0, y: 3.0, z: 3.0)
-        animation.duration = 1.0
-        animation.autoreverses = true
-        animation.repeatCount = Float.infinity
-        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-        sf.node.addAnimation(animation, forKey: "throb")
-        globe.addChildNode(sf.node)
-        
-        let madagascar = GlobeGlowPoint(lat: -18.91368, lon: 47.53613)
-        globe.addChildNode(madagascar.node)
-        
-        let madrid = GlobeGlowPoint(lat: 40.4168, lon: -3.7038)
-        globe.addChildNode(madrid.node)
-
-        // a row of dots down the prime meridian
-//        for i in stride(from:-90.0, through: 90.0, by: 10.0) {
-//            let spot = GlobeGlowPoint(lat: i, lon: 0.0)
-//            if i != 0 {
-//                seasonalTilt.addChildNode(spot.node)
-//            }
-//        }
-
         
         // the globe spins once per minute
         let spinRotation = SCNAction.rotate(by: 2 * .pi, around: SCNVector3(0, 1, 0), duration: kGlobeDefaultRotationSpeedSeconds)
@@ -255,6 +233,11 @@ class SwiftGlobe {
     #endif
     }
 
+    public func addMarker(_ marker: GlowingMarker) {
+        // for now, just add directly to the scene
+        // (in the future we could track these separately)
+        globe.addChildNode(marker.node)
+    }
     
     internal func setupInSceneView(_ v: SCNView, allowPan : Bool) {
         // Do any additional setup after loading the view.
@@ -416,17 +399,19 @@ class SwiftGlobe {
         if pinch.state == .began {
             self.lastFovBeforeZoom = self.camera.fieldOfView
         } else {
-            if let lastFov = self.lastFovBeforeZoom {
-                var newFov = lastFov / CGFloat(pinch.magnification)
-                if newFov < kMinFov {
-                    newFov = kMinFov
-                } else if newFov > kMaxFov {
-                    newFov = kMaxFov
-                }
-                
-                self.camera.fieldOfView =  newFov
+            guard let lastFov = self.lastFovBeforeZoom else { return }
+            
+            // NB: pinch.magnification starts at '0.0', meaning 'no change'.  So we add one for per-unity multiply/divide
+            // NB: clamp pinch.magnification to positive numbers (raw values can be *negative*, but that messes up our scaling)
+            let magnification = max(pinch.magnification + 1.0, 0.0)
+            var newFov = lastFov / CGFloat(magnification)
+            if newFov < kMinFov {
+                newFov = kMinFov
+            } else if newFov > kMaxFov {
+                newFov = kMaxFov
             }
             
+            self.camera.fieldOfView =  newFov
         }
         
     }
@@ -466,7 +451,7 @@ class SwiftGlobe {
 
 
 
-// simple extension to reduce platform-specific #if's (for some reason SCNVector uses CGFloat on macOS)
+// Utilities to reduce platform-specific #if's (Float on iOS, CGFloat on macos? 😢)
 extension SCNVector3 {
     init(x: Double, y: Double, z:Double ){
         #if os(iOS) || os(tvOS)
@@ -487,65 +472,3 @@ func SCNMatrix4RotateF(_ src: SCNMatrix4, _ angle : Float, _ x : Float, _ y : Fl
 }
 
 
-// code to encapsulate individual glow points
-// (extend this to get different glow effects)
-class GlobeGlowPoint {
-    var latitude = 0.0
-    var longitude = 0.0
-    
-    // the node of this point (must be added to the scene)
-    fileprivate var node : SCNNode!
-    
-    init(lat: Double, lon: Double) {
-        self.latitude = lat
-        self.longitude = lon
-        
-        self.node = SCNNode(geometry: SCNPlane(width: kGlowPointWidth, height: kGlowPointWidth) )
-        self.node.geometry!.firstMaterial!.diffuse.contents = "yellowGlow-32x32.png"
-        // appear a little washed out in daylight...
-        self.node.geometry!.firstMaterial!.diffuse.intensity = 0.2
-        self.node.geometry!.firstMaterial!.emission.contents = "yellowGlow-32x32.png"
-        // but brigheter in dark areas
-        self.node.geometry!.firstMaterial!.emission.intensity = 0.7
-        self.node.castsShadow = false
-        
-        // NB: our textures *center* on 0,0, so adjust by 90 degrees
-        let adjustedLon = lon + 90
-        
-        // convert lat & lon to xyz
-        // Note scenekit coordinate space:
-        //      Camera looks  down the Z axis (down from +z)
-        //      Right is +x, left is -x
-        //      Up is +y, down is -y
-        let cosLat = cos(lat * Double.pi / 180.0)
-        let sinLat = sin(lat * Double.pi / 180.0);
-        let cosLon = cos(adjustedLon * Double.pi / 180.0);
-        let sinLon = sin(adjustedLon * Double.pi / 180.0);
-        let x = kGlowPointAltitude * cosLat * cosLon;
-        let y = kGlowPointAltitude * cosLat * sinLon;
-        let z = kGlowPointAltitude * sinLat;
-        //
-        let sceneKitX = -x
-        let sceneKitY = z
-        let sceneKitZ = y
-        
-        //print("convered lat: \(lat) lon: \(lon) to \(sceneKitX),\(sceneKitY),\(sceneKitZ)")
-        
-        let pos = SCNVector3(x: sceneKitX, y: sceneKitY, z: sceneKitZ )
-        self.node.position = pos
-        
-        
-        // and compute the normal pitch, yaw & roll (facing away from the globe)
-        //1. Pitch (the x component) is the rotation about the node's x-axis (in radians)
-        let pitch = -lat * Double.pi / 180.0
-        //2. Yaw   (the y component) is the rotation about the node's y-axis (in radians)
-        let yaw = lon * Double.pi / 180.0
-        //3. Roll  (the z component) is the rotation about the node's z-axis (in radians)
-        let roll = 0.0
-        
-        
-        self.node.eulerAngles = SCNVector3(x: pitch, y: yaw, z: roll )
-        
-    }
-    
-}
