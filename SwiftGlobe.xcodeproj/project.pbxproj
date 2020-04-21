@@ -72,6 +72,29 @@
 		87E7370E244F83E500E7BC0F /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87E7370D244F83E500E7BC0F /* earth-emissive.jpg */; };
 		87E7370F244F83E500E7BC0F /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87E7370D244F83E500E7BC0F /* earth-emissive.jpg */; };
 		87E73710244F83E500E7BC0F /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87E7370D244F83E500E7BC0F /* earth-emissive.jpg */; };
+		87E73741244FAC9000E7BC0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E73740244FAC9000E7BC0F /* AppDelegate.swift */; };
+		87E73743244FAC9000E7BC0F /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 87E73742244FAC9000E7BC0F /* art.scnassets */; };
+		87E73745244FAC9000E7BC0F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E73744244FAC9000E7BC0F /* ViewController.swift */; };
+		87E73748244FAC9000E7BC0F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E73746244FAC9000E7BC0F /* Main.storyboard */; };
+		87E7374A244FAC9400E7BC0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87E73749244FAC9400E7BC0F /* Assets.xcassets */; };
+		87E7374D244FAC9400E7BC0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87E7374B244FAC9400E7BC0F /* LaunchScreen.storyboard */; };
+		87E73752244FAD0500E7BC0F /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
+		87E73753244FAD0500E7BC0F /* yellowGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */; };
+		87E73754244FAD0500E7BC0F /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
+		87E73755244FAD0500E7BC0F /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
+		87E73756244FAD0500E7BC0F /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87E7370D244F83E500E7BC0F /* earth-emissive.jpg */; };
+		87E73757244FAD0500E7BC0F /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
+		87E73758244FAD0500E7BC0F /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
+		87E73759244FAD0500E7BC0F /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */; };
+		87E7375A244FAD0500E7BC0F /* eso0932a_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5761EC3BEA9002C6964 /* eso0932a_bottom.png */; };
+		87E7375B244FAD0500E7BC0F /* eso0932a_front.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5771EC3BEA9002C6964 /* eso0932a_front.png */; };
+		87E7375C244FAD0500E7BC0F /* eso0932a_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5781EC3BEA9002C6964 /* eso0932a_left.png */; };
+		87E7375D244FAD0500E7BC0F /* eso0932a_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5791EC3BEA9002C6964 /* eso0932a_right.png */; };
+		87E7375E244FAD0500E7BC0F /* eso0932a_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA57A1EC3BEA9002C6964 /* eso0932a_top.png */; };
+		87E7375F244FAD0500E7BC0F /* earth-specular.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C51E96C75D00A2EAA7 /* earth-specular.jpg */; };
+		87E73760244FAF3A00E7BC0F /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
+		87E73761244FAF3A00E7BC0F /* SwiftGlobe+DemoMarkers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E736F5244F528700E7BC0F /* SwiftGlobe+DemoMarkers.swift */; };
+		87E73762244FAF3A00E7BC0F /* GlowingMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E736F1244F4C2D00E7BC0F /* GlowingMarker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -113,6 +136,14 @@
 		87E736F1244F4C2D00E7BC0F /* GlowingMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowingMarker.swift; sourceTree = "<group>"; };
 		87E736F5244F528700E7BC0F /* SwiftGlobe+DemoMarkers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SwiftGlobe+DemoMarkers.swift"; sourceTree = "<group>"; };
 		87E7370D244F83E500E7BC0F /* earth-emissive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-emissive.jpg"; sourceTree = "<group>"; };
+		87E7373E244FAC9000E7BC0F /* SwiftGlobe-AR.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-AR.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87E73740244FAC9000E7BC0F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		87E73742244FAC9000E7BC0F /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		87E73744244FAC9000E7BC0F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		87E73747244FAC9000E7BC0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		87E73749244FAC9400E7BC0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87E7374C244FAC9400E7BC0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		87E7374E244FAC9400E7BC0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87E955CF1EC3897F007496A9 /* readme.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = readme.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +163,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		87B247CC1E96D56F00A2EAA7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87E7373B244FAC9000E7BC0F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -161,6 +199,7 @@
 				87B247911E96C20B00A2EAA7 /* SwiftGlobe-iOS */,
 				87B247D01E96D56F00A2EAA7 /* SwiftGlobe-MacOS */,
 				877FBC9B1E9D784200407209 /* SwiftGlobe-tvOS */,
+				87E7373F244FAC9000E7BC0F /* SwiftGlobe-AR */,
 				87B247901E96C20B00A2EAA7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -171,6 +210,7 @@
 				87B2478F1E96C20B00A2EAA7 /* SwiftGlobe-iOS.app */,
 				87B247CF1E96D56F00A2EAA7 /* SwiftGlobe-MacOS.app */,
 				877FBC9A1E9D784200407209 /* SwiftGlobe-tvOS.app */,
+				87E7373E244FAC9000E7BC0F /* SwiftGlobe-AR.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -250,6 +290,20 @@
 			path = src;
 			sourceTree = "<group>";
 		};
+		87E7373F244FAC9000E7BC0F /* SwiftGlobe-AR */ = {
+			isa = PBXGroup;
+			children = (
+				87E73740244FAC9000E7BC0F /* AppDelegate.swift */,
+				87E73742244FAC9000E7BC0F /* art.scnassets */,
+				87E73744244FAC9000E7BC0F /* ViewController.swift */,
+				87E73746244FAC9000E7BC0F /* Main.storyboard */,
+				87E73749244FAC9400E7BC0F /* Assets.xcassets */,
+				87E7374B244FAC9400E7BC0F /* LaunchScreen.storyboard */,
+				87E7374E244FAC9400E7BC0F /* Info.plist */,
+			);
+			path = "SwiftGlobe-AR";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -304,13 +358,30 @@
 			productReference = 87B247CF1E96D56F00A2EAA7 /* SwiftGlobe-MacOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		87E7373D244FAC9000E7BC0F /* SwiftGlobe-AR */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87E7374F244FAC9400E7BC0F /* Build configuration list for PBXNativeTarget "SwiftGlobe-AR" */;
+			buildPhases = (
+				87E7373A244FAC9000E7BC0F /* Sources */,
+				87E7373B244FAC9000E7BC0F /* Frameworks */,
+				87E7373C244FAC9000E7BC0F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SwiftGlobe-AR";
+			productName = "SwiftGlobe-AR";
+			productReference = 87E7373E244FAC9000E7BC0F /* SwiftGlobe-AR.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		87B247871E96C20B00A2EAA7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
+				LastSwiftUpdateCheck = 1140;
 				LastUpgradeCheck = 1140;
 				ORGANIZATIONNAME = "David Mojdehi";
 				TargetAttributes = {
@@ -332,6 +403,11 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
+					87E7373D244FAC9000E7BC0F = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = M7VHVW86G9;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 87B2478A1E96C20B00A2EAA7 /* Build configuration list for PBXProject "SwiftGlobe" */;
@@ -350,6 +426,7 @@
 				87B2478E1E96C20B00A2EAA7 /* SwiftGlobe-iOS */,
 				87B247CE1E96D56F00A2EAA7 /* SwiftGlobe-MacOS */,
 				877FBC991E9D784200407209 /* SwiftGlobe-tvOS */,
+				87E7373D244FAC9000E7BC0F /* SwiftGlobe-AR */,
 			);
 		};
 /* End PBXProject section */
@@ -426,6 +503,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87E7373C244FAC9000E7BC0F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87E73755244FAD0500E7BC0F /* metalness-1000x500.png in Resources */,
+				87E73756244FAD0500E7BC0F /* earth-emissive.jpg in Resources */,
+				87E73759244FAD0500E7BC0F /* eso0932a_back.png in Resources */,
+				87E73743244FAC9000E7BC0F /* art.scnassets in Resources */,
+				87E7375C244FAD0500E7BC0F /* eso0932a_left.png in Resources */,
+				87E7375A244FAD0500E7BC0F /* eso0932a_bottom.png in Resources */,
+				87E7374D244FAC9400E7BC0F /* LaunchScreen.storyboard in Resources */,
+				87E73757244FAD0500E7BC0F /* roughness-g-w-1000x500.png in Resources */,
+				87E7375D244FAD0500E7BC0F /* eso0932a_right.png in Resources */,
+				87E7374A244FAC9400E7BC0F /* Assets.xcassets in Resources */,
+				87E73752244FAD0500E7BC0F /* whiteGlow-32x32.png in Resources */,
+				87E7375F244FAD0500E7BC0F /* earth-specular.jpg in Resources */,
+				87E73754244FAD0500E7BC0F /* earth-bump.png in Resources */,
+				87E73748244FAC9000E7BC0F /* Main.storyboard in Resources */,
+				87E7375B244FAD0500E7BC0F /* eso0932a_front.png in Resources */,
+				87E73758244FAD0500E7BC0F /* world2700x1350.jpg in Resources */,
+				87E73753244FAD0500E7BC0F /* yellowGlow-32x32.png in Resources */,
+				87E7375E244FAD0500E7BC0F /* eso0932a_top.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -465,6 +567,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		87E7373A244FAC9000E7BC0F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87E73760244FAF3A00E7BC0F /* SwiftGlobe.swift in Sources */,
+				87E73762244FAF3A00E7BC0F /* GlowingMarker.swift in Sources */,
+				87E73745244FAC9000E7BC0F /* ViewController.swift in Sources */,
+				87E73761244FAF3A00E7BC0F /* SwiftGlobe+DemoMarkers.swift in Sources */,
+				87E73741244FAC9000E7BC0F /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -498,6 +612,22 @@
 				87B247D81E96D56F00A2EAA7 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		87E73746244FAC9000E7BC0F /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87E73747244FAC9000E7BC0F /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		87E7374B244FAC9400E7BC0F /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87E7374C244FAC9400E7BC0F /* Base */,
+			);
+			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -660,7 +790,7 @@
 				INFOPLIST_FILE = "SwiftGlobe-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
@@ -675,7 +805,7 @@
 				INFOPLIST_FILE = "SwiftGlobe-iOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.mindfulbear.SwiftGlobe;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
@@ -720,6 +850,51 @@
 			};
 			name = Release;
 		};
+		87E73750244FAC9400E7BC0F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SwiftGlobe-AR/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-AR";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		87E73751244FAC9400E7BC0F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SwiftGlobe-AR/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-AR";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -755,6 +930,15 @@
 			buildConfigurations = (
 				87B247F21E96D56F00A2EAA7 /* Debug */,
 				87B247F31E96D56F00A2EAA7 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87E7374F244FAC9400E7BC0F /* Build configuration list for PBXNativeTarget "SwiftGlobe-AR" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87E73750244FAC9400E7BC0F /* Debug */,
+				87E73751244FAC9400E7BC0F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

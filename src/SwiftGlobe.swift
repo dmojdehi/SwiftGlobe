@@ -12,11 +12,14 @@ import SceneKit
 import GameController
 import QuartzCore
 
-let kGlobeRadius = 10.0
-let kCameraAltitude = 80.0
-let kDefaultCameraFov = CGFloat(30.0)
+// In ARKit, 1.0 = 1 meter
+let kGlobeRadius = 0.5
+let kCameraAltitude = 4.0
 let kGlowPointAltitude = kGlobeRadius * 1.001
-let kGlowPointWidth = CGFloat(0.5)
+
+
+let kDefaultCameraFov = CGFloat(30.0)
+let kGlowPointWidth = CGFloat(0.025)
 let kMinLatLonPerUnity = -0.1
 let kMaxLatLonPerUnity = 1.1
 
@@ -26,6 +29,8 @@ let kGlobeDefaultRotationSpeedSeconds = 60.0
 // Min & Maximum zoom (in degrees)
 let kMinFov = CGFloat(4.0)
 let kMaxFov = CGFloat(40.0)
+
+let kAmbientLightIntensity = CGFloat(20.0) // default is 1000!
 
 // kDragWidthInDegrees  -- The amount to rotate the globe on one edge-to-edge swipe (in degrees)
 let kDragWidthInDegrees = 180.0
@@ -51,7 +56,6 @@ class SwiftGlobe {
     var scene = SCNScene()
     var camera = SCNCamera()
     var cameraNode = SCNNode()
-    var cameraGoal = SCNNode()
     var skybox = SCNNode()
     var globe = SCNNode()
     var seasonalTilt = SCNNode()
@@ -107,10 +111,6 @@ class SwiftGlobe {
                                 """
         earthMaterial.shaderModifiers = [.fragment: shaderModifier]
         
-        // give us some ambient light (to light the rest of the model)
-        let ambientLight = SCNLight()
-        ambientLight.type = .ambient
-        ambientLight.intensity = 20.0 // default is 1000!
 
         
         // the texture revealed by specular light sources
@@ -170,6 +170,7 @@ class SwiftGlobe {
         //                        |
         //                        +globe
         //                  +---Sun
+        //     +...skybox
         scene.rootNode.addChildNode(userTilt)
           userTilt.addChildNode(userRotation)
             userRotation.addChildNode(seasonalTilt)
@@ -189,11 +190,66 @@ class SwiftGlobe {
         //     (ie., the sun is contained *within* the userRotation coordinate system)
         userRotation.addChildNode(sun)
         //scene.rootNode.addChildNode(sun)
-        if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            sun.light!.temperature = 5600
-            sun.light!.intensity = 1200 // default is 1000
+        sun.light!.temperature = 5600
+        sun.light!.intensity = 1200 // default is 1000
+        
+
+    }
+    
+    deinit {
+    #if os(tvOS)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidConnect, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
+    #endif
+    }
+
+    public func addMarker(_ marker: GlowingMarker) {
+        // for now, just add directly to the scene
+        // (in the future we could track these separately)
+        globe.addChildNode(marker.node)
+    }
+    
+    internal func setupInSceneView(_ v: SCNView, forARKit : Bool ) {
+        // Do any additional setup after loading the view.
+        //
+                
+        v.autoenablesDefaultLighting = false
+        v.scene = self.scene
+
+        v.showsStatistics = true
+        
+        self.sceneView = v
+        
+        if forARKit {
+            v.allowsCameraControl = true
+            
+            skybox.removeFromParentNode()
+
+        } else {
+            finishNonARSetup()
+            
+            v.allowsCameraControl = false
+            #if os(iOS)
+                let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+                let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+                v.addGestureRecognizer(pan)
+                v.addGestureRecognizer(pinch)
+            #elseif os(tvOS)
+                
+                NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
+                
+            #elseif os(OSX)
+                let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
+                let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
+                v.addGestureRecognizer(pan)
+                v.addGestureRecognizer(pinch)
+            #endif
         }
         
+
+    }
+    
+    private func finishNonARSetup() {
         //----------------------------------------
         // add the galaxy skybox
         // we make a custom skybox instead of using scene.background) so we can control the galaxy tilt
@@ -212,6 +268,10 @@ class SwiftGlobe {
         skybox.eulerAngles = SCNVector3(x: kTiltOfEclipticFromGalacticPlaneRadians, y: 0.0, z: 0.0 )
         scene.rootNode.addChildNode(skybox)
         
+        // give us some ambient light (to light the rest of the model)
+        let ambientLight = SCNLight()
+        ambientLight.type = .ambient
+        ambientLight.intensity = kAmbientLightIntensity // default is 1000!
 
         //---------------------------------------
         // create and add a camera to the scene
@@ -224,54 +284,6 @@ class SwiftGlobe {
         cameraNode.light = ambientLight
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
-    }
-    
-    deinit {
-    #if os(tvOS)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidConnect, object: nil)
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.GCControllerDidDisconnect, object: nil)
-    #endif
-    }
-
-    public func addMarker(_ marker: GlowingMarker) {
-        // for now, just add directly to the scene
-        // (in the future we could track these separately)
-        globe.addChildNode(marker.node)
-    }
-    
-    internal func setupInSceneView(_ v: SCNView, allowPan : Bool) {
-        // Do any additional setup after loading the view.
-        //
-        v.autoenablesDefaultLighting = false
-        v.scene = self.scene
-
-        v.showsStatistics = true
-        
-        self.sceneView = v
-        
-        if allowPan {
-            v.allowsCameraControl = false
-            #if os(iOS)
-                let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
-                let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-                v.addGestureRecognizer(pan)
-                v.addGestureRecognizer(pinch)
-            #elseif os(tvOS)
-                
-                NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
-                
-            #elseif os(OSX)
-                let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
-                let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
-                v.addGestureRecognizer(pan)
-                v.addGestureRecognizer(pinch)
-            #endif
-        } else {
-            v.allowsCameraControl = true
-            
-        }
-        
-
     }
     
 #if os(iOS)

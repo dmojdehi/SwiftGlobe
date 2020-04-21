@@ -18,7 +18,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        swiftGlobe.setupInSceneView(self.sceneView, allowPan: true)
+        swiftGlobe.setupInSceneView(self.sceneView, forARKit: false)
         swiftGlobe.addDemoMarkers()
 
     }
