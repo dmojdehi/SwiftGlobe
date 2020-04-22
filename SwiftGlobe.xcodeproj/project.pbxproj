@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8714AC7D1E9803410069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
 		8714AC811E98034B0069A8F1 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
-		875E3CB81EA6B45300AE98EB /* world10800x5400.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */; };
 		877FBC9D1E9D784200407209 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877FBC9C1E9D784200407209 /* AppDelegate.swift */; };
 		877FBC9F1E9D784200407209 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877FBC9E1E9D784200407209 /* ViewController.swift */; };
 		877FBCA21E9D784200407209 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 877FBCA01E9D784200407209 /* Main.storyboard */; };
@@ -18,10 +17,52 @@
 		877FBCAA1E9D79AA00407209 /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
 		877FBCAB1E9D79AA00407209 /* yellowGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */; };
 		877FBCAC1E9D79AA00407209 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
-		877FBCAD1E9D79AA00407209 /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
-		877FBCAF1E9D79AA00407209 /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
-		877FBCB01E9D79AA00407209 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
 		877FBCB21E9D79AA00407209 /* earth-specular.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C51E96C75D00A2EAA7 /* earth-specular.jpg */; };
+		87999DFC24500BC90062ECCC /* SwiftGlobe.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 87999DFB24500BC80062ECCC /* SwiftGlobe.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		87999E0224500BC90062ECCC /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 87999E0024500BC90062ECCC /* Interface.storyboard */; };
+		87999E0424500BCB0062ECCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87999E0324500BCB0062ECCC /* Assets.xcassets */; };
+		87999E0B24500BCC0062ECCC /* SwiftGlobe.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 87999E0A24500BCC0062ECCC /* SwiftGlobe.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		87999E1024500BCC0062ECCC /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87999E0F24500BCC0062ECCC /* ContentView.swift */; };
+		87999E1224500BCC0062ECCC /* HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87999E1124500BCC0062ECCC /* HostingController.swift */; };
+		87999E1424500BCC0062ECCC /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87999E1324500BCC0062ECCC /* ExtensionDelegate.swift */; };
+		87999E1624500BCD0062ECCC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87999E1524500BCD0062ECCC /* Assets.xcassets */; };
+		87999E1924500BCD0062ECCC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87999E1824500BCD0062ECCC /* Preview Assets.xcassets */; };
+		87999E7524500F8C0062ECCC /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87999E7424500F8C0062ECCC /* InterfaceController.swift */; };
+		87999E77245011260062ECCC /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = 87999E76245011250062ECCC /* art.scnassets */; };
+		87999E78245011B20062ECCC /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
+		87999E79245011B20062ECCC /* SwiftGlobe+DemoMarkers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E736F5244F528700E7BC0F /* SwiftGlobe+DemoMarkers.swift */; };
+		87999E7A245011B20062ECCC /* GlowingMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E736F1244F4C2D00E7BC0F /* GlowingMarker.swift */; };
+		87999E7B2450B2290062ECCC /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
+		87999E7C2450B2290062ECCC /* yellowGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */; };
+		87A3DA9D2450DC7700D772B9 /* metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9B2450DC7700D772B9 /* metalness.png */; };
+		87A3DA9E2450DC7700D772B9 /* metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9B2450DC7700D772B9 /* metalness.png */; };
+		87A3DA9F2450DC7700D772B9 /* metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9B2450DC7700D772B9 /* metalness.png */; };
+		87A3DAA02450DC7700D772B9 /* metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9B2450DC7700D772B9 /* metalness.png */; };
+		87A3DAA12450DC7700D772B9 /* roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9C2450DC7700D772B9 /* roughness.png */; };
+		87A3DAA22450DC7700D772B9 /* roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9C2450DC7700D772B9 /* roughness.png */; };
+		87A3DAA32450DC7700D772B9 /* roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9C2450DC7700D772B9 /* roughness.png */; };
+		87A3DAA42450DC7700D772B9 /* roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DA9C2450DC7700D772B9 /* roughness.png */; };
+		87A3DAA72450DCFE00D772B9 /* world-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA52450DCFD00D772B9 /* world-large.jpg */; };
+		87A3DAA82450DCFE00D772B9 /* world-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA52450DCFD00D772B9 /* world-large.jpg */; };
+		87A3DAA92450DCFE00D772B9 /* world-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA52450DCFD00D772B9 /* world-large.jpg */; };
+		87A3DAAA2450DCFE00D772B9 /* world-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA52450DCFD00D772B9 /* world-large.jpg */; };
+		87A3DAAB2450DCFE00D772B9 /* world-ultra.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */; };
+		87A3DAAC2450DCFE00D772B9 /* world-ultra.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */; };
+		87A3DAAD2450DCFE00D772B9 /* world-ultra.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */; };
+		87A3DAAE2450DCFE00D772B9 /* world-ultra.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */; };
+		87A3DABD2450DDE300D772B9 /* eso0932a_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB02450DDE300D772B9 /* eso0932a_left.png */; };
+		87A3DABE2450DDE300D772B9 /* world-large.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB12450DDE300D772B9 /* world-large.jpg */; };
+		87A3DABF2450DDE300D772B9 /* earth-specular.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB22450DDE300D772B9 /* earth-specular.jpg */; };
+		87A3DAC02450DDE300D772B9 /* metalness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB32450DDE300D772B9 /* metalness.png */; };
+		87A3DAC12450DDE300D772B9 /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB42450DDE300D772B9 /* earth-bump.png */; };
+		87A3DAC22450DDE300D772B9 /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB52450DDE300D772B9 /* eso0932a_back.png */; };
+		87A3DAC32450DDE300D772B9 /* eso0932a_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB62450DDE300D772B9 /* eso0932a_right.png */; };
+		87A3DAC42450DDE300D772B9 /* eso0932a_front.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB72450DDE300D772B9 /* eso0932a_front.png */; };
+		87A3DAC52450DDE300D772B9 /* world-ultra.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB82450DDE300D772B9 /* world-ultra.jpg */; };
+		87A3DAC62450DDE300D772B9 /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DAB92450DDE300D772B9 /* earth-emissive.jpg */; };
+		87A3DAC72450DDE300D772B9 /* eso0932a_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DABA2450DDE300D772B9 /* eso0932a_top.png */; };
+		87A3DAC82450DDE300D772B9 /* roughness.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DABB2450DDE300D772B9 /* roughness.png */; };
+		87A3DAC92450DDE300D772B9 /* eso0932a_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 87A3DABC2450DDE300D772B9 /* eso0932a_bottom.png */; };
 		87ACA57B1EC3BEA9002C6964 /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */; };
 		87ACA57C1EC3BEA9002C6964 /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */; };
 		87ACA57D1EC3BEA9002C6964 /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */; };
@@ -53,12 +94,6 @@
 		87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B247C51E96C75D00A2EAA7 /* earth-specular.jpg */; };
 		87B247FE1E96D5F700A2EAA7 /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
 		87B247FF1E96D67900A2EAA7 /* SwiftGlobe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */; };
-		87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
-		87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
-		87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
-		87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
-		87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
-		87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
 		87B2481C1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
 		87B2481D1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
 		87B2481F1E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */; };
@@ -81,10 +116,7 @@
 		87E73752244FAD0500E7BC0F /* whiteGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */; };
 		87E73753244FAD0500E7BC0F /* yellowGlow-32x32.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */; };
 		87E73754244FAD0500E7BC0F /* earth-bump.png in Resources */ = {isa = PBXBuildFile; fileRef = 8714AC791E9803410069A8F1 /* earth-bump.png */; };
-		87E73755244FAD0500E7BC0F /* metalness-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */; };
 		87E73756244FAD0500E7BC0F /* earth-emissive.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87E7370D244F83E500E7BC0F /* earth-emissive.jpg */; };
-		87E73757244FAD0500E7BC0F /* roughness-g-w-1000x500.png in Resources */ = {isa = PBXBuildFile; fileRef = 87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */; };
-		87E73758244FAD0500E7BC0F /* world2700x1350.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */; };
 		87E73759244FAD0500E7BC0F /* eso0932a_back.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */; };
 		87E7375A244FAD0500E7BC0F /* eso0932a_bottom.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5761EC3BEA9002C6964 /* eso0932a_bottom.png */; };
 		87E7375B244FAD0500E7BC0F /* eso0932a_front.png in Resources */ = {isa = PBXBuildFile; fileRef = 87ACA5771EC3BEA9002C6964 /* eso0932a_front.png */; };
@@ -97,15 +129,87 @@
 		87E73762244FAF3A00E7BC0F /* GlowingMarker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E736F1244F4C2D00E7BC0F /* GlowingMarker.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		87999DFD24500BC90062ECCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87B247871E96C20B00A2EAA7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87999DFA24500BC80062ECCC;
+			remoteInfo = "SwiftGlobe-Watch WatchKit App";
+		};
+		87999E0C24500BCC0062ECCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87B247871E96C20B00A2EAA7 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 87999E0924500BCC0062ECCC;
+			remoteInfo = "SwiftGlobe-Watch WatchKit Extension";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		87999E1D24500BCD0062ECCC /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				87999DFC24500BC90062ECCC /* SwiftGlobe.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999E2024500BCD0062ECCC /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				87999E0B24500BCC0062ECCC /* SwiftGlobe.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8714AC791E9803410069A8F1 /* earth-bump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth-bump.png"; sourceTree = "<group>"; };
-		875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = world10800x5400.jpg; sourceTree = "<group>"; };
 		877FBC9A1E9D784200407209 /* SwiftGlobe-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		877FBC9C1E9D784200407209 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		877FBC9E1E9D784200407209 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		877FBCA11E9D784200407209 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		877FBCA31E9D784200407209 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		877FBCA51E9D784200407209 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87999DF824500BC80062ECCC /* SwiftGlobe-Watch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-Watch.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		87999DFB24500BC80062ECCC /* SwiftGlobe.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftGlobe.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		87999E0124500BC90062ECCC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		87999E0324500BCB0062ECCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87999E0524500BCB0062ECCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87999E0A24500BCC0062ECCC /* SwiftGlobe.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SwiftGlobe.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		87999E0F24500BCC0062ECCC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		87999E1124500BCC0062ECCC /* HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingController.swift; sourceTree = "<group>"; };
+		87999E1324500BCC0062ECCC /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		87999E1524500BCD0062ECCC /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		87999E1824500BCD0062ECCC /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		87999E1A24500BCD0062ECCC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		87999E7424500F8C0062ECCC /* InterfaceController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		87999E76245011250062ECCC /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		87A3DA9B2450DC7700D772B9 /* metalness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metalness.png; sourceTree = "<group>"; };
+		87A3DA9C2450DC7700D772B9 /* roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roughness.png; sourceTree = "<group>"; };
+		87A3DAA52450DCFD00D772B9 /* world-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "world-large.jpg"; sourceTree = "<group>"; };
+		87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "world-ultra.jpg"; sourceTree = "<group>"; };
+		87A3DAB02450DDE300D772B9 /* eso0932a_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_left.png; sourceTree = "<group>"; };
+		87A3DAB12450DDE300D772B9 /* world-large.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "world-large.jpg"; sourceTree = "<group>"; };
+		87A3DAB22450DDE300D772B9 /* earth-specular.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-specular.jpg"; sourceTree = "<group>"; };
+		87A3DAB32450DDE300D772B9 /* metalness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = metalness.png; sourceTree = "<group>"; };
+		87A3DAB42450DDE300D772B9 /* earth-bump.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "earth-bump.png"; sourceTree = "<group>"; };
+		87A3DAB52450DDE300D772B9 /* eso0932a_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_back.png; sourceTree = "<group>"; };
+		87A3DAB62450DDE300D772B9 /* eso0932a_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_right.png; sourceTree = "<group>"; };
+		87A3DAB72450DDE300D772B9 /* eso0932a_front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_front.png; sourceTree = "<group>"; };
+		87A3DAB82450DDE300D772B9 /* world-ultra.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "world-ultra.jpg"; sourceTree = "<group>"; };
+		87A3DAB92450DDE300D772B9 /* earth-emissive.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-emissive.jpg"; sourceTree = "<group>"; };
+		87A3DABA2450DDE300D772B9 /* eso0932a_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_top.png; sourceTree = "<group>"; };
+		87A3DABB2450DDE300D772B9 /* roughness.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = roughness.png; sourceTree = "<group>"; };
+		87A3DABC2450DDE300D772B9 /* eso0932a_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_bottom.png; sourceTree = "<group>"; };
 		87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_back.png; sourceTree = "<group>"; };
 		87ACA5761EC3BEA9002C6964 /* eso0932a_bottom.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_bottom.png; sourceTree = "<group>"; };
 		87ACA5771EC3BEA9002C6964 /* eso0932a_front.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eso0932a_front.png; sourceTree = "<group>"; };
@@ -119,7 +223,6 @@
 		87B247991E96C20B00A2EAA7 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87B2479C1E96C20B00A2EAA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		87B2479E1E96C20B00A2EAA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		87B247C31E96C75D00A2EAA7 /* Credit.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Credit.txt; sourceTree = "<group>"; };
 		87B247C51E96C75D00A2EAA7 /* earth-specular.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "earth-specular.jpg"; sourceTree = "<group>"; };
 		87B247CF1E96D56F00A2EAA7 /* SwiftGlobe-MacOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SwiftGlobe-MacOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		87B247D11E96D56F00A2EAA7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -128,9 +231,6 @@
 		87B247D81E96D56F00A2EAA7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		87B247DA1E96D56F00A2EAA7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		87B247FD1E96D5F700A2EAA7 /* SwiftGlobe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftGlobe.swift; sourceTree = "<group>"; };
-		87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "metalness-1000x500.png"; sourceTree = "<group>"; };
-		87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "roughness-g-w-1000x500.png"; sourceTree = "<group>"; };
-		87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = world2700x1350.jpg; sourceTree = "<group>"; };
 		87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "whiteGlow-32x32.png"; sourceTree = "<group>"; };
 		87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "yellowGlow-32x32.png"; sourceTree = "<group>"; };
 		87E736F1244F4C2D00E7BC0F /* GlowingMarker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowingMarker.swift; sourceTree = "<group>"; };
@@ -149,6 +249,13 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		877FBC971E9D784200407209 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999E0724500BCC0062ECCC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -191,6 +298,59 @@
 			path = "SwiftGlobe-tvOS";
 			sourceTree = "<group>";
 		};
+		87999DFF24500BC90062ECCC /* SwiftGlobe-Watch WatchKit App */ = {
+			isa = PBXGroup;
+			children = (
+				87999E0024500BC90062ECCC /* Interface.storyboard */,
+				87999E0324500BCB0062ECCC /* Assets.xcassets */,
+				87999E0524500BCB0062ECCC /* Info.plist */,
+			);
+			path = "SwiftGlobe-Watch WatchKit App";
+			sourceTree = "<group>";
+		};
+		87999E0E24500BCC0062ECCC /* SwiftGlobe-Watch WatchKit Extension */ = {
+			isa = PBXGroup;
+			children = (
+				87999E0F24500BCC0062ECCC /* ContentView.swift */,
+				87999E7424500F8C0062ECCC /* InterfaceController.swift */,
+				87999E1124500BCC0062ECCC /* HostingController.swift */,
+				87999E1324500BCC0062ECCC /* ExtensionDelegate.swift */,
+				87999E76245011250062ECCC /* art.scnassets */,
+				87999E1524500BCD0062ECCC /* Assets.xcassets */,
+				87999E1A24500BCD0062ECCC /* Info.plist */,
+				87999E1724500BCD0062ECCC /* Preview Content */,
+			);
+			path = "SwiftGlobe-Watch WatchKit Extension";
+			sourceTree = "<group>";
+		};
+		87999E1724500BCD0062ECCC /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				87999E1824500BCD0062ECCC /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		87A3DAAF2450DDE300D772B9 /* earth-watch */ = {
+			isa = PBXGroup;
+			children = (
+				87A3DAB02450DDE300D772B9 /* eso0932a_left.png */,
+				87A3DAB12450DDE300D772B9 /* world-large.jpg */,
+				87A3DAB22450DDE300D772B9 /* earth-specular.jpg */,
+				87A3DAB32450DDE300D772B9 /* metalness.png */,
+				87A3DAB42450DDE300D772B9 /* earth-bump.png */,
+				87A3DAB52450DDE300D772B9 /* eso0932a_back.png */,
+				87A3DAB62450DDE300D772B9 /* eso0932a_right.png */,
+				87A3DAB72450DDE300D772B9 /* eso0932a_front.png */,
+				87A3DAB82450DDE300D772B9 /* world-ultra.jpg */,
+				87A3DAB92450DDE300D772B9 /* earth-emissive.jpg */,
+				87A3DABA2450DDE300D772B9 /* eso0932a_top.png */,
+				87A3DABB2450DDE300D772B9 /* roughness.png */,
+				87A3DABC2450DDE300D772B9 /* eso0932a_bottom.png */,
+			);
+			path = "earth-watch";
+			sourceTree = "<group>";
+		};
 		87B247861E96C20B00A2EAA7 = {
 			isa = PBXGroup;
 			children = (
@@ -200,6 +360,8 @@
 				87B247D01E96D56F00A2EAA7 /* SwiftGlobe-MacOS */,
 				877FBC9B1E9D784200407209 /* SwiftGlobe-tvOS */,
 				87E7373F244FAC9000E7BC0F /* SwiftGlobe-AR */,
+				87999DFF24500BC90062ECCC /* SwiftGlobe-Watch WatchKit App */,
+				87999E0E24500BCC0062ECCC /* SwiftGlobe-Watch WatchKit Extension */,
 				87B247901E96C20B00A2EAA7 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -211,6 +373,9 @@
 				87B247CF1E96D56F00A2EAA7 /* SwiftGlobe-MacOS.app */,
 				877FBC9A1E9D784200407209 /* SwiftGlobe-tvOS.app */,
 				87E7373E244FAC9000E7BC0F /* SwiftGlobe-AR.app */,
+				87999DF824500BC80062ECCC /* SwiftGlobe-Watch.app */,
+				87999DFB24500BC80062ECCC /* SwiftGlobe.app */,
+				87999E0A24500BCC0062ECCC /* SwiftGlobe.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -241,6 +406,7 @@
 			children = (
 				87B2481B1E97112200A2EAA7 /* whiteGlow-32x32.png */,
 				87B2481E1E9711E600A2EAA7 /* yellowGlow-32x32.png */,
+				87A3DAAF2450DDE300D772B9 /* earth-watch */,
 				87B247C21E96C75D00A2EAA7 /* earth */,
 			);
 			path = images;
@@ -250,12 +416,11 @@
 			isa = PBXGroup;
 			children = (
 				8714AC791E9803410069A8F1 /* earth-bump.png */,
-				875E3CB61EA6B45300AE98EB /* world10800x5400.jpg */,
-				87B248041E96DC0300A2EAA7 /* metalness-1000x500.png */,
 				87E7370D244F83E500E7BC0F /* earth-emissive.jpg */,
-				87B248051E96DC0300A2EAA7 /* roughness-g-w-1000x500.png */,
-				87B248061E96DC0300A2EAA7 /* world2700x1350.jpg */,
-				87B247C31E96C75D00A2EAA7 /* Credit.txt */,
+				87A3DAA52450DCFD00D772B9 /* world-large.jpg */,
+				87A3DAA62450DCFD00D772B9 /* world-ultra.jpg */,
+				87A3DA9B2450DC7700D772B9 /* metalness.png */,
+				87A3DA9C2450DC7700D772B9 /* roughness.png */,
 				87ACA5751EC3BEA9002C6964 /* eso0932a_back.png */,
 				87ACA5761EC3BEA9002C6964 /* eso0932a_bottom.png */,
 				87ACA5771EC3BEA9002C6964 /* eso0932a_front.png */,
@@ -324,6 +489,57 @@
 			productReference = 877FBC9A1E9D784200407209 /* SwiftGlobe-tvOS.app */;
 			productType = "com.apple.product-type.application";
 		};
+		87999DF724500BC80062ECCC /* SwiftGlobe-Watch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87999E2524500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch" */;
+			buildPhases = (
+				87999DF624500BC80062ECCC /* Resources */,
+				87999E1D24500BCD0062ECCC /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87999DFE24500BC90062ECCC /* PBXTargetDependency */,
+			);
+			name = "SwiftGlobe-Watch";
+			productName = "SwiftGlobe-Watch";
+			productReference = 87999DF824500BC80062ECCC /* SwiftGlobe-Watch.app */;
+			productType = "com.apple.product-type.application.watchapp2-container";
+		};
+		87999DFA24500BC80062ECCC /* SwiftGlobe-Watch WatchKit App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87999E2424500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch WatchKit App" */;
+			buildPhases = (
+				87999DF924500BC80062ECCC /* Resources */,
+				87999E2024500BCD0062ECCC /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				87999E0D24500BCC0062ECCC /* PBXTargetDependency */,
+			);
+			name = "SwiftGlobe-Watch WatchKit App";
+			productName = "SwiftGlobe-Watch WatchKit App";
+			productReference = 87999DFB24500BC80062ECCC /* SwiftGlobe.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		87999E0924500BCC0062ECCC /* SwiftGlobe-Watch WatchKit Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 87999E2324500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch WatchKit Extension" */;
+			buildPhases = (
+				87999E0624500BCC0062ECCC /* Sources */,
+				87999E0724500BCC0062ECCC /* Frameworks */,
+				87999E0824500BCC0062ECCC /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "SwiftGlobe-Watch WatchKit Extension";
+			productName = "SwiftGlobe-Watch WatchKit Extension";
+			productReference = 87999E0A24500BCC0062ECCC /* SwiftGlobe.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 		87B2478E1E96C20B00A2EAA7 /* SwiftGlobe-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 87B247B71E96C20B00A2EAA7 /* Build configuration list for PBXNativeTarget "SwiftGlobe-iOS" */;
@@ -391,6 +607,21 @@
 						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
+					87999DF724500BC80062ECCC = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = M7VHVW86G9;
+						ProvisioningStyle = Automatic;
+					};
+					87999DFA24500BC80062ECCC = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = M7VHVW86G9;
+						ProvisioningStyle = Automatic;
+					};
+					87999E0924500BCC0062ECCC = {
+						CreatedOnToolsVersion = 11.4;
+						DevelopmentTeam = M7VHVW86G9;
+						ProvisioningStyle = Automatic;
+					};
 					87B2478E1E96C20B00A2EAA7 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = M7VHVW86G9;
@@ -427,6 +658,9 @@
 				87B247CE1E96D56F00A2EAA7 /* SwiftGlobe-MacOS */,
 				877FBC991E9D784200407209 /* SwiftGlobe-tvOS */,
 				87E7373D244FAC9000E7BC0F /* SwiftGlobe-AR */,
+				87999DF724500BC80062ECCC /* SwiftGlobe-Watch */,
+				87999DFA24500BC80062ECCC /* SwiftGlobe-Watch WatchKit App */,
+				87999E0924500BCC0062ECCC /* SwiftGlobe-Watch WatchKit Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -436,11 +670,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87A3DAA92450DCFE00D772B9 /* world-large.jpg in Resources */,
 				87ACA5801EC3BEA9002C6964 /* eso0932a_bottom.png in Resources */,
 				87ACA5831EC3BEA9002C6964 /* eso0932a_front.png in Resources */,
 				87ACA5861EC3BEA9002C6964 /* eso0932a_left.png in Resources */,
 				87ACA57D1EC3BEA9002C6964 /* eso0932a_back.png in Resources */,
-				877FBCAD1E9D79AA00407209 /* metalness-1000x500.png in Resources */,
 				87ACA5891EC3BEA9002C6964 /* eso0932a_right.png in Resources */,
 				877FBCB21E9D79AA00407209 /* earth-specular.jpg in Resources */,
 				87E73710244F83E500E7BC0F /* earth-emissive.jpg in Resources */,
@@ -449,9 +683,51 @@
 				877FBCAC1E9D79AA00407209 /* earth-bump.png in Resources */,
 				87ACA58C1EC3BEA9002C6964 /* eso0932a_top.png in Resources */,
 				877FBCAA1E9D79AA00407209 /* whiteGlow-32x32.png in Resources */,
-				877FBCB01E9D79AA00407209 /* world2700x1350.jpg in Resources */,
-				877FBCAF1E9D79AA00407209 /* roughness-g-w-1000x500.png in Resources */,
+				87A3DAAD2450DCFE00D772B9 /* world-ultra.jpg in Resources */,
 				877FBCAB1E9D79AA00407209 /* yellowGlow-32x32.png in Resources */,
+				87A3DAA32450DC7700D772B9 /* roughness.png in Resources */,
+				87A3DA9F2450DC7700D772B9 /* metalness.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999DF624500BC80062ECCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999DF924500BC80062ECCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87999E0424500BCB0062ECCC /* Assets.xcassets in Resources */,
+				87999E0224500BC90062ECCC /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999E0824500BCC0062ECCC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87A3DAC22450DDE300D772B9 /* eso0932a_back.png in Resources */,
+				87A3DAC42450DDE300D772B9 /* eso0932a_front.png in Resources */,
+				87999E1924500BCD0062ECCC /* Preview Assets.xcassets in Resources */,
+				87A3DABF2450DDE300D772B9 /* earth-specular.jpg in Resources */,
+				87A3DAC82450DDE300D772B9 /* roughness.png in Resources */,
+				87A3DAC12450DDE300D772B9 /* earth-bump.png in Resources */,
+				87999E7C2450B2290062ECCC /* yellowGlow-32x32.png in Resources */,
+				87999E77245011260062ECCC /* art.scnassets in Resources */,
+				87A3DAC62450DDE300D772B9 /* earth-emissive.jpg in Resources */,
+				87999E1624500BCD0062ECCC /* Assets.xcassets in Resources */,
+				87A3DABD2450DDE300D772B9 /* eso0932a_left.png in Resources */,
+				87A3DAC32450DDE300D772B9 /* eso0932a_right.png in Resources */,
+				87A3DAC92450DDE300D772B9 /* eso0932a_bottom.png in Resources */,
+				87A3DAC72450DDE300D772B9 /* eso0932a_top.png in Resources */,
+				87999E7B2450B2290062ECCC /* whiteGlow-32x32.png in Resources */,
+				87A3DABE2450DDE300D772B9 /* world-large.jpg in Resources */,
+				87A3DAC02450DDE300D772B9 /* metalness.png in Resources */,
+				87A3DAC52450DDE300D772B9 /* world-ultra.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,18 +737,19 @@
 			files = (
 				8714AC7D1E9803410069A8F1 /* earth-bump.png in Resources */,
 				87ACA57B1EC3BEA9002C6964 /* eso0932a_back.png in Resources */,
-				87B2480D1E96DC0300A2EAA7 /* world2700x1350.jpg in Resources */,
 				87ACA5841EC3BEA9002C6964 /* eso0932a_left.png in Resources */,
+				87A3DAA12450DC7700D772B9 /* roughness.png in Resources */,
 				87ACA57E1EC3BEA9002C6964 /* eso0932a_bottom.png in Resources */,
-				87B2480B1E96DC0300A2EAA7 /* metalness-1000x500.png in Resources */,
 				87B2479D1E96C20B00A2EAA7 /* LaunchScreen.storyboard in Resources */,
 				87ACA5871EC3BEA9002C6964 /* eso0932a_right.png in Resources */,
 				87B2479A1E96C20B00A2EAA7 /* Assets.xcassets in Resources */,
 				87B2481F1E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */,
+				87A3DAAB2450DCFE00D772B9 /* world-ultra.jpg in Resources */,
+				87A3DAA72450DCFE00D772B9 /* world-large.jpg in Resources */,
 				87B247981E96C20B00A2EAA7 /* Main.storyboard in Resources */,
-				87B2480C1E96DC0300A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
 				87ACA5811EC3BEA9002C6964 /* eso0932a_front.png in Resources */,
 				87B247C91E96C75D00A2EAA7 /* earth-specular.jpg in Resources */,
+				87A3DA9D2450DC7700D772B9 /* metalness.png in Resources */,
 				87B2481C1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
 				87ACA58A1EC3BEA9002C6964 /* eso0932a_top.png in Resources */,
 				87E7370E244F83E500E7BC0F /* earth-emissive.jpg in Resources */,
@@ -483,20 +760,20 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87B248141E96DC0800A2EAA7 /* world2700x1350.jpg in Resources */,
 				87B247D61E96D56F00A2EAA7 /* Assets.xcassets in Resources */,
 				87ACA57C1EC3BEA9002C6964 /* eso0932a_back.png in Resources */,
 				87ACA5851EC3BEA9002C6964 /* eso0932a_left.png in Resources */,
+				87A3DAA22450DC7700D772B9 /* roughness.png in Resources */,
 				87ACA57F1EC3BEA9002C6964 /* eso0932a_bottom.png in Resources */,
 				87B247FB1E96D5D700A2EAA7 /* earth-specular.jpg in Resources */,
 				87B2481D1E97112200A2EAA7 /* whiteGlow-32x32.png in Resources */,
 				87ACA5881EC3BEA9002C6964 /* eso0932a_right.png in Resources */,
-				87B248131E96DC0800A2EAA7 /* roughness-g-w-1000x500.png in Resources */,
-				875E3CB81EA6B45300AE98EB /* world10800x5400.jpg in Resources */,
-				87B248121E96DC0800A2EAA7 /* metalness-1000x500.png in Resources */,
+				87A3DAAC2450DCFE00D772B9 /* world-ultra.jpg in Resources */,
+				87A3DAA82450DCFE00D772B9 /* world-large.jpg in Resources */,
 				87B248201E9711E600A2EAA7 /* yellowGlow-32x32.png in Resources */,
 				87ACA5821EC3BEA9002C6964 /* eso0932a_front.png in Resources */,
 				87B247D91E96D56F00A2EAA7 /* Main.storyboard in Resources */,
+				87A3DA9E2450DC7700D772B9 /* metalness.png in Resources */,
 				8714AC811E98034B0069A8F1 /* earth-bump.png in Resources */,
 				87ACA58B1EC3BEA9002C6964 /* eso0932a_top.png in Resources */,
 				87E7370F244F83E500E7BC0F /* earth-emissive.jpg in Resources */,
@@ -507,22 +784,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87E73755244FAD0500E7BC0F /* metalness-1000x500.png in Resources */,
 				87E73756244FAD0500E7BC0F /* earth-emissive.jpg in Resources */,
 				87E73759244FAD0500E7BC0F /* eso0932a_back.png in Resources */,
 				87E73743244FAC9000E7BC0F /* art.scnassets in Resources */,
+				87A3DAAE2450DCFE00D772B9 /* world-ultra.jpg in Resources */,
 				87E7375C244FAD0500E7BC0F /* eso0932a_left.png in Resources */,
 				87E7375A244FAD0500E7BC0F /* eso0932a_bottom.png in Resources */,
+				87A3DAA02450DC7700D772B9 /* metalness.png in Resources */,
+				87A3DAAA2450DCFE00D772B9 /* world-large.jpg in Resources */,
 				87E7374D244FAC9400E7BC0F /* LaunchScreen.storyboard in Resources */,
-				87E73757244FAD0500E7BC0F /* roughness-g-w-1000x500.png in Resources */,
 				87E7375D244FAD0500E7BC0F /* eso0932a_right.png in Resources */,
+				87A3DAA42450DC7700D772B9 /* roughness.png in Resources */,
 				87E7374A244FAC9400E7BC0F /* Assets.xcassets in Resources */,
 				87E73752244FAD0500E7BC0F /* whiteGlow-32x32.png in Resources */,
 				87E7375F244FAD0500E7BC0F /* earth-specular.jpg in Resources */,
 				87E73754244FAD0500E7BC0F /* earth-bump.png in Resources */,
 				87E73748244FAC9000E7BC0F /* Main.storyboard in Resources */,
 				87E7375B244FAD0500E7BC0F /* eso0932a_front.png in Resources */,
-				87E73758244FAD0500E7BC0F /* world2700x1350.jpg in Resources */,
 				87E73753244FAD0500E7BC0F /* yellowGlow-32x32.png in Resources */,
 				87E7375E244FAD0500E7BC0F /* eso0932a_top.png in Resources */,
 			);
@@ -540,6 +818,20 @@
 				877FBC9F1E9D784200407209 /* ViewController.swift in Sources */,
 				877FBC9D1E9D784200407209 /* AppDelegate.swift in Sources */,
 				87E736F4244F4C2D00E7BC0F /* GlowingMarker.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		87999E0624500BCC0062ECCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87999E1224500BCC0062ECCC /* HostingController.swift in Sources */,
+				87999E7524500F8C0062ECCC /* InterfaceController.swift in Sources */,
+				87999E78245011B20062ECCC /* SwiftGlobe.swift in Sources */,
+				87999E1024500BCC0062ECCC /* ContentView.swift in Sources */,
+				87999E79245011B20062ECCC /* SwiftGlobe+DemoMarkers.swift in Sources */,
+				87999E1424500BCC0062ECCC /* ExtensionDelegate.swift in Sources */,
+				87999E7A245011B20062ECCC /* GlowingMarker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +873,19 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		87999DFE24500BC90062ECCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87999DFA24500BC80062ECCC /* SwiftGlobe-Watch WatchKit App */;
+			targetProxy = 87999DFD24500BC90062ECCC /* PBXContainerItemProxy */;
+		};
+		87999E0D24500BCC0062ECCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 87999E0924500BCC0062ECCC /* SwiftGlobe-Watch WatchKit Extension */;
+			targetProxy = 87999E0C24500BCC0062ECCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		877FBCA01E9D784200407209 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -588,6 +893,14 @@
 				877FBCA11E9D784200407209 /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		87999E0024500BC90062ECCC /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				87999E0124500BC90062ECCC /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 		87B247961E96C20B00A2EAA7 /* Main.storyboard */ = {
@@ -668,6 +981,149 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 11.0;
+			};
+			name = Release;
+		};
+		87999E1B24500BCD0062ECCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		87999E1C24500BCD0062ECCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				MARKETING_VERSION = 1.0;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		87999E1E24500BCD0062ECCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = SwiftGlobe_Watch_WatchKit_Extension;
+				INFOPLIST_FILE = "SwiftGlobe-Watch WatchKit App/Info.plist";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch.watchkitapp";
+				PRODUCT_NAME = SwiftGlobe;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		87999E1F24500BCD0062ECCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				IBSC_MODULE = SwiftGlobe_Watch_WatchKit_Extension;
+				INFOPLIST_FILE = "SwiftGlobe-Watch WatchKit App/Info.plist";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch.watchkitapp";
+				PRODUCT_NAME = SwiftGlobe;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Release;
+		};
+		87999E2124500BCD0062ECCC /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftGlobe-Watch WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SwiftGlobe-Watch WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch.watchkitapp.watchkitextension";
+				PRODUCT_NAME = SwiftGlobe;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
+			};
+			name = Debug;
+		};
+		87999E2224500BCD0062ECCC /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"SwiftGlobe-Watch WatchKit Extension/Preview Content\"";
+				DEVELOPMENT_TEAM = M7VHVW86G9;
+				ENABLE_PREVIEWS = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = "SwiftGlobe-Watch WatchKit Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.mindfulbear.SwiftGlobe-Watch.watchkitapp.watchkitextension";
+				PRODUCT_NAME = SwiftGlobe;
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 6.2;
 			};
 			name = Release;
 		};
@@ -903,6 +1359,33 @@
 			buildConfigurations = (
 				877FBCA61E9D784200407209 /* Debug */,
 				877FBCA71E9D784200407209 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87999E2324500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch WatchKit Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87999E2124500BCD0062ECCC /* Debug */,
+				87999E2224500BCD0062ECCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87999E2424500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch WatchKit App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87999E1E24500BCD0062ECCC /* Debug */,
+				87999E1F24500BCD0062ECCC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		87999E2524500BCD0062ECCC /* Build configuration list for PBXNativeTarget "SwiftGlobe-Watch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				87999E1B24500BCD0062ECCC /* Debug */,
+				87999E1C24500BCD0062ECCC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

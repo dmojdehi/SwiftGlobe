@@ -8,15 +8,19 @@
 
 import Foundation
 import SceneKit
+#if os(watchOS)
+import WatchKit
+#else
+import QuartzCore
 // for tvOS siri remote access
 import GameController
-import QuartzCore
+#endif
 
 // In ARKit, 1.0 = 1 meter
-let kGlobeRadius = 0.5
-let kCameraAltitude = 4.0
-let kGlowPointAltitude = kGlobeRadius * 1.001
-
+let kGlobeRadius = Float(0.5)
+let kCameraAltitude = Float(4.0)
+let kGlowPointAltitude = Float(kGlobeRadius * 1.001)
+let kDistanceToTheSun = Float(200)
 
 let kDefaultCameraFov = CGFloat(30.0)
 let kGlowPointWidth = CGFloat(0.025)
@@ -40,7 +44,7 @@ let kTiltOfEarthsAxisInRadians = (23.5 * Double.pi) / 180.0
 
 let kSkyboxSize = CGFloat(1000.0)
 let kTiltOfEclipticFromGalacticPlaneDegrees = 60.2
-let kTiltOfEclipticFromGalacticPlaneRadians = (60.2 * Double.pi) / 180.0
+let kTiltOfEclipticFromGalacticPlaneRadians = Float( (60.2 * Float.pi) / 180.0)
 
 
 // winter solstice is appx Dec 21, 22, or 23
@@ -52,7 +56,12 @@ let kAffectedBySpring = 1 << 1
 class SwiftGlobe {
     
     
-    var sceneView : SCNView?
+#if os(watchOS)
+    var gestureHost : WKInterfaceSCNScene?
+#else
+    var gestureHost : SCNView?
+#endif
+    
     var scene = SCNScene()
     var camera = SCNCamera()
     var cameraNode = SCNNode()
@@ -79,9 +88,9 @@ class SwiftGlobe {
         // Use a higher resolution image on macOS
         guard let earthMaterial = globeShape.firstMaterial else { assert(false); return }
     #if os(OSX)
-        earthMaterial.diffuse.contents = "world10800x5400.jpg" //earth-diffuse.jpg"
+        earthMaterial.diffuse.contents = "world-ultra.jpg" //earth-diffuse.jpg"
     #else
-        earthMaterial.diffuse.contents = "world2700x1350.jpg" //earth-diffuse.jpg"
+        earthMaterial.diffuse.contents = "world-large.jpg" //earth-diffuse.jpg"
     #endif
         
         // TODO: show cities in the dark
@@ -121,8 +130,8 @@ class SwiftGlobe {
         
         // the oceans are reflecty & the land is matte
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            earthMaterial.metalness.contents = "metalness-1000x500.png"
-            earthMaterial.roughness.contents = "roughness-g-w-1000x500.png"
+            earthMaterial.metalness.contents = "metalness.png"
+            earthMaterial.roughness.contents = "roughness.png"
         }
         
         // make the mountains appear taller
@@ -150,7 +159,7 @@ class SwiftGlobe {
         let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
         let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
         let tiltTransform : SCNMatrix4
-        #if os(iOS) || os(tvOS)
+        #if os(iOS) || os(tvOS) || os(watchOS)
             tiltTransform = SCNMatrix4MakeRotation(Float(tiltXRadians), 0.0, 1.0, 0.0)
         #elseif os(OSX)
             tiltTransform = SCNMatrix4MakeRotation(CGFloat(tiltXRadians), 0.0, 1.0, 0.0)
@@ -179,7 +188,7 @@ class SwiftGlobe {
                 
         //----------------------------------------
         // setup the sun (the light source)
-        sun.position = SCNVector3(x: 0, y:0, z: 200.0)
+        sun.position = SCNVector3(x: Float(0), y: Float(0), z: kDistanceToTheSun )
         sun.light = SCNLight()
         sun.light!.type = .omni
         // sun color temp at noon: 5600.
@@ -209,16 +218,29 @@ class SwiftGlobe {
         globe.addChildNode(marker.node)
     }
     
+#if os(watchOS)
+    internal func setupInSceneView(_ v: WKInterfaceSCNScene, forARKit : Bool ) {
+        v.autoenablesDefaultLighting = false
+        v.scene = self.scene
+
+        v.showsStatistics = true
+
+        self.gestureHost = v
+
+        finishNonARSetup()
+        
+        // add the pan & pinch gestures
+        
+    }
+#else
     internal func setupInSceneView(_ v: SCNView, forARKit : Bool ) {
-        // Do any additional setup after loading the view.
-        //
                 
         v.autoenablesDefaultLighting = false
         v.scene = self.scene
 
         v.showsStatistics = true
         
-        self.sceneView = v
+        self.gestureHost = v
         
         if forARKit {
             v.allowsCameraControl = true
@@ -229,6 +251,7 @@ class SwiftGlobe {
             finishNonARSetup()
             
             v.allowsCameraControl = false
+            
             #if os(iOS)
                 let pan = UIPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
                 let pinch = UIPinchGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
@@ -237,7 +260,9 @@ class SwiftGlobe {
             #elseif os(tvOS)
                 
                 NotificationCenter.default.addObserver(self, selector: #selector( SwiftGlobe.handleControllerDidConnectNotification(notification:) ), name: NSNotification.Name.GCControllerDidConnect, object: nil)
-                
+            #elseif os(watchOS)
+                let pan = WKPanGestureRegognizer()
+            
             #elseif os(OSX)
                 let pan = NSPanGestureRecognizer(target: self, action:#selector(SwiftGlobe.onPanGesture(pan:) ) )
                 let pinch = NSMagnificationGestureRecognizer(target: self, action: #selector(SwiftGlobe.onPinchGesture(pinch:) ) )
@@ -246,8 +271,9 @@ class SwiftGlobe {
             #endif
         }
         
-
     }
+    
+#endif
     
     private func finishNonARSetup() {
         //----------------------------------------
@@ -286,22 +312,24 @@ class SwiftGlobe {
         scene.rootNode.addChildNode(cameraNode)
     }
     
+    private func addPanGestures() {
+        
+    }
+    
 #if os(iOS)
     @objc fileprivate func onPanGesture(pan : UIPanGestureRecognizer) {
         // we get here on a tap!
-        if let sceneView = self.sceneView {
-            let loc = pan.location(in: sceneView)
-            
-            if pan.state == .began {
-                lastPanLoc = loc
-            }
+        guard let sceneView = pan.view else { return }
+        let loc = pan.location(in: sceneView)
+        
+        if pan.state == .began {
+            handlePanBegan(loc)
+        } else {
             guard pan.numberOfTouches == 1 else { return }
-
-            self.handlePanCommon(loc)
-
-            self.lastPanLoc = loc
+            self.handlePanCommon(loc, viewSize: sceneView.frame.size)
         }
     }
+    
     @objc fileprivate func onPinchGesture(pinch: UIPinchGestureRecognizer){
         // update the fov of the camera
         if pinch.state == .began {
@@ -335,6 +363,7 @@ class SwiftGlobe {
         
         // if it is a siri remote
         guard let microGamepad = self.gameController?.microGamepad else { return }
+        guard let viewSize = gestureHost?.frame.size else { return }
         print("microGamepad found")
         print("\(#function)")
         //setup the handlers
@@ -350,28 +379,30 @@ class SwiftGlobe {
             print("button B tapped")
         }
         
+
         // get the OLD remote inputs (direction buttons)
         microGamepad.dpad.valueChangedHandler = { [unowned self] _, xValue, yValue in
             //let displacement = float2(x: xValue, y: yValue)
             // we get here for passive swipes on surface
             let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
 
-            self.handlePanCommon( loc )
+            self.handlePanCommon( loc, viewSize: viewSize)
             
             //print("displacement:\(displacement)")
         }
+        
         
         // TODO get the NEW Siri Remote inputs
         // (This doesn't work for some reason; maybe just the simulator isn't working right?)
         microGamepad.dpad.xAxis.valueChangedHandler = {  [unowned self] _, xValue in
             let yValue = microGamepad.dpad.yAxis.value
             let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
-            self.handlePanCommon( loc )
+            self.handlePanCommon( loc, viewSize: viewSize )
         }
         microGamepad.dpad.yAxis.valueChangedHandler = {  [unowned self] _, yValue in
             let xValue = microGamepad.dpad.yAxis.value
             let loc = CGPoint(x: CGFloat(xValue), y: CGFloat(yValue) )
-            self.handlePanCommon( loc )
+            self.handlePanCommon( loc, viewSize: viewSize )
         }
 
         // ignored error checking, but for example
@@ -391,19 +422,18 @@ class SwiftGlobe {
 
     @objc fileprivate func onPanGesture(pan : NSPanGestureRecognizer) {
         // we get here on a tap!
-        guard let sceneView = self.sceneView else { return }
+        guard let sceneView = pan.view else { return }
         
         var loc = pan.location(in: sceneView)
         // OSX has inverted Y coords; flip it before passing to handlePanCommon
         loc.y = sceneView.frame.height - loc.y
 
         if pan.state == .began {
-            lastPanLoc = loc
+            handlePanBegan(loc)
+        } else {
+            handlePanCommon(loc, viewSize: sceneView.frame.size)
         }
-        
-        self.handlePanCommon(loc)
 
-        self.lastPanLoc = loc
     }
     
     @objc fileprivate func onPinchGesture(pinch: NSMagnificationGestureRecognizer){
@@ -429,13 +459,31 @@ class SwiftGlobe {
     }
 #endif
     
+    // A simple zoom interface (for the watch)
+    public var zoomFov : CGFloat {
+        get {
+            return self.camera.fieldOfView
+        }
+        set(newFov) {
+            if newFov < kMinFov {
+                self.camera.fieldOfView = kMinFov
+            } else if newFov > kMaxFov {
+                self.camera.fieldOfView = kMaxFov
+            } else {
+                self.camera.fieldOfView = newFov
+            }
+        }
+    }
     
-    private func handlePanCommon(_ loc: CGPoint) {
+    public func handlePanBegan(_ loc: CGPoint) {
+        lastPanLoc = loc
+    }
+
+    public func handlePanCommon(_ loc: CGPoint, viewSize: CGSize) {
         guard let lastPanLoc = lastPanLoc else { return }
-        guard let sceneView = sceneView else { return }
         
         // measue the movement difference
-        let delta = CGSize(width: (lastPanLoc.x - loc.x) / sceneView.frame.width, height: (lastPanLoc.y - loc.y) / sceneView.frame.height )
+        let delta = CGSize(width: (lastPanLoc.x - loc.x) / viewSize.width, height: (lastPanLoc.y - loc.y) / viewSize.height )
         
         //  DeltaX = amount of rotation to apply (about the world axis)
         //  DelyaY = amount of tilt to apply (to the axis itself)
@@ -455,8 +503,8 @@ class SwiftGlobe {
             let tilt = SCNMatrix4RotateF(userTilt.worldTransform, -tiltOfAxisItself, 1.0, 0.0, 0.0)
             userTilt.setWorldTransform(tilt)
         }
-            
-
+        
+        self.lastPanLoc = loc
     }
     
 }
@@ -464,18 +512,16 @@ class SwiftGlobe {
 
 
 // Utilities to reduce platform-specific #if's (Float on iOS, CGFloat on macos? 😢)
+#if os(OSX)
 extension SCNVector3 {
-    init(x: Double, y: Double, z:Double ){
-        #if os(iOS) || os(tvOS)
-            self.init(x: Float(x), y: Float(y), z: Float(z))
-        #elseif os(OSX)
+    init(x: Float, y: Float, z:Float ){
             self.init(x: CGFloat(x), y: CGFloat(y), z: CGFloat(z))
-        #endif
     }
 }
+#endif
 
 func SCNMatrix4RotateF(_ src: SCNMatrix4, _ angle : Float, _ x : Float, _ y : Float, _ z : Float) -> SCNMatrix4 {
-    #if os(iOS) || os(tvOS)
+    #if os(iOS) || os(tvOS) || os(watchOS)
         return SCNMatrix4Rotate(src, angle, x, y, z)
     #elseif os(OSX)
         return SCNMatrix4Rotate(src, CGFloat(angle), CGFloat(x), CGFloat(y), CGFloat(z))

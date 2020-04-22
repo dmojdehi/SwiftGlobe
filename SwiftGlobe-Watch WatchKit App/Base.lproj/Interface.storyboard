@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="16096" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="iu5-62-nFw">
+    <device id="watch38"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="16012"/>
+    </dependencies>
+    <scenes>
+        <!--Interface Controller-->
+        <scene sceneID="Et9-E3-3f5">
+            <objects>
+                <controller fullScreen="YES" id="iu5-62-nFw" customClass="InterfaceController" customModule="SwiftGlobe">
+                    <items>
+                        <sceneKitScene alignment="left" id="LLr-Df-eXZ">
+                            <gestureRecognizers>
+                                <panGestureRecognizer id="qAA-Qr-Qmm">
+                                    <connections>
+                                        <action selector="panRecognized:" destination="iu5-62-nFw" id="h3y-er-k5w"/>
+                                    </connections>
+                                </panGestureRecognizer>
+                            </gestureRecognizers>
+                        </sceneKitScene>
+                    </items>
+                    <connections>
+                        <outlet property="panGesture" destination="qAA-Qr-Qmm" id="IUN-kz-Jv8"/>
+                        <outlet property="scnInterface" destination="LLr-Df-eXZ" id="mNM-dr-kK7"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="32" y="-25"/>
+        </scene>
+    </scenes>
+</document>

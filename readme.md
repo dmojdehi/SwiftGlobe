@@ -1,11 +1,12 @@
 # SwiftGlobe
 
-An interactive 3D globe in SceneKit for iOS, tvOS, and MacOS X.  Built in Swift 5 with XCode 11.4.
+An interactive 3D globe in SceneKit for iOS, watchOS, tvOS, and MacOS X.  Built in Swift 5 with XCode 11.4.
 
 Requires iOS 11, tvOS 11, macOS 10.13 (High Sierra)
 
 
-![Screenshot on MacOS X](macos_screen.png)![Screenshot on iOS](ios_screen.png)![Screenshot on tvOS](tv_screen.png)
+![Screenshot on iOS](readme-images/ios_screen.png)![Screenshot on Apple Watch](readme-images/watch.png)![Screenshot on MacOS X](readme-images/macos_screen.png)![Screenshot on tvOS](readme-images/tv_screen.png)
+
 
 ## Features
 
@@ -29,6 +30,11 @@ In no particular order:
 - Add AR target (for iPhone/iPad)
     - [x] babystep: Add target, with automatic globe placement.  (done but glitchy)
     - [ ] Add placement tracking & lock feedback
+- Add Apple Watch support
+    - [x] babystep: Add watch target, show globe, 
+    - [x] use small textures
+    - [x] handle pan & crown-zoom events (nb: no pinch gesture on the watch!)
+    - NB: integrating the globe into your own app will take a little work: e.g. the gesture & crown behavior must be handled in your InterfaceController
 - [x] show city lights on darkside (shader modifier)
 - [ ] add point-to-point connection visualization
 - [ ] cubemap for earth texture (fix slight smearing at poles)
