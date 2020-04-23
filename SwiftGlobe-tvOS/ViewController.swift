@@ -12,13 +12,13 @@ import SceneKit
 class ViewController: UIViewController {
     @IBOutlet weak var sceneView : SCNView!
     
-    var swiftGlobe = SwiftGlobe()
+    var swiftGlobe = SwiftGlobe(alignment: .poles)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
-        swiftGlobe.setupInSceneView(self.sceneView, forARKit: false)
+        swiftGlobe.setupInSceneView(self.sceneView, forARKit: false, enableAutomaticSpin: true)
         swiftGlobe.addDemoMarkers()
 
     }

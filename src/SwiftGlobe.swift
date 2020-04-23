@@ -10,6 +10,7 @@ import Foundation
 import SceneKit
 #if os(watchOS)
 import WatchKit
+import SwiftUI
 #else
 import QuartzCore
 // for tvOS siri remote access
@@ -18,11 +19,11 @@ import GameController
 
 // In ARKit, 1.0 = 1 meter
 let kGlobeRadius = Float(0.5)
-let kCameraAltitude = Float(4.0)
+let kCameraAltitude = Float(2.2)
 let kGlowPointAltitude = Float(kGlobeRadius * 1.001)
 let kDistanceToTheSun = Float(200)
 
-let kDefaultCameraFov = CGFloat(30.0)
+let kDefaultCameraFov = CGFloat(60.0)
 let kGlowPointWidth = CGFloat(0.025)
 let kMinLatLonPerUnity = -0.1
 let kMaxLatLonPerUnity = 1.1
@@ -31,8 +32,15 @@ let kMaxLatLonPerUnity = 1.1
 let kGlobeDefaultRotationSpeedSeconds = 60.0
 
 // Min & Maximum zoom (in degrees)
+#if os(watchOS)
+// on the watch, don't zoom in too much
+let kMinFov = CGFloat(10.0)
+// nor should we zoom out so much
+let kMaxFov = CGFloat(30.0)
+#else
 let kMinFov = CGFloat(4.0)
-let kMaxFov = CGFloat(40.0)
+let kMaxFov = CGFloat(60.0)
+#endif
 
 let kAmbientLightIntensity = CGFloat(20.0) // default is 1000!
 
@@ -57,7 +65,6 @@ class SwiftGlobe {
     
     
 #if os(watchOS)
-    var gestureHost : WKInterfaceSCNScene?
 #else
     var gestureHost : SCNView?
 #endif
@@ -68,22 +75,33 @@ class SwiftGlobe {
     var skybox = SCNNode()
     var globe = SCNNode()
     var seasonalTilt = SCNNode()
-    var userRotation = SCNNode()
-    var userTilt = SCNNode()
+    var userTiltAndRotation = SCNNode()
     var sun = SCNNode()
-    
+    let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
+
     var lastPanLoc : CGPoint?
     var lastFovBeforeZoom : CGFloat?
 #if os(tvOS)
     var gameController : GCController?
 #endif
-
+    var userTiltRadians = Float(0)
+    var userRotationRadians = Float(0)
     
-    internal init() {
+    
+    var upDownAlignment : UpDownAlignment
+
+
+    enum UpDownAlignment {
+        case poles
+        case dayNightTerminator
+    }
+    
+    internal init(alignment: UpDownAlignment) {
         // make the globe
-        let globeShape = SCNSphere(radius: CGFloat(kGlobeRadius) )
         globeShape.segmentCount = 30
         // the texture revealed by diffuse light sources
+        
+        upDownAlignment = alignment
         
         // Use a higher resolution image on macOS
         guard let earthMaterial = globeShape.firstMaterial else { assert(false); return }
@@ -113,9 +131,12 @@ class SwiftGlobe {
         let shaderModifier =    """
                                 uniform sampler2D emissionTexture;
 
-                                vec3 light = _lightingContribution.diffuse;
+                                // how lit-up is this pixel?
+                                float3 light = _lightingContribution.diffuse;
+                                // compute the 'darkness' of this pixel, too
                                 float lum = max(0.0, 1 - 16.0 * (0.2126*light.r + 0.7152*light.g + 0.0722*light.b));
-                                vec4 emission = texture2D(emissionTexture, _surface.diffuseTexcoord) * lum * 0.5;
+                                // combine the textures, in proportion (regular earth textture & lightPollutionMap,aka emissionTexture)
+                                float4 emission = texture2D(emissionTexture, _surface.diffuseTexcoord) * lum * 0.5;
                                 _output.color += emission;
                                 """
         earthMaterial.shaderModifiers = [.fragment: shaderModifier]
@@ -130,8 +151,8 @@ class SwiftGlobe {
         
         // the oceans are reflecty & the land is matte
         if #available(macOS 10.12, iOS 10.0, tvOS 10.0, *) {
-            earthMaterial.metalness.contents = "metalness.png"
-            earthMaterial.roughness.contents = "roughness.png"
+            earthMaterial.metalness.contents = "metalness-1000x500.png"
+            earthMaterial.roughness.contents = "roughness-g-w-1000x500.png"
         }
         
         // make the mountains appear taller
@@ -143,47 +164,32 @@ class SwiftGlobe {
         //earthMaterial.reflective.intensity = 0.5
         earthMaterial.fresnelExponent = 2
         globe.geometry = globeShape
-        
-        // the globe spins once per minute
-        let spinRotation = SCNAction.rotate(by: 2 * .pi, around: SCNVector3(0, 1, 0), duration: kGlobeDefaultRotationSpeedSeconds)
-        let spinAction = SCNAction.repeatForever(spinRotation)
-        globe.runAction(spinAction)
-        
 
-        
+
         // tilt it on it's axis (23.5 degrees), varied by the actual day of the year
         // (note that children nodes are correctly tilted with the parents coordinate space)
-        let calendar = Calendar(identifier: .gregorian)
-        let dayOfYear = Double( calendar.ordinality(of: .day, in: .year, for: Date())! )
-        let daysSinceWinterSolstice = remainder(dayOfYear + 10.0, kDaysInAYear)
-        let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
-        let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
-        let tiltTransform : SCNMatrix4
-        #if os(iOS) || os(tvOS) || os(watchOS)
-            tiltTransform = SCNMatrix4MakeRotation(Float(tiltXRadians), 0.0, 1.0, 0.0)
-        #elseif os(OSX)
-            tiltTransform = SCNMatrix4MakeRotation(CGFloat(tiltXRadians), 0.0, 1.0, 0.0)
-        #endif
-
-        seasonalTilt.setWorldTransform(tiltTransform)
+        seasonalTilt.eulerAngles = SCNVector3(SwiftGlobe.computeSeasonalTilt(Date()),0.0, 0.0)
+        
         
         //----------------------------------------
         // setup the heirarchy:
         //  rootNode
         //     |
-        //     +---userTilt
+        //     +---userTiltAndRotation
         //           |
-        //           +---userRotation
+        //           +---seasonalTilt
         //                  |
-        //                  +---seasonalTilt
-        //                        |
-        //                        +globe
-        //                  +---Sun
+        //                  +globe
+        //           +---Sun
         //     +...skybox
-        scene.rootNode.addChildNode(userTilt)
-          userTilt.addChildNode(userRotation)
-            userRotation.addChildNode(seasonalTilt)
-              seasonalTilt.addChildNode(globe)
+        //
+        scene.rootNode.addChildHeirarchy( [  userTiltAndRotation,
+                                             seasonalTilt,
+                                             globe
+                                        ])
+        // Add the sun above the seasonal tilt! (ie, the season tilt affects the earth, not the sun)
+        // NB: user interactivity (on userTiltAndRotation) is also aware of the seasonal tilt, but it must be separate to tilt the earth *and* sun!
+        userTiltAndRotation.addChildNode(sun)
 
                 
         //----------------------------------------
@@ -195,14 +201,24 @@ class SwiftGlobe {
         // White is 6500
         // anything above 5000 is 'daylight'
         sun.light!.castsShadow = false
-        // NB: Dragging & zooming doesn't affect the light falling on the earth
-        //     (ie., the sun is contained *within* the userRotation coordinate system)
-        userRotation.addChildNode(sun)
-        //scene.rootNode.addChildNode(sun)
         sun.light!.temperature = 5600
         sun.light!.intensity = 1200 // default is 1000
         
+        
+        applyUserTiltAndRotation()
 
+    }
+    
+    // Calculate how much to tilt the earth for the current season
+    // The result is the angle in radianson it's axis (23.5 degrees), varied by the actual day of the year
+    // (note that children nodes are correctly tilted with the parents coordinate space)
+    public class func computeSeasonalTilt(_ today: Date) -> Double {
+        let calendar = Calendar(identifier: .gregorian)
+        let dayOfYear = Double( calendar.ordinality(of: .day, in: .year, for: today)! )
+        let daysSinceWinterSolstice = remainder(dayOfYear + 10.0, kDaysInAYear)
+        let daysSinceWinterSolsticeInRadians = daysSinceWinterSolstice * 2.0 * Double.pi / kDaysInAYear
+        let tiltXRadians = -cos( daysSinceWinterSolsticeInRadians) * kTiltOfEarthsAxisInRadians
+        return tiltXRadians
     }
     
     deinit {
@@ -217,28 +233,34 @@ class SwiftGlobe {
         // (in the future we could track these separately)
         globe.addChildNode(marker.node)
     }
-    
+
 #if os(watchOS)
-    internal func setupInSceneView(_ v: WKInterfaceSCNScene, forARKit : Bool ) {
-        v.autoenablesDefaultLighting = false
-        v.scene = self.scene
-
-        v.showsStatistics = true
-
-        self.gestureHost = v
-
-        finishNonARSetup()
+    
+    internal func setupOnAppear(enableAutomaticSpin: Bool) {
+        finishNonARSetup(enableAutomaticSpin)
+    }
+    
+    internal func setupForSceneView(_ v: SceneView, forARKit : Bool, enableAutomaticSpin: Bool) -> (SCNScene, SCNNode) {
         
-        // add the pan & pinch gestures
+        return (scene, cameraNode)
+//        var options : SceneView.Options =
+//        v.optio = false
+//        v.scene = self.scene
+//
+//        //v.showsStatistics = true
+//
+//        self.gestureHost = v
+//
+//        finishNonARSetup(enableAutomaticSpin)
         
     }
 #else
-    internal func setupInSceneView(_ v: SCNView, forARKit : Bool ) {
+    internal func setupInSceneView(_ v: SCNView, forARKit : Bool, enableAutomaticSpin: Bool) {
                 
         v.autoenablesDefaultLighting = false
         v.scene = self.scene
 
-        v.showsStatistics = true
+        //v.showsStatistics = true
         
         self.gestureHost = v
         
@@ -248,8 +270,10 @@ class SwiftGlobe {
             skybox.removeFromParentNode()
 
         } else {
-            finishNonARSetup()
+            finishNonARSetup(enableAutomaticSpin)
             
+            v.pointOfView = cameraNode
+
             v.allowsCameraControl = false
             
             #if os(iOS)
@@ -270,12 +294,13 @@ class SwiftGlobe {
                 v.addGestureRecognizer(pinch)
             #endif
         }
-        
+
+
     }
     
 #endif
     
-    private func finishNonARSetup() {
+    private func finishNonARSetup(_ enableAutomaticSpin: Bool) {
         //----------------------------------------
         // add the galaxy skybox
         // we make a custom skybox instead of using scene.background) so we can control the galaxy tilt
@@ -310,6 +335,16 @@ class SwiftGlobe {
         cameraNode.light = ambientLight
         cameraNode.camera = camera
         scene.rootNode.addChildNode(cameraNode)
+        
+        
+        
+        // the globe spins once per minute
+        if enableAutomaticSpin {
+            let spinRotation = SCNAction.rotate(by: 2 * .pi, around: SCNVector3(0, 1, 0), duration: kGlobeDefaultRotationSpeedSeconds)
+            let spinAction = SCNAction.repeatForever(spinRotation)
+            globe.runAction(spinAction)
+        }
+
     }
     
     private func addPanGestures() {
@@ -342,7 +377,7 @@ class SwiftGlobe {
                 } else if newFov > kMaxFov {
                     newFov = kMaxFov
                 }
-                
+                //print("new zoom fov: \(newFov)")
                 self.camera.fieldOfView =  newFov
             }
         }
@@ -353,12 +388,10 @@ class SwiftGlobe {
     
     // adapted from "Example of Siri Remote Access in Swift" posted to an Apple developer discussion forum
     // at https://forums.developer.apple.com/thread/25440
-
-    
     @objc func handleControllerDidConnectNotification(notification: NSNotification) {
         print("\(#function)")
         // assign the gameController which is found - will break if more than 1
-        guard let gameController = notification.object as? GCController else { return }
+        //guard let gameController = notification.object as? GCController else { return }
         
         
         // if it is a siri remote
@@ -367,11 +400,6 @@ class SwiftGlobe {
         print("microGamepad found")
         print("\(#function)")
         //setup the handlers
-        
-        gameController.controllerPausedHandler = {  _ in
-            // handle play/pause
-        }
-        
         microGamepad.buttonA.pressedChangedHandler = {  button, _, pressed in
             print("button A tapped")
         }
@@ -443,7 +471,7 @@ class SwiftGlobe {
         } else {
             guard let lastFov = self.lastFovBeforeZoom else { return }
             
-            // NB: pinch.magnification starts at '0.0', meaning 'no change'.  So we add one for per-unity multiply/divide
+            // NB: pinch.magnification starts at '0.0', meaning 'no change'. So we add one for per-unity multiply/divide
             // NB: clamp pinch.magnification to positive numbers (raw values can be *negative*, but that messes up our scaling)
             let magnification = max(pinch.magnification + 1.0, 0.0)
             var newFov = lastFov / CGFloat(magnification)
@@ -485,6 +513,11 @@ class SwiftGlobe {
         // measue the movement difference
         let delta = CGSize(width: (lastPanLoc.x - loc.x) / viewSize.width, height: (lastPanLoc.y - loc.y) / viewSize.height )
         
+        handlePan(deltaPerUnity: delta)
+        
+        self.lastPanLoc = loc
+    }
+    public func handlePan(deltaPerUnity delta: CGSize) {
         //  DeltaX = amount of rotation to apply (about the world axis)
         //  DelyaY = amount of tilt to apply (to the axis itself)
         if delta.width != 0.0 || delta.height != 0.0 {
@@ -494,17 +527,54 @@ class SwiftGlobe {
             let fovProportionRadians = Float(fovProportion * CGFloat(kDragWidthInDegrees) ) * ( .pi / 180)
             let rotationAboutAxis = Float(delta.width) * fovProportionRadians
             let tiltOfAxisItself = Float(delta.height) * fovProportionRadians
+
+            // update the user values...
+            userTiltRadians -= tiltOfAxisItself
+            userRotationRadians -= rotationAboutAxis
             
-            // first, apply the rotation
-            let rotate = SCNMatrix4RotateF(userRotation.worldTransform, -rotationAboutAxis, 0.0, 1.0, 0.0)
-            userRotation.setWorldTransform(rotate)
-            
-            // now apply the tilt
-            let tilt = SCNMatrix4RotateF(userTilt.worldTransform, -tiltOfAxisItself, 1.0, 0.0, 0.0)
-            userTilt.setWorldTransform(tilt)
+            //print("User tilt: \(userTiltRadians), userRotation: \(userRotationRadians)")
+            applyUserTiltAndRotation()
         }
+
+    }
+    
+    public func focusOnLatLon(_ lat: Float, _ lon: Float) {
+
+        // stop any auto-rotation
+        globe.removeAllActions()
         
-        self.lastPanLoc = loc
+        // apply tilt to userTiltRadians
+        userTiltRadians = lat / 180.0 * .pi
+        userRotationRadians = lon / -180 * .pi
+
+        applyUserTiltAndRotation()
+        
+        // Remove any rotation the earth may have made (from automatic spin animation)...
+        let axisAngle = SCNVector4(0, 1, 0, 0 )
+        let spinTo = SCNAction.rotate(toAxisAngle: axisAngle, duration: 0.1)
+        globe.runAction(spinTo)
+    }
+    
+    internal func applyUserTiltAndRotation() {
+        // .. and recompute the interactivity matrix
+        var matrix = SCNMatrix4Identity
+        // now apply the user tilt
+        matrix = SCNMatrix4RotateF(matrix, userTiltRadians, 1.0, 0.0, 0.0)
+        
+        let seasonalTilt = -Float(SwiftGlobe.computeSeasonalTilt(Date()))
+        switch upDownAlignment {
+        case .poles:
+            // first, apply the rotation (along the Y axis)
+            matrix = SCNMatrix4RotateF(matrix, userRotationRadians, 0.0, 1.0, 0.0)
+            // now tilt it (about the X axis) for the seasonal rotation
+            matrix = SCNMatrix4RotateF(matrix, seasonalTilt, 1.0, 0.0, 0.0)
+        case .dayNightTerminator:
+            // now tilt it (about the X axis) for the seasonal rotation
+            matrix = SCNMatrix4RotateF(matrix, seasonalTilt, 1.0, 0.0, 0.0)
+            // first, apply the rotation (along the Y axis)
+            matrix = SCNMatrix4RotateF(matrix, userRotationRadians, 0.0, 1.0, 0.0)
+        }
+        userTiltAndRotation.transform = matrix
     }
     
 }
@@ -530,3 +600,20 @@ func SCNMatrix4RotateF(_ src: SCNMatrix4, _ angle : Float, _ x : Float, _ y : Fl
 }
 
 
+
+extension SCNNode {
+    
+    // Add a list of nodes as children of eachother
+    func addChildHeirarchy(_ nodes: [SCNNode]) {
+        // must have at least one to connect!
+        if nodes.count < 1 {
+            return
+        }
+        var currentNode = self
+        for node in nodes {
+            currentNode.addChildNode(node)
+            currentNode = node
+        }
+        
+    }
+}

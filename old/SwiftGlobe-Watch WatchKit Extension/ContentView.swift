@@ -7,10 +7,14 @@
 //
 
 import SwiftUI
+import SceneKit
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello, World!")
+        ZStack {
+            SceneView(
+            Text("Hello, World!")
+        }
     }
 }
 

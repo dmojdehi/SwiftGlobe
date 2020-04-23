@@ -13,12 +13,12 @@ class ViewController: NSViewController {
 
     @IBOutlet weak var sceneView : SCNView!
     
-    var swiftGlobe = SwiftGlobe()
+    var swiftGlobe = SwiftGlobe(alignment: .dayNightTerminator)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        swiftGlobe.setupInSceneView(self.sceneView, forARKit: false)
+        swiftGlobe.setupInSceneView(self.sceneView, forARKit: false, enableAutomaticSpin: true)
         swiftGlobe.addDemoMarkers()
         
     }

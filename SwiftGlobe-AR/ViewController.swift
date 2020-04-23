@@ -14,7 +14,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
 
-    var swiftGlobe = SwiftGlobe()
+    var swiftGlobe = SwiftGlobe(alignment: .poles)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +30,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         // Set the scene to the view
         //sceneView.scene = scene
 
-        swiftGlobe.setupInSceneView(sceneView, forARKit: true)
+        swiftGlobe.setupInSceneView(sceneView, forARKit: true, enableAutomaticSpin: true)
         swiftGlobe.addDemoMarkers()
 
     }

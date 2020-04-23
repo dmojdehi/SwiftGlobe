@@ -8,13 +8,14 @@
 
 import WatchKit
 import Foundation
-
+import SceneKit
 
 class InterfaceController: WKInterfaceController, WKCrownDelegate {
     @IBOutlet var scnInterface: WKInterfaceSCNScene!
+
     @IBOutlet var panGesture: WKPanGestureRecognizer!
     
-    var swiftGlobe = SwiftGlobe()
+    var swiftGlobe = SwiftGlobe(alignment: .poles)
 
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
@@ -25,7 +26,7 @@ class InterfaceController: WKInterfaceController, WKCrownDelegate {
         // Create a new scene
         let scene = SCNScene()
         self.scnInterface.scene = scene
-        swiftGlobe.setupInSceneView(scnInterface, forARKit: false)
+        swiftGlobe.setupInSceneView(scnInterface, forARKit: false, enableAutomaticSpin: true)
 
 //        let scene = SCNScene(named: "art.scnassets/ship.scn")!
 //

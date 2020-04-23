@@ -5,7 +5,7 @@ An interactive 3D globe in SceneKit for iOS, watchOS, tvOS, and MacOS X.  Built 
 Requires iOS 11, tvOS 11, macOS 10.13 (High Sierra)
 
 
-![Screenshot on iOS](readme-images/ios_screen.png)![Screenshot on Apple Watch](readme-images/watch.png)![Screenshot on MacOS X](readme-images/macos_screen.png)![Screenshot on tvOS](readme-images/tv_screen.png)
+![Screenshot on iOS](readme-images/ios_screen.png)![Screenshot on Apple Watch](readme-images/watch.gif)![Screenshot on MacOS X](readme-images/macos_screen.png)![Screenshot on tvOS](readme-images/tv_screen.png)
 
 
 ## Features
@@ -30,12 +30,13 @@ In no particular order:
 - Add AR target (for iPhone/iPad)
     - [x] babystep: Add target, with automatic globe placement.  (done but glitchy)
     - [ ] Add placement tracking & lock feedback
-- Add Apple Watch support
-    - [x] babystep: Add watch target, show globe, 
+- Add Apple Watch support, using SwiftUI
     - [x] use small textures
     - [x] handle pan & crown-zoom events (nb: no pinch gesture on the watch!)
     - NB: integrating the globe into your own app will take a little work: e.g. the gesture & crown behavior must be handled in your InterfaceController
 - [x] show city lights on darkside (shader modifier)
+- [x] align globe up&down along the natural axis (or optionally along the day/night terminator instead)
+- [x] Use current day-of-year to compute accurate seasonal tilt
 - [ ] add point-to-point connection visualization
 - [ ] cubemap for earth texture (fix slight smearing at poles)
 - [ ] fix normal map 'dimple' at the north pole
@@ -61,6 +62,3 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
     * source image from European Southern Observatory (https://www.eso.org/public/usa/images/eso0932a/)
     * converted to cubemap (from equirectangular panorama) with a python script provided by Benjamin Dobell (http://stackoverflow.com/a/36976448/235229)
 * Earth texture by Jim Hastings-Trew at [planetpixelemporium.com](http://planetpixelemporium.com/earth.html)
-
-
-

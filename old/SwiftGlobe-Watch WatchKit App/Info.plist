@@ -25,7 +25,9 @@
 		<string>UIInterfaceOrientationPortrait</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
-	<key>WKWatchKitApp</key>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKWatchOnly</key>
 	<true/>
 </dict>
 </plist>
